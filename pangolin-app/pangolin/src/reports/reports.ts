@@ -43,8 +43,8 @@ export class Reports {
     @Column()
     is_done: boolean;
 
-    @JoinTable()
-    @ManyToMany(() => Annotation, (annotation) => annotation.reports)
+    
+    @ManyToOne(() => Annotation, (annotation) => annotation.report_id)
     annotations: Annotation[];
 
     @JoinTable()
