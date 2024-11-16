@@ -1,5 +1,5 @@
 import { Reports } from "src/reports/reports";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
 
 @Entity()
 export class Annotation {
@@ -9,6 +9,6 @@ export class Annotation {
     @Column()
     annotation: string;
 
-    @ManyToMany(() => Reports, (reports) => reports.annotations)
-    reports: Reports[];
+    @OneToMany(() => Reports, (reports) => reports.report_id)
+    report_id: number;
 }

@@ -1,5 +1,4 @@
 
-
 -- Create tables in the specified order to satisfy foreign key dependencies
 
 -- Create the type table
@@ -46,11 +45,6 @@ CREATE TABLE context (
     FOREIGN KEY (context_type) REFERENCES context_type(context_type_id)
 );
 
--- Create the annotation table
-CREATE TABLE annotation (
-    annotation_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    annotation VARCHAR(500) NOT NULL
-);
 
 -- Create the reports table with auto-incrementing report_id
 CREATE TABLE reports (
@@ -69,14 +63,12 @@ CREATE TABLE reports (
     FOREIGN KEY (type) REFERENCES type(type_id),
     FOREIGN KEY (payment_method) REFERENCES method(method_id)
 );
-
--- Create the report_annotation table for many-to-many relationship between reports and annotations
-CREATE TABLE report_annotation (
-    report_id INT NOT NULL,
-    annotation_id INT NOT NULL,
-    PRIMARY KEY (report_id, annotation_id),
-    FOREIGN KEY (report_id) REFERENCES reports(report_id),
-    FOREIGN KEY (annotation_id) REFERENCES annotation(annotation_id)
+-- Create the annotation table
+CREATE TABLE annotation (
+    annotation_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    annotation VARCHAR(500) NOT NULL,
+	report_id INT NOT NULL,
+	FOREIGN KEY (report_id) REFERENCES reports(report_id)
 );
 
 -- Create the report_context table for many-to-many relationship between reports and contexts
