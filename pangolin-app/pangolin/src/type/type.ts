@@ -1,7 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ContextType } from "src/context_type/context_type";
+import { Reports } from "src/reports/reports";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Type {
+    @OneToMany(() => Reports, (reports) => reports.type)
+    @OneToMany(() => ContextType, (contextType) => contextType.type_id)
     @PrimaryGeneratedColumn()
     type_id: number;
 

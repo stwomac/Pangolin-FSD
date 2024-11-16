@@ -1,10 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ContextType } from "src/context_type/context_type";
+import { Reports } from "src/reports/reports";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Context {
     @PrimaryGeneratedColumn()
     context_id: number;
 
+    @ManyToOne(() => ContextType, (contextType) => contextType.context_type_id)
     @Column()
     context_type: number;
 
@@ -31,4 +34,7 @@ export class Context {
 
     @Column()
     phone: string;
+    
+    @ManyToMany(() => Reports, (reports) => reports.contexts)
+    reports: Reports[];
 }

@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Reports } from "src/reports/reports";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
 
 @Entity()
 export class Annotation {
@@ -6,5 +7,8 @@ export class Annotation {
     annotation_id: number;
 
     @Column()
-    annotation: string
+    annotation: string;
+
+    @ManyToMany(() => Reports, (reports) => reports.annotations)
+    reports: Reports[];
 }

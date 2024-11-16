@@ -1,13 +1,20 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Annotation } from "src/annotation/annotation";
+import { Context } from "src/context/context";
+import { Method } from "src/method/method";
+import { Users } from "src/users/users";
+import { Type } from "src/type/type"
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Reports {
     @PrimaryGeneratedColumn()
     report_id: number;
 
+    @ManyToOne(() => Users, (users) => users.user_id)
     @Column()
     reportee_id: number;
 
+    @ManyToOne(() => Type, (type) => type.type_id)
     @Column()
     type: number;
 
@@ -20,6 +27,7 @@ export class Reports {
     @Column()
     amount: string;
 
+    @ManyToOne(() => Method, (method) => method.method_id)
     @Column()
     payment_method: number;
 
@@ -34,4 +42,12 @@ export class Reports {
 
     @Column()
     is_done: boolean;
+
+    @JoinTable()
+    @ManyToMany(() => Annotation, (annotation) => annotation.reports)
+    annotations: Annotation[];
+
+    @JoinTable()
+    @ManyToMany(() => Context, (context) => context.reports)
+    contexts: Context[];
 }
