@@ -9,9 +9,10 @@ export class UsersService {
 
     async getAllUsers(): Promise<Users[]> {
         return await this.repo.find({
-            relations: {
-                reports: true
-            }
+            //commenting this out until we have some reports in the database, it leads to errors.
+            // relations: {
+            //     reports: true
+            // }
         });
     };
 
@@ -19,10 +20,10 @@ export class UsersService {
         return await this.repo.findOneOrFail({
             where: {
                 user_id: idToFind
-            },
-            relations: {
-                reports: true
             }
+            // relations: {
+            //     reports: true
+            // }
         }).catch(()=>{
             throw new HttpException(`User with Id ${idToFind} does not exist`, HttpStatus.NOT_FOUND)
         })

@@ -39,7 +39,7 @@ import { UsersService } from './users/users.service';
       port: 5432,
       username: 'postgres',
       password:'js1289ARTY3137!',
-      database: 'pangolin',
+      database: 'Pangolin',
       synchronize: false,
       entities: [Annotation, Context, ContextType, Method, Reports, Type, Users]
     }),
