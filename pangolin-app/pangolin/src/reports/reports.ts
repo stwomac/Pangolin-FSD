@@ -3,7 +3,7 @@ import { Context } from "src/context/context";
 import { Method } from "src/method/method";
 import { Users } from "src/users/users";
 import { Type } from "src/type/type"
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Reports {
@@ -48,6 +48,6 @@ export class Reports {
     annotations: Annotation[];
 
     @JoinTable()
-    @ManyToMany(() => Context, (context) => context.reports)
+    @OneToMany(() => Context, (context) => context.report_id)
     contexts: Context[];
 }

@@ -29,23 +29,6 @@ CREATE TABLE context_type (
     type_id INT NOT NULL,
     FOREIGN KEY (type_id) REFERENCES type(type_id)
 );
-
--- Create the context table with auto-incrementing context_id
-CREATE TABLE context (
-    context_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    context_type INT NOT NULL,
-    org_claim VARCHAR(50),
-    first_name VARCHAR(35),
-    last_name VARCHAR(35),
-    street_address VARCHAR(70),
-    city VARCHAR(50),
-    zip VARCHAR(5),
-    country VARCHAR(50),
-    phone VARCHAR(10),
-    FOREIGN KEY (context_type) REFERENCES context_type(context_type_id)
-);
-
-
 -- Create the reports table with auto-incrementing report_id
 CREATE TABLE reports (
     report_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -63,21 +46,31 @@ CREATE TABLE reports (
     FOREIGN KEY (type) REFERENCES type(type_id),
     FOREIGN KEY (payment_method) REFERENCES method(method_id)
 );
+
+-- Create the context table with auto-incrementing context_id
+CREATE TABLE context (
+    context_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    context_type INT NOT NULL,
+    org_claim VARCHAR(50),
+    first_name VARCHAR(35),
+    last_name VARCHAR(35),
+    street_address VARCHAR(70),
+    city VARCHAR(50),
+    zip VARCHAR(5),
+    country VARCHAR(50),
+    phone VARCHAR(10),
+	report_id INT NOT NULL,
+	FOREIGN KEY (report_id) REFERENCES reports(report_id),
+    FOREIGN KEY (context_type) REFERENCES context_type(context_type_id)
+);
+
+
 -- Create the annotation table
 CREATE TABLE annotation (
     annotation_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     annotation VARCHAR(500) NOT NULL,
 	report_id INT NOT NULL,
 	FOREIGN KEY (report_id) REFERENCES reports(report_id)
-);
-
--- Create the report_context table for many-to-many relationship between reports and contexts
-CREATE TABLE report_context (
-    report_id INT NOT NULL,
-    context_id INT NOT NULL,
-    PRIMARY KEY (report_id, context_id),
-    FOREIGN KEY (report_id) REFERENCES reports(report_id),
-    FOREIGN KEY (context_id) REFERENCES context(context_id)
 );
 
 -- Insert data into type table

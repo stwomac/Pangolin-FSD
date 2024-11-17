@@ -35,6 +35,6 @@ export class Context {
     @Column()
     phone: string;
     
-    @ManyToMany(() => Reports, (reports) => reports.contexts)
-    reports: Reports[];
+    @ManyToOne(() => Reports, (reports) => reports.contexts)
+    report_id: number;
 }
