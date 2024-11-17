@@ -3,7 +3,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Users {
-    @OneToMany(() => Reports, (reports) => reports.reportee_id)
+    
     @PrimaryGeneratedColumn()
     user_id: number;
 
@@ -18,4 +18,7 @@ export class Users {
 
     @Column()
     role: string;
+
+    @OneToMany(() => Reports, (reports) => reports.reportee_id)
+    reports: Reports[];
 }
