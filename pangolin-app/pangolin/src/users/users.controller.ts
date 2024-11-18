@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Users } from './users';
+import { DeleteResult } from 'typeorm';
 
 @Controller('users')
 export class UsersController {
@@ -28,5 +29,13 @@ export class UsersController {
 
   @Post('/create')
   @HttpCode(201)
-  createUser()
+  createUser(@Body() newUser: Users){
+    return this.usersService.createUser(newUser);
+  }
+
+  @Delete('/delete/:id')
+  @HttpCode(204)
+  deleteUser(@Param('id') id: number): Promise<DeleteResult> {
+    return this.usersService.deleteUser(id);
+  }
 }
