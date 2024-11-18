@@ -11,7 +11,7 @@ export class ContextTypeService {
     async getAllContextTypes(): Promise<ContextType[]> {
         return await this.repo.find({
             relations: {
-                context: true, // Include the related contexts
+                contexts: true, // Include the related contexts
                 type: true,    // Include the related type
             },
         });
@@ -23,6 +23,10 @@ export class ContextTypeService {
         return await this.repo.findOneOrFail({
             where: {
                 context_type_id: idToFind
+            },
+            relations: {
+                contexts: true, // Include the related contexts
+                type: true,    // Include the related type
             }
         }).catch(() => {
             throw new HttpException(`ContextType with context_type_id ${idToFind} does not exist!`, HttpStatus.NOT_FOUND)
