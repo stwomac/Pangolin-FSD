@@ -2,21 +2,19 @@ import { Annotation } from "src/annotation/annotation";
 import { Context } from "src/context/context";
 import { Method } from "src/method/method";
 import { Users } from "src/users/users";
-import { Type } from "src/type/type"
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Type } from "src/type/type";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Reports {
     @PrimaryGeneratedColumn()
     report_id: number;
 
-    @ManyToOne(() => Users, (users) => users.user_id)
-    @Column()
-    reportee_id: number;
+    @ManyToOne(() => Users, (user) => user.reports)
+    reportee: Users; // Relation to the user who reported
 
-    @ManyToOne(() => Type, (type) => type.type_id)
-    @Column()
-    type: number;
+    @ManyToOne(() => Type, (type) => type.reports)
+    type: Type; // Relation to Type entity
 
     @Column()
     description: string;
@@ -24,17 +22,16 @@ export class Reports {
     @Column()
     paid: boolean;
 
-    @Column()
+    @Column({ type: "money" }) // Assuming "amount" is a monetary value
     amount: string;
 
-    @ManyToOne(() => Method, (method) => method.method_id)
-    @Column()
-    payment_method: number;
+    @ManyToOne(() => Method, (method) => method.reports)
+    paymentMethod: Method; // Relation to payment method
 
-    @Column()
+    @Column({ type: "date" })
     recent_date: Date;
 
-    @Column()
+    @Column({ type: "date" })
     initial_date: Date;
 
     @Column()
@@ -43,11 +40,9 @@ export class Reports {
     @Column()
     is_done: boolean;
 
-    
-    @ManyToOne(() => Annotation, (annotation) => annotation.report_id)
-    annotations: Annotation[];
+    @OneToMany(() => Annotation, (annotation) => annotation.report)
+    annotations: Annotation[]; // Relation to annotations
 
-    @JoinTable()
-    @OneToMany(() => Context, (context) => context.report_id)
-    contexts: Context[];
+    @OneToMany(() => Context, (context) => context.context_id)
+    contexts: Context[]; // Relation to contexts
 }

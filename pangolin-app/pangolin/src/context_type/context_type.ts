@@ -11,7 +11,7 @@ export class ContextType {
     context_name: string;
 
     @OneToMany(() => Context, (context) => context.context_type)
-    context: Context[];
+    contexts: Context[];
 
     @ManyToOne(() => Type, (type) => type.type_id)
     type: Type;
