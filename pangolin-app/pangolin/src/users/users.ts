@@ -21,4 +21,5 @@ export class Users {
 
     @OneToMany(() => Reports, (reports) => reports.reportee_id)
     reports: Reports[];
+    
 }

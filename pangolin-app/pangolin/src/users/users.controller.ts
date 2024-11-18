@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Users } from './users';
 
@@ -19,4 +19,14 @@ export class UsersController {
   getCourseById(@Param('id') idToFind: number): Promise<Users> {
       return this.usersService.getUserById(idToFind);
   }
+
+  @Put('/update/:id')
+  @HttpCode(200)
+  updateUser(@Param('user_id') routeId: number, @Body() UserToUpdate){
+    return this.usersService.updateUser(routeId, UserToUpdate);
+  }
+
+  @Post('/create')
+  @HttpCode(201)
+  createUser()
 }
