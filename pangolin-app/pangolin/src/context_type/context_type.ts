@@ -4,14 +4,15 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "ty
 
 @Entity()
 export class ContextType {
-    @OneToMany(() => Context, (context) => context.context_type)
     @PrimaryGeneratedColumn()
     context_type_id: number;
-    
+
     @Column()
     context_name: string;
 
+    @OneToMany(() => Context, (context) => context.context_type)
+    context: Context[];
+
     @ManyToOne(() => Type, (type) => type.type_id)
-    @Column()
-    type_id: number;
+    type: Type;
 }
