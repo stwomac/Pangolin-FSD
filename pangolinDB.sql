@@ -1,4 +1,4 @@
-
+    
 -- Create tables in the specified order to satisfy foreign key dependencies
 
 -- Create the type table
