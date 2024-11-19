@@ -10,20 +10,20 @@ export class UsersController {
   //get all
   @Get()
   @HttpCode(200)
-  getAllCourses(): Promise<Users[]> {
+  getAllusers(): Promise<Users[]> {
     return this.usersService.getAllUsers();
   }
 
   // get by ID
   @Get(':id')
   @HttpCode(200)
-  getCourseById(@Param('id') idToFind: number): Promise<Users> {
+  getUserById(@Param('id') idToFind: number): Promise<Users> {
       return this.usersService.getUserById(idToFind);
   }
 
   @Put('/update/:id')
   @HttpCode(200)
-  updateUser(@Param('user_id') routeId: number, @Body() UserToUpdate){
+  updateUser(@Param('id') routeId: number, @Body() UserToUpdate){
     return this.usersService.updateUser(routeId, UserToUpdate);
   }
 
