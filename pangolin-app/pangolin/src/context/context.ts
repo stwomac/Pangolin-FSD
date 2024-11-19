@@ -1,15 +1,14 @@
 import { ContextType } from "src/context_type/context_type";
 import { Reports } from "src/reports/reports";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Context {
     @PrimaryGeneratedColumn()
     context_id: number;
 
-    @ManyToOne(() => ContextType, (contextType) => contextType.context_type_id)
-    @Column()
-    context_type: number;
+    @ManyToOne(() => ContextType, (contextType) => contextType.contexts)
+    context_type: ContextType;
 
     @Column()
     org_claim: string;
@@ -36,5 +35,6 @@ export class Context {
     phone: string;
     
     @ManyToOne(() => Reports, (reports) => reports.contexts)
-    report_id: number;
+    report: Reports; 
 }
+

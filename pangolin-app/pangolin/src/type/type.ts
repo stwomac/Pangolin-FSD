@@ -4,11 +4,15 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Type {
-    @OneToMany(() => Reports, (reports) => reports.type)
-    @OneToMany(() => ContextType, (contextType) => contextType.type_id)
     @PrimaryGeneratedColumn()
     type_id: number;
 
     @Column()
     type_name: string;
+
+    @OneToMany(() => Reports, (reports) => reports.type)
+    reports: Reports[];
+
+    @OneToMany(() => ContextType, (contextType) => contextType.type)
+    contextTypes: ContextType[];
 }

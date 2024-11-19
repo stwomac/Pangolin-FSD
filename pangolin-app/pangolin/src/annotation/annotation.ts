@@ -1,14 +1,14 @@
 import { Reports } from "src/reports/reports";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 
 @Entity()
 export class Annotation {
     @PrimaryGeneratedColumn()
-    annotation_id: number;
+    annotation_id: number; // Primary key for Annotation
 
     @Column()
-    annotation: string;
+    annotation: string; // Text content of the annotation
 
-    @OneToMany(() => Reports, (reports) => reports.report_id)
-    report_id: number;
+    @ManyToOne(() => Reports, (report) => report.annotations)
+    report: Reports; // Relation to Reports entity
 }
