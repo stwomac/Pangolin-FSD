@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 export class AnnotationService {
     constructor(@InjectRepository(Annotation) private repo: Repository<Annotation>){}
 
-<<<<<<< HEAD
     async getAllAnnotationsByReportId(reportId: number): Promise<Annotation[]> {
         return await this.repo.find({
             where: { report: { id: reportId } },
@@ -37,6 +36,4 @@ export class AnnotationService {
     //         }
     //     })
     // }
-=======
->>>>>>> 5875979ad6f84ee6b0011198844fe39dad5c9837
 }
