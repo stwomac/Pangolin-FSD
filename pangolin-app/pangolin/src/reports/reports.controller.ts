@@ -22,14 +22,14 @@ export class ReportsController {
     // POST /reports
   @Post()
   @HttpCode(201)
-  createCourse(@Body() newReport: Reports) {
+  createReport(@Body() newReport: Reports) {
       return this.reportsService.createReport(newReport);
   }
 
       // Put /reports/:id
   @Put(':id')
   @HttpCode(200)
-  updateAdvisor(@Param('id') routeId: number, @Body() reportToUpdate) {
+  updateReport(@Param('id') routeId: number, @Body() reportToUpdate) {
     return this.reportsService.updateReport(routeId, reportToUpdate);
   }
     // DELETE /reports/:id

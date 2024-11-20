@@ -63,7 +63,7 @@ export class ReportsService {
             }
         }).then(exists => {
             if (!exists)
-                throw new HttpException(`Course with ID ${reportToUpdate.report_id} does not exist!`, HttpStatus.NOT_FOUND);
+                throw new HttpException(`Report with ID ${reportToUpdate.report_id} does not exist!`, HttpStatus.NOT_FOUND);
         })
 
         return await this.reportsRepository.save(reportToUpdate);

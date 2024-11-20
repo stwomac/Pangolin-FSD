@@ -1,13 +1,7 @@
-// import { Controller } from '@nestjs/common';
-// import { AnnotationService } from './annotation.service';
-
-// @Controller('annotation')
-// export class AnnotationController {
-//   constructor(private readonly annotationService: AnnotationService) {}
-// }
-
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, HttpCode } from '@nestjs/common';
 import { AnnotationService } from './annotation.service';
+import { Annotation } from './annotation';
+import { DeleteResult } from 'typeorm';
 
 @Controller('annotations')
 export class AnnotationController {
@@ -19,17 +13,20 @@ export class AnnotationController {
     }
 
     @Post()
-    createAnnotation(@Body() body: { content: string; reportId: number }) {
-        return this.annotationService.createAnnotation(body.content, body.reportId);
+    @HttpCode(201)
+    createAnnotation(@Body() newAnnotation: Annotation) {
+        return this.annotationService.createAnnotation(newAnnotation);
     }
 
     @Put(':id')
-    updateAnnotation(@Param('id') id: number, @Body() body: { content: string }) {
-        return this.annotationService.updateAnnotation(id, body.content);
+    @HttpCode(200)
+    updateAnnotation(@Param('id') routeId: number, @Body() annotationToUpdate) {
+        return this.annotationService.updateAnnotation(routeId, annotationToUpdate);
     }
 
     @Delete(':id')
-    deleteAnnotation(@Param('id') id: number) {
+    @HttpCode(204)
+    async deleteAnnotation(@Param('id') id: number): Promise<DeleteResult> {
         return this.annotationService.deleteAnnotation(id);
     }
 }
