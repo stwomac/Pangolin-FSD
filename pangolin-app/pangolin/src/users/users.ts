@@ -19,7 +19,7 @@ export class Users {
     @Column()
     role: string;
 
-    @OneToMany(() => Reports, (reports) => reports.reportee_id)
+    @OneToMany(() => Reports, (reports) => reports.reportee)
     reports: Reports[];
     
 }
