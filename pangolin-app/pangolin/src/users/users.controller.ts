@@ -12,7 +12,7 @@ export class UsersController {
   //get all
   // UseGuards decorator with JWT Auth guard provides only service to logged in users.
   //this is applied here for testing purposes only. TODO
-  @UseGuards(JwtAuthGuard)
+
   @Get()
   @HttpCode(200)
   getAllusers(): Promise<Users[]> {
