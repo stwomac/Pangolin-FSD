@@ -3,12 +3,16 @@ import { UsersService } from './users.service';
 import { Users } from './users';
 import { DeleteResult } from 'typeorm';
 import { LocalGuard } from 'src/guards/local.guard';
+import { JwtAuthGuard } from 'src/guards/jwt.guard';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   //get all
+  // UseGuards decorator with JWT Auth guard provides only service to logged in users.
+  //this is applied here for testing purposes only. TODO
+  @UseGuards(JwtAuthGuard)
   @Get()
   @HttpCode(200)
   getAllusers(): Promise<Users[]> {
@@ -28,6 +32,7 @@ export class UsersController {
     return this.usersService.updateUser(routeId, UserToUpdate);
   }
 
+  //LocalGuard here checks the password and email of the user to provide JWT
   @Post('/login')
   @UseGuards(LocalGuard)
   @HttpCode(200)
