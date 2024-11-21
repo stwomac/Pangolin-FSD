@@ -30,6 +30,7 @@ import { MethodService } from './method/method.service';
 import { ReportsService } from './reports/reports.service';
 import { TypeService } from './type/type.service';
 import { UsersService } from './users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [

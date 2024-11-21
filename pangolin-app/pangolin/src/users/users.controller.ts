@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Users } from './users';
 import { DeleteResult } from 'typeorm';
+import { LocalGuard } from 'src/guards/local.guard';
 
 @Controller('users')
 export class UsersController {
@@ -27,6 +28,14 @@ export class UsersController {
     return this.usersService.updateUser(routeId, UserToUpdate);
   }
 
+  @Post('/login')
+  @UseGuards(LocalGuard)
+  @HttpCode(200)
+  async login(@Body() userToLogin: Users) {
+    const token = await this.usersService.validateUser(userToLogin); // Await the promise
+    return token; // Explicitly return the token
+  }
+  
   @Post('/create')
   @HttpCode(201)
   createUser(@Body() newUser: Users){

@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, EntityNotFoundError, Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(Users) private repo: Repository<Users>){};
+    constructor(@InjectRepository(Users) private repo: Repository<Users>, private jwtService: JwtService){};
 
     async getAllUsers(): Promise<Users[]> {
         return await this.repo.find({
@@ -26,6 +27,17 @@ export class UsersService {
             // }
         }).catch(()=>{
             throw new HttpException(`User with Id ${idToFind} does not exist`, HttpStatus.NOT_FOUND)
+        })
+
+    }
+
+    async getUserByEmail(email: string): Promise<Users>{
+        return await this.repo.findOneOrFail({
+            where: {
+                email: email
+            }
+        }).catch(()=>{
+            throw new EntityNotFoundError(Users,'did not find user');
         })
 
     }
@@ -65,4 +77,22 @@ export class UsersService {
     async deleteUser(id: number): Promise<DeleteResult>{
         return await this.repo.delete(id);
     }
+
+    async validateUser(userToLogin: Users): Promise<{ access_token: string }> {
+        
+        try {
+          const user = await this.repo.findOneOrFail({
+            where: { user_id: userToLogin.user_id },
+          });
+          if (userToLogin.pass_hash === user.pass_hash) {
+            const payload = { sub: user.user_id, email: user.email };
+            const token = await this.jwtService.signAsync(payload); // JWT generation
+            return { access_token: token }; // Explicitly return the token
+          }
+        } catch (error) {
+          throw new HttpException(`Invalid!`, HttpStatus.BAD_REQUEST);
+        }
+    }
+      
+      
 }
