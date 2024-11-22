@@ -35,10 +35,10 @@ import { UsersService } from './users/users.service';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'db-pangolin-instance-1.cls8gcae0v9f.us-east-1.rds.amazonaws.com',
       port: 5432,
       username: 'pangolin',
-      password:'pangolin12345',
+      password:'iamapangolindiggingahole',
       database: 'Pangolin',
       synchronize: false,
       entities: [Annotation, Context, ContextType, Method, Reports, Type, Users]
