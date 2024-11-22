@@ -1,6 +1,6 @@
 import { ContextType } from "src/context_type/context_type";
 import { Reports } from "src/reports/reports";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Context {
@@ -8,33 +8,35 @@ export class Context {
     context_id: number;
 
     @ManyToOne(() => ContextType, (contextType) => contextType.contexts)
+    @JoinColumn({name: "context_type"})
     context_type: ContextType;
 
-    @Column()
+    @Column({ nullable: true })
     org_claim: string;
 
-    @Column()
+    @Column({ nullable: true })
     first_name: string;
 
-    @Column()
+    @Column({ nullable: true })
     last_name: string;
 
-    @Column()
+    @Column({ nullable: true })
     street_address: string;
 
-    @Column()
+    @Column({ nullable: true })
     city: string;
 
-    @Column()
+    @Column({ nullable: true })
     zip: string;
 
-    @Column()
+    @Column({ nullable: true })
     country: string;
 
-    @Column()
+    @Column({ nullable: true })
     phone: string;
     
     @ManyToOne(() => Reports, (reports) => reports.contexts)
+    @JoinColumn({name: "report_id"})
     report: Reports; 
 }
 

@@ -3,7 +3,7 @@ import { Context } from "src/context/context";
 import { Method } from "src/method/method";
 import { Users } from "src/users/users";
 import { Type } from "src/type/type";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Reports {
@@ -11,9 +11,11 @@ export class Reports {
     report_id: number;
 
     @ManyToOne(() => Users, (user) => user.reports)
+    @JoinColumn({name: "reportee_id"})
     reportee: Users; // Relation to the user who reported
 
     @ManyToOne(() => Type, (type) => type.reports)
+    @JoinColumn({name: "type"})
     type: Type; // Relation to Type entity
 
     @Column()
@@ -22,10 +24,11 @@ export class Reports {
     @Column()
     paid: boolean;
 
-    @Column({ type: "money" }) // Assuming "amount" is a monetary value
+    @Column() // Assuming "amount" is a monetary value
     amount: string;
 
     @ManyToOne(() => Method, (method) => method.reports)
+    @JoinColumn({name: 'payment_method'})
     paymentMethod: Method; // Relation to payment method
 
     @Column({ type: "date" })
@@ -43,6 +46,6 @@ export class Reports {
     @OneToMany(() => Annotation, (annotation) => annotation.report)
     annotations: Annotation[]; // Relation to annotations
 
-    @OneToMany(() => Context, (context) => context.context_id)
+    @OneToMany(() => Context, (context) => context.report)
     contexts: Context[]; // Relation to contexts
 }
