@@ -28,13 +28,13 @@ export class Context {
     }
     context_id: number;
     context_type: ContextType;
-    org_claim: string = '';
-    first_name: string = '';
-    last_name: string = '';
-    street_address: string = '';
-    city: string = '';
-    zip: string = '';
-    country: string = '';
-    phone: string = '';
+    org_claim: string;
+    first_name: string;
+    last_name: string;
+    street_address: string;
+    city: string;
+    zip: string;
+    country: string;
+    phone: string;
     report: Reports;
 }
