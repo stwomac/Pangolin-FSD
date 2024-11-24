@@ -36,15 +36,6 @@ export class ReportsService {
 
     //create a new report
     async createReport(newReport: Reports): Promise<Reports> {
-        await this.reportsRepository.exists({
-            where: {
-                report_id: newReport.report_id
-            }
-        }).then(exists => {
-            if(exists)
-                throw new HttpException(`Report with ID ${newReport.report_id} already exists!`, HttpStatus.BAD_REQUEST)
-        })
-
         return await this.reportsRepository.save(newReport)
     }
 

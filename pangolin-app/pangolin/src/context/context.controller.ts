@@ -22,19 +22,19 @@ export class ContextController {
         return this.contextService.getContextById(idToFind);
     }
   
-    @Put('/update/:id')
+    @Put(':id')
     @HttpCode(200)
     updateContext(@Param('id') routeId: number, @Body() ContextToUpdate){
       return this.contextService.updateContext(routeId, ContextToUpdate);
     }
   
-    @Post('/create')
+    @Post()
     @HttpCode(201)
     createContext(@Body() newContext: Context){
       return this.contextService.createContext(newContext);
     }
   
-    @Delete('/delete/:id')
+    @Delete(':id')
     @HttpCode(204)
     deleteContext(@Param('id') id: number): Promise<DeleteResult> {
       return this.contextService.deleteContext(id);

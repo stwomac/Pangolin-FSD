@@ -9,10 +9,10 @@ export class ContextService {
 
     async getAllContext(): Promise<Context[]> {
         return await this.repo.find({
-            //commenting this out until we have some reports in the database, it leads to errors.
-            // relations: {
-            //     reports: true
-            // }
+            relations: {
+                context_type: true,
+                report: true
+            }
         });
     };
 
@@ -20,10 +20,11 @@ export class ContextService {
         return await this.repo.findOneOrFail({
             where: {
                 context_id: idToFind
+            },
+            relations: {
+                context_type: true,
+                report: true
             }
-            // relations: {
-            //     reports: true
-            // }
         }).catch(()=>{
             throw new HttpException(`Context with Id ${idToFind} does not exist`, HttpStatus.NOT_FOUND)
         })
@@ -31,16 +32,6 @@ export class ContextService {
     }
     
     async createContext(newContext: Context): Promise<Context> {
-        await this.repo.exists({
-            where:{
-                context_id: newContext.context_id
-            }
-        }).then(exists=>{
-            if(exists){
-                throw new HttpException(`Context with ID ${newContext.context_id} already exists!`, HttpStatus.BAD_REQUEST)
-            }
-        })
-
         return await this.repo.save(newContext);
     }
 
