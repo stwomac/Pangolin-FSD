@@ -53,7 +53,6 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string): Promise<Users> {
-    console.log('retriving email: ' + email)
     try {
       return await this.repo.findOneOrFail({
         where: {
@@ -72,8 +71,6 @@ export class UsersService {
       },
     })
 
-    console.log(exists)
-
     if (exists) {
       throw new HttpException(
         `User with ID ${createUserDto.email} already exists!`,
@@ -89,13 +86,10 @@ export class UsersService {
       createUserDto.password,
     )
 
-    console.log(`user hashed password: ${toCreate.pass_hash}`)
-
     let result: boolean = await compare(
       createUserDto.password + AuthValues.PEPPER,
       toCreate.pass_hash,
     )
-    console.log(`password test ${result} `)
 
     return await this.repo.save(toCreate)
   }

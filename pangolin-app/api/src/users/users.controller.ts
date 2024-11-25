@@ -17,6 +17,7 @@ import { JwtAuthGuard } from 'src/guards/jwt.guard'
 import { CreateUserDto } from './dto/create-user-dto'
 import { AuthService } from 'src/auth/auth.service'
 import { ValidateUserDto } from './dto/validate-user.dto'
+import { AuthGuard } from '@nestjs/passport'
 
 @Controller('users')
 export class UsersController {
@@ -28,6 +29,21 @@ export class UsersController {
   //get all
   // UseGuards decorator with JWT Auth guard provides only service to logged in users.
   //this is applied here for testing purposes only. TODO
+
+  @UseGuards(JwtAuthGuard)
+  @Get('secrets')
+  @HttpCode(200)
+  superSecreteMethod() {
+    return `____________________________________
+< congrats, you found the secret cow >
+ ------------------------------------
+        \\   ^__^
+         \\  (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||
+                \`\`\`\``
+  }
 
   @Get()
   @HttpCode(200)
