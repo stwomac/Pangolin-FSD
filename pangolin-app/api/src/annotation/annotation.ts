@@ -10,7 +10,7 @@ import {
 @Entity()
 export class Annotation {
   @PrimaryGeneratedColumn()
-  annotation_id: number // Primary key for Annotation
+  annotationId: number // Primary key for Annotation
 
   @Column()
   annotation: string // Text content of the annotation

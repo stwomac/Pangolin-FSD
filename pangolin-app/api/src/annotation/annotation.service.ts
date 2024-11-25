@@ -21,13 +21,13 @@ export class AnnotationService {
     await this.repo
       .exists({
         where: {
-          annotation_id: newAnnotation.annotation_id,
+          annotationId: newAnnotation.annotationId,
         },
       })
       .then((exists) => {
         if (exists)
           throw new HttpException(
-            `Report with ID ${newAnnotation.annotation_id} already exists!`,
+            `Report with ID ${newAnnotation.annotationId} already exists!`,
             HttpStatus.BAD_REQUEST,
           )
       })
@@ -38,7 +38,7 @@ export class AnnotationService {
   // update one
   async updateAnnotation(routeId: number, annotationToUpdate: Annotation) {
     // checking if the route ID and the one in the body match
-    if (routeId != annotationToUpdate.annotation_id) {
+    if (routeId != annotationToUpdate.annotationId) {
       throw new HttpException(
         `Route ID and Body ID do not match!`,
         HttpStatus.BAD_REQUEST,
@@ -50,13 +50,13 @@ export class AnnotationService {
     await this.repo
       .exists({
         where: {
-          annotation_id: annotationToUpdate.annotation_id,
+          annotationId: annotationToUpdate.annotationId,
         },
       })
       .then((exists) => {
         if (!exists)
           throw new HttpException(
-            `Annotation with ID ${annotationToUpdate.annotation_id} does not exist!`,
+            `Annotation with ID ${annotationToUpdate.annotationId} does not exist!`,
             HttpStatus.NOT_FOUND,
           )
       })
