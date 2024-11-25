@@ -17,17 +17,17 @@ export enum ReportType {
 @Entity()
 export class ContextType {
   @PrimaryGeneratedColumn()
-  context_type_id: number
+  contextTypeId: number
 
   @Column()
-  context_name: string
+  contextName: string
 
-  @OneToMany(() => Context, (context) => context.context_type)
+  @OneToMany(() => Context, (context) => context.contextType)
   contexts: Context[]
 
   @Column({
     type: 'enum',
     enum: ReportType,
   })
-  report_type: ReportType
+  reportType: ReportType
 }
