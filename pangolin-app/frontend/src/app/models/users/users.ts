@@ -1,20 +1,9 @@
 export class Users {
   constructor(
-    user_id: number,
-    email: string,
-    pass_hash: string,
-    salt: string,
-    role: string,
-  ) {
-    this.user_id = user_id
-    this.email = email
-    this.pass_hash = pass_hash
-    this.salt = salt
-    this.role = role
-  }
-  user_id: number
-  email: string
-  pass_hash: string
-  salt: string
-  role: string
+    public user_id: number,
+    public email: string,
+    public pass_hash: string,
+    public salt: string,
+    public role: string,
+  ) {}
 }
