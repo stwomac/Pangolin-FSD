@@ -9,8 +9,7 @@ export class ContextTypeService {
     @InjectRepository(ContextType) private repo: Repository<ContextType>,
   ) {}
 
-  //get all context type
-  async getAllContextTypes(): Promise<ContextType[]> {
+  async getAll(): Promise<ContextType[]> {
     return await this.repo.find()
   }
 }

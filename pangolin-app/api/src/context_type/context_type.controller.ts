@@ -7,7 +7,7 @@ export class ContextTypeController {
   constructor(private readonly contextTypeService: ContextTypeService) {}
 
   @Get()
-  getAllContextTypes(): Promise<ContextType[]> {
-    return this.contextTypeService.getAllContextTypes()
+  getAll(): Promise<ContextType[]> {
+    return this.contextTypeService.getAll()
   }
 }
