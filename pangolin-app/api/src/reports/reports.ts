@@ -1,8 +1,8 @@
 import { Annotation } from 'src/annotation/annotation'
-import { Context } from 'src/context/context'
+import { ReportType } from '../context_type/context_type'
+import { Context } from '../context/context'
 import { Method } from 'src/method/method'
 import { Users } from 'src/users/users'
-import { Type } from 'src/type/type'
 import {
   Column,
   Entity,
@@ -21,9 +21,12 @@ export class Reports {
   @JoinColumn({ name: 'reportee_id' })
   reportee: Users // Relation to the user who reported
 
-  @ManyToOne(() => Type, (type) => type.reports)
-  @JoinColumn({ name: 'type' })
-  type: Type // Relation to Type entity
+  @Column({
+    name: 'report_type',
+    type: 'enum',
+    enum: ReportType,
+  })
+  report_type: ReportType
 
   @Column()
   description: string

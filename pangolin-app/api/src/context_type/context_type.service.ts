@@ -14,7 +14,6 @@ export class ContextTypeService {
     return await this.repo.find({
       relations: {
         contexts: true, // Include the related contexts
-        type: true, // Include the related type
       },
     })
   }
@@ -28,7 +27,6 @@ export class ContextTypeService {
         },
         relations: {
           contexts: true, // Include the related contexts
-          type: true, // Include the related type
         },
       })
       .catch(() => {
