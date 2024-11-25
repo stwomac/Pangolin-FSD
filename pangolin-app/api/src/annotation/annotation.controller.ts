@@ -9,33 +9,43 @@ import {
   HttpCode,
 } from '@nestjs/common'
 import { AnnotationService } from './annotation.service'
+import { ReportsService } from '../reports/reports.service'
 import { Annotation } from './annotation'
-import { DeleteResult } from 'typeorm'
 
 @Controller('annotations')
 export class AnnotationController {
-  constructor(private readonly annotationService: AnnotationService) {}
+  constructor(
+    private readonly annotationService: AnnotationService,
+    private readonly reportsService: ReportsService,
+  ) {}
 
   @Get('report/:reportId')
-  getAllAnnotationsByReportId(@Param('reportId') reportId: number) {
-    return this.annotationService.getAllAnnotationsByReportId(reportId)
+  async getAllAnnotationsByReportId(
+    @Param('reportId') reportId: number,
+  ): Promise<Annotation[]> {
+    const report = await this.reportsService.getReportById(reportId)
+    return await this.annotationService.getAllForReport(report)
   }
 
   @Post()
   @HttpCode(201)
-  createAnnotation(@Body() newAnnotation: Annotation) {
+  createAnnotation(@Body() newAnnotation: Annotation): Promise<Annotation> {
     return this.annotationService.createAnnotation(newAnnotation)
   }
 
   @Put(':id')
-  @HttpCode(200)
-  updateAnnotation(@Param('id') routeId: number, @Body() annotationToUpdate) {
-    return this.annotationService.updateAnnotation(routeId, annotationToUpdate)
+  async updateAnnotation(
+    @Param('id') id: number,
+    @Body() annotationToUpdate,
+  ): Promise<Annotation> {
+    const annotation = await this.annotationService.get(id)
+    return await this.annotationService.update(annotation, annotationToUpdate)
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteAnnotation(@Param('id') id: number): Promise<DeleteResult> {
-    return this.annotationService.deleteAnnotation(id)
+  async deleteAnnotation(@Param('id') id: number): Promise<Annotation> {
+    const annotation = await this.annotationService.get(id)
+    return await this.annotationService.delete(annotation)
   }
 }

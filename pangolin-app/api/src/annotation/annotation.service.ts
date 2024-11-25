@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Annotation } from './annotation'
-import { DeleteResult, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
+import { Reports } from '../reports/reports'
 
 @Injectable()
 export class AnnotationService {
@@ -9,71 +10,36 @@ export class AnnotationService {
     @InjectRepository(Annotation) private repo: Repository<Annotation>,
   ) {}
 
-  async getAllAnnotationsByReportId(reportId: number): Promise<Annotation[]> {
+  async get(annotationId: number) {
+    const user = await this.repo.findOne({
+      where: {},
+    })
+    if (user == null)
+      throw new HttpException(
+        `No user with id ${annotationId} exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    return user
+  }
+
+  async getAllForReport(report: Reports): Promise<Annotation[]> {
     return await this.repo.find({
-      where: { report: { reportId: reportId } },
-      relations: ['report'],
+      where: { report: report },
     })
   }
 
   //create a new annotation
-  async createAnnotation(newAnnotation: Annotation): Promise<Annotation> {
-    await this.repo
-      .exists({
-        where: {
-          annotationId: newAnnotation.annotationId,
-        },
-      })
-      .then((exists) => {
-        if (exists)
-          throw new HttpException(
-            `Report with ID ${newAnnotation.annotationId} already exists!`,
-            HttpStatus.BAD_REQUEST,
-          )
-      })
-
+  async createAnnotation(annotation: Annotation): Promise<Annotation> {
+    const newAnnotation = this.repo.create(annotation)
     return await this.repo.save(newAnnotation)
   }
 
-  // update one
-  async updateAnnotation(routeId: number, annotationToUpdate: Annotation) {
-    // checking if the route ID and the one in the body match
-    if (routeId != annotationToUpdate.annotationId) {
-      throw new HttpException(
-        `Route ID and Body ID do not match!`,
-        HttpStatus.BAD_REQUEST,
-      )
-    }
-
-    // checking that the Report we want to update exists in the database already
-    // if it doesn't we'd create a new one, which we don't want
-    await this.repo
-      .exists({
-        where: {
-          annotationId: annotationToUpdate.annotationId,
-        },
-      })
-      .then((exists) => {
-        if (!exists)
-          throw new HttpException(
-            `Annotation with ID ${annotationToUpdate.annotationId} does not exist!`,
-            HttpStatus.NOT_FOUND,
-          )
-      })
-
-    return await this.repo.save(annotationToUpdate)
+  async update(annotation: Annotation, updateData: Annotation) {
+    const updatedAnnotation = this.repo.merge(annotation, updateData)
+    return await this.repo.save(updatedAnnotation)
   }
 
-  async deleteAnnotation(annotation_id: number): Promise<DeleteResult> {
-    return await this.repo.delete(annotation_id)
+  async delete(annotation: Annotation): Promise<Annotation> {
+    return await this.repo.remove(annotation)
   }
-
-  // //get All annotations for a certain report
-  // async getAllAnnotationsByReportId(idToFind: number): Promise<Annotation[]>{
-  //     return await this.repo.find({
-  //         relations: {
-  //             reports
-  //         }
-  //     })
-  // }
 }
