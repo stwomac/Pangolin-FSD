@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { validate } from './env.validation'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
@@ -33,13 +35,14 @@ import { UsersService } from './users/users.service'
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ validate }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'db-pangolin-instance-1.cls8gcae0v9f.us-east-1.rds.amazonaws.com',
-      port: 5432,
-      username: 'pangolin',
-      password: 'iamapangolindiggingahole',
-      database: 'Pangolin',
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       synchronize: false,
       entities: [
         Annotation,
