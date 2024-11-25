@@ -1,25 +1,23 @@
-import { Reports } from 'src/reports/reports';
+import { Reports } from 'src/reports/reports'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Users {
-    
-    @PrimaryGeneratedColumn()
-    user_id: number;
+  @PrimaryGeneratedColumn()
+  user_id: number
 
-    @Column()
-    email: string;
+  @Column()
+  email: string
 
-    @Column()
-    pass_hash: string;
+  @Column()
+  pass_hash: string
 
-    @Column()
-    salt: string;
+  @Column()
+  salt: string
 
-    @Column()
-    role: string;
+  @Column()
+  role: string
 
-    @OneToMany(() => Reports, (reports) => reports.reportee)
-    reports: Reports[];
-    
+  @OneToMany(() => Reports, (reports) => reports.reportee)
+  reports: Reports[]
 }
