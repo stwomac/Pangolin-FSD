@@ -11,15 +11,15 @@ export class AnnotationService {
   ) {}
 
   async get(annotationId: number) {
-    const user = await this.repo.findOne({
+    const annotation = await this.repo.findOne({
       where: {},
     })
-    if (user == null)
+    if (annotation == null)
       throw new HttpException(
-        `No user with id ${annotationId} exist.`,
+        `No annotation with id ${annotationId} exist.`,
         HttpStatus.NOT_FOUND,
       )
-    return user
+    return annotation
   }
 
   async getAllForReport(report: Reports): Promise<Annotation[]> {
