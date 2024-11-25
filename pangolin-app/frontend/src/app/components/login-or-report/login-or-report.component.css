@@ -1,0 +1,22 @@
+.welcome-container {
+    width:100vw;
+    height: 60vh;
+    background-color: antiquewhite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#welcome {
+    width:80vw;
+    height:40vh;
+    background-color: cadetblue;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+}
+
+div#welcome>img {
+    width: 420px;
+}
