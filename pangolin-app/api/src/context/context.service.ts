@@ -7,65 +7,36 @@ import { Context } from './context'
 export class ContextService {
   constructor(@InjectRepository(Context) private repo: Repository<Context>) {}
 
-  async getAllContext(): Promise<Context[]> {
+  async get(contextId: number) {
+    const user = await this.repo.findOne({
+      where: { contextId },
+      relations: { contextType: true, report: true },
+    })
+    if (user == null)
+      throw new HttpException(
+        `No user with id ${contextId} exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    return user
+  }
+
+  async getAll(): Promise<Context[]> {
     return await this.repo.find({
-      relations: {
-        contextType: true,
-        report: true,
-      },
+      relations: { contextType: true },
     })
   }
 
-  async getContextById(idToFind: number): Promise<Context> {
-    return await this.repo
-      .findOneOrFail({
-        where: {
-          contextId: idToFind,
-        },
-        relations: {
-          contextType: true,
-          report: true,
-        },
-      })
-      .catch(() => {
-        throw new HttpException(
-          `Context with Id ${idToFind} does not exist`,
-          HttpStatus.NOT_FOUND,
-        )
-      })
+  async create(context: Context): Promise<Context> {
+    const newUser = this.repo.create(context)
+    return await this.repo.save(newUser)
   }
 
-  async createContext(newContext: Context): Promise<Context> {
-    return await this.repo.save(newContext)
+  async update(context: Context, updateData: Context) {
+    const updatedUser = this.repo.merge(context, updateData)
+    return await this.repo.save(updatedUser)
   }
 
-  async updateContext(routeId: number, contextToUpdate: Context) {
-    if (routeId != contextToUpdate.contextId) {
-      throw new HttpException(
-        `Route ID and Body ID do not match`,
-        HttpStatus.BAD_REQUEST,
-      )
-    }
-
-    await this.repo
-      .exists({
-        where: {
-          contextId: contextToUpdate.contextId,
-        },
-      })
-      .then((exists) => {
-        if (!exists) {
-          throw new HttpException(
-            `Context with ID ${contextToUpdate.contextId} does not exists!`,
-            HttpStatus.NOT_FOUND,
-          )
-        }
-      })
-
-    return await this.repo.save(contextToUpdate)
-  }
-
-  async deleteContext(id: number): Promise<DeleteResult> {
-    return await this.repo.delete(id)
+  async delete(context: Context): Promise<Context> {
+    return await this.repo.remove(context)
   }
 }

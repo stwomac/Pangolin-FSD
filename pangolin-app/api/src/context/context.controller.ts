@@ -16,35 +16,32 @@ import { Context } from './context'
 export class ContextController {
   constructor(private readonly contextService: ContextService) {}
 
-  //get all
   @Get()
-  @HttpCode(200)
   getAllContext(): Promise<Context[]> {
-    return this.contextService.getAllContext()
+    return this.contextService.getAll()
   }
 
-  // get by ID
   @Get(':id')
-  @HttpCode(200)
-  getContextById(@Param('id') idToFind: number): Promise<Context> {
-    return this.contextService.getContextById(idToFind)
+  getContextById(@Param('id') id: number): Promise<Context> {
+    return this.contextService.get(id)
   }
 
   @Put(':id')
-  @HttpCode(200)
-  updateContext(@Param('id') routeId: number, @Body() ContextToUpdate) {
-    return this.contextService.updateContext(routeId, ContextToUpdate)
+  async updateContext(@Param('id') id: number, @Body() contextToUpdate) {
+    const context = await this.contextService.get(id)
+    return await this.contextService.update(context, contextToUpdate)
   }
 
   @Post()
   @HttpCode(201)
   createContext(@Body() newContext: Context) {
-    return this.contextService.createContext(newContext)
+    return this.contextService.create(newContext)
   }
 
   @Delete(':id')
   @HttpCode(204)
-  deleteContext(@Param('id') id: number): Promise<DeleteResult> {
-    return this.contextService.deleteContext(id)
+  async deleteContext(@Param('id') id: number): Promise<Context> {
+    const context = await this.contextService.get(id)
+    return await this.contextService.delete(context)
   }
 }
