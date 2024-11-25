@@ -139,5 +139,65 @@ INSERT INTO users (email, pass_hash, salt, role) VALUES
 ('anonymous@gmail.com', 'password', '', 'anonymous'),
 ('admin@gmail.com', 'admin', '', 'admin');
 
+
+
+INSERT INTO reports (
+    reportee_id,
+    report_type,
+    description,
+    paid,
+    amount,
+    payment_method,
+    recent_date,
+    initial_date,
+    is_sus,
+    is_done
+) VALUES
+(2, 'IMPERSONATOR', 'Reported an impersonator claiming to be from the IRS.', false, 0.00, 'BITCOIN', '2024-11-20', '2024-11-15', false, false),
+(2, 'SERVICE_SCAM', 'Internet service provider charged for services not provided.', true, 120.00, 'EFT', '2024-11-18', '2024-10-01', false, false),
+(2, 'HEALTH_SCAM', 'Purchased a weight loss plan online that turned out to be fraudulent.', true, 250.00, 'EFT', '2024-11-19', '2024-10-15', false, false),
+(2, 'JOB_OPPORTUNITY', 'Invested in a pyramid scheme disguised as a job seminar.', false, 0.00, 'CASH', '2024-11-21', '2024-11-01', false, false),
+(2, 'ONLINE_SHOPPING', 'Encountered an issue with an online shopping transaction.', true, 45.99, 'EFT', '2024-11-20', '2024-10-10', false, false),
+(2, 'SWEEPSTAKES', 'Received a call claiming I won a cruise but required payment upfront.', false, 0.00, 'BITCOIN', '2024-11-18', '2024-10-28', false, false),
+(2, 'AUTO_SALE', 'Auto repair shop charged for services not completed.', true, 550.00, 'EFT', '2024-11-20', '2024-10-12', false, false),
+(2, 'CREDIT_SCAM', 'Scammed by a fake credit repair company.', false, 0.00, 'CASH', '2024-11-19', '2024-11-05', false, false);
+
+INSERT INTO context (
+context_type,
+org_claim,
+first_name,
+last_name,
+street_address,
+city,
+zip,
+country,
+phone,
+report_id
+) VALUES
+-- Context for Report 1 (Impersonator)
+(1, 'IRS', NULL, NULL, NULL, NULL, NULL, 'USA', '8005551234', 1),
+
+-- Context for Report 2 (Internet service issue)
+(13, 'ISP Co.', NULL, NULL, '123 Elm St', 'Somewhere', '12345', 'USA', '8005555678', 2),
+
+-- Context for Report 3 (Fraudulent weight loss plan)
+(17, 'QuickFit', NULL, NULL, NULL, NULL, NULL, 'USA', '8005558765', 3),
+
+-- Context for Report 4 (Pyramid scheme investment seminar)
+(7, 'Global Wealth Seminar', NULL, NULL, NULL, NULL, NULL, 'USA', NULL, 4),
+
+-- Context for Report 5 (Online shopping issue)
+(22, 'ShopFast', NULL, NULL, NULL, NULL, NULL, 'USA', '8005554321', 5),
+
+-- Context for Report 6 (Cruise scam)
+(24, 'Cruise Adventures', NULL, NULL, NULL, NULL, NULL, 'USA', '8005556789', 6),
+
+-- Context for Report 7 (Auto repair issue)
+(27, 'FixIt Auto', 'John', 'Doe', '456 Main St', 'CarCity', '54321', 'USA', '8005550987', 7),
+
+-- Context for Report 8 (Credit repair scam)
+(30, 'Credit Fixers', NULL, NULL, NULL, NULL, NULL, 'USA', '8005552345', 8);
+
+
 -- Print a success message
 DO $$ BEGIN RAISE NOTICE 'Database schema created and populated successfully!'; END $$;
