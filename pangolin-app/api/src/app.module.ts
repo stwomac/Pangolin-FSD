@@ -11,7 +11,7 @@ import { TypeModule } from './type/type.module'
 import { AnnotationModule } from './annotation/annotation.module'
 import { ContextTypeModule } from './context_type/context_type.module'
 import { MethodModule } from './method/method.module'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [

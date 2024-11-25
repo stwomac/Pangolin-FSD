@@ -1,4 +1,11 @@
-import { Inject,forwardRef, ForwardReference, HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import {
+  Inject,
+  forwardRef,
+  ForwardReference,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Users } from './users'
 import { DeleteResult, EntityNotFoundError, Repository } from 'typeorm'
@@ -6,16 +13,16 @@ import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from './dto/create-user-dto'
 import { AuthService } from 'src/auth/auth.service'
 import { AuthValues } from 'src/auth/config'
-import { compare } from 'bcrypt';
+import { compare } from 'bcrypt'
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users) private repo: Repository<Users>,
     private jwtService: JwtService,
-    
+
     @Inject(forwardRef(() => AuthService))
-    private authService : AuthService
+    private authService: AuthService,
   ) {}
 
   async getAllUsers(): Promise<Users[]> {
@@ -46,49 +53,51 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string): Promise<Users> {
-     console.log("retriving email: " + email);
-      try {
-           return await this.repo.findOneOrFail({
-              where: {
-                email: email,
-              },
-            })
-      }
-      catch(e) {
-        throw new EntityNotFoundError(Users, 'did not find user')
-      };
+    console.log('retriving email: ' + email)
+    try {
+      return await this.repo.findOneOrFail({
+        where: {
+          email: email,
+        },
+      })
+    } catch (e) {
+      throw new EntityNotFoundError(Users, 'did not find user')
+    }
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<Users> {
-      let exists = await this.repo
-         .exists({
-            where: {
-             email: createUserDto.email,
-            },
-         });
+    let exists = await this.repo.exists({
+      where: {
+        email: createUserDto.email,
+      },
+    })
 
+    console.log(exists)
 
-      console.log(exists);
+    if (exists) {
+      throw new HttpException(
+        `User with ID ${createUserDto.email} already exists!`,
+        HttpStatus.BAD_REQUEST,
+      )
+    }
 
-      if (exists) {
-       throw new HttpException(
-         `User with ID ${createUserDto.email} already exists!`,
-         HttpStatus.BAD_REQUEST,
-       )
-      }
+    let toCreate: Users = new Users()
+    toCreate.email = createUserDto.email
+    toCreate.role = 'user'
 
-      let toCreate : Users = new Users();
-      toCreate.email = createUserDto.email;
-      toCreate.role = "user";
+    toCreate.pass_hash = await this.authService.hashPassword(
+      createUserDto.password,
+    )
 
-      toCreate.pass_hash = await this.authService.hashPassword(createUserDto.password);
+    console.log(`user hashed password: ${toCreate.pass_hash}`)
 
-      console.log(`user hashed password: ${toCreate.pass_hash}`);
+    let result: boolean = await compare(
+      createUserDto.password + AuthValues.PEPPER,
+      toCreate.pass_hash,
+    )
+    console.log(`password test ${result} `)
 
-      let result : boolean = await compare(createUserDto.password + AuthValues.PEPPER,toCreate.pass_hash);
-      console.log(`password test ${result} `);
-
-      return await this.repo.save(toCreate)
+    return await this.repo.save(toCreate)
   }
 
   async updateUser(routeId: number, userToUpdate: Users) {
@@ -120,5 +129,4 @@ export class UsersService {
   async deleteUser(id: number): Promise<DeleteResult> {
     return await this.repo.delete(id)
   }
-
 }

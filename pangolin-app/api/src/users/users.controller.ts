@@ -14,14 +14,16 @@ import { Users } from './users'
 import { DeleteResult } from 'typeorm'
 import { LocalGuard } from 'src/guards/local.guard'
 import { JwtAuthGuard } from 'src/guards/jwt.guard'
-import {CreateUserDto} from './dto/create-user-dto'
-import {AuthService} from 'src/auth/auth.service'
-import {ValidateUserDto} from './dto/validate-user.dto'
+import { CreateUserDto } from './dto/create-user-dto'
+import { AuthService } from 'src/auth/auth.service'
+import { ValidateUserDto } from './dto/validate-user.dto'
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService,
-              private readonly authService : AuthService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   //get all
   // UseGuards decorator with JWT Auth guard provides only service to logged in users.

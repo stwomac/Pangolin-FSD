@@ -3,7 +3,6 @@
  * */
 
 export class AuthValues {
-   static PEPPER : string = process.env.PEPPER;
-   static JWTSECRET : string = process.env.JWTSECRET;
+  static PEPPER: string = process.env.PEPPER
+  static JWTSECRET: string = process.env.JWTSECRET
 }
-
