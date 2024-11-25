@@ -1,0 +1,7 @@
+{
+  "name": "pangolin-root",
+  "private": true,
+  "scripts": {
+    "format": "./frontend/node_modules/.bin/prettier -w ."
+  }
+}
