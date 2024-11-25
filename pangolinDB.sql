@@ -12,6 +12,13 @@ CREATE TYPE report_type_enum AS ENUM (
     'OTHER'
 );
 
+CREATE TYPE payment_method_enum AS ENUM (
+    'CASH',
+    'CHECK',
+    'BITCOIN',
+    'EFT'
+);
+
 /*************** TABLES ***************/
 -- Create tables in the specified order to satisfy foreign key dependencies
 
@@ -24,11 +31,11 @@ CREATE TABLE users (
     role VARCHAR(50) NOT NULL
 );
 
--- Create the method table
-CREATE TABLE method (
-    method_id INT PRIMARY KEY NOT NULL,
-    method_name VARCHAR(50) NOT NULL
-);
+-- -- Create the method table
+-- CREATE TABLE method (
+--     method_id INT PRIMARY KEY NOT NULL,
+--     method_name VARCHAR(50) NOT NULL
+-- );
 
 -- Create the context_type table
 CREATE TABLE context_type (
@@ -44,13 +51,12 @@ CREATE TABLE reports (
     description VARCHAR(2500) NOT NULL,
     paid BOOLEAN NOT NULL,
     amount MONEY NOT NULL,
-    payment_method INT NOT NULL,
+    payment_method PAYMENT_METHOD_ENUM NOT NULL,
     recent_date DATE,
     initial_date DATE,
     is_sus BOOLEAN NOT NULL,
     is_done BOOLEAN NOT NULL,
-    FOREIGN KEY (reportee_id) REFERENCES users(user_id),
-    FOREIGN KEY (payment_method) REFERENCES method(method_id)
+    FOREIGN KEY (reportee_id) REFERENCES users(user_id)
 );
 
 -- Create the context table with auto-incrementing context_id
@@ -122,12 +128,12 @@ INSERT INTO users (email, pass_hash, salt, role) VALUES
 ('anonymous@gmail.com', 'password', '', 'anonymous'),
 ('admin@gmail.com', 'admin', '', 'admin');
 
--- Insert data into method table
-INSERT INTO method (method_id, method_name) VALUES
-(1, 'Cash'),
-(2, 'Check'),
-(3, 'Bitcoin'),
-(4, 'EFT');
+-- -- Insert data into method table
+-- INSERT INTO method (method_id, method_name) VALUES
+-- (1, 'Cash'),
+-- (2, 'Check'),
+-- (3, 'Bitcoin'),
+-- (4, 'EFT');
 
 -- Print a success message
 DO $$ BEGIN RAISE NOTICE 'Database schema created and populated successfully!'; END $$;

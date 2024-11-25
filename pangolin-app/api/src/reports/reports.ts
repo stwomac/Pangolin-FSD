@@ -1,7 +1,6 @@
 import { Annotation } from 'src/annotation/annotation'
 import { ReportType } from '../context_type/context_type'
 import { Context } from '../context/context'
-import { Method } from 'src/method/method'
 import { Users } from 'src/users/users'
 import {
   Column,
@@ -11,6 +10,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
+
+export enum PaymentMethod {
+  CASH = 'CASH',
+  CHECK = 'CHECK',
+  BITCOIN = 'BITCOIN',
+  EFT = 'EFT'
+}
 
 @Entity()
 export class Reports {
@@ -37,9 +43,12 @@ export class Reports {
   @Column() // Assuming "amount" is a monetary value
   amount: string
 
-  @ManyToOne(() => Method, (method) => method.reports)
-  @JoinColumn({ name: 'payment_method' })
-  paymentMethod: Method // Relation to payment method
+  @Column({
+    name:'payment_method',
+    type: 'enum',
+    enum: PaymentMethod
+  })
+  paymentMethod: PaymentMethod // Relation to payment method
 
   @Column({ type: 'date' })
   recent_date: Date

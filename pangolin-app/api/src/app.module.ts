@@ -9,7 +9,6 @@ import { ReportsModule } from './reports/reports.module'
 import { ContextModule } from './context/context.module'
 import { AnnotationModule } from './annotation/annotation.module'
 import { ContextTypeModule } from './context_type/context_type.module'
-import { MethodModule } from './method/method.module'
 
 @Module({
   imports: [
@@ -29,7 +28,6 @@ import { MethodModule } from './method/method.module'
     ContextModule,
     AnnotationModule,
     ContextTypeModule,
-    MethodModule,
   ],
   controllers: [AppController],
   providers: [AppService],

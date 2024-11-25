@@ -15,7 +15,6 @@ export class ReportsService {
     return await this.reportsRepository.find({
       relations: {
         reportee: true,
-        paymentMethod: true,
         annotations: true,
         contexts: true,
       },
@@ -28,7 +27,6 @@ export class ReportsService {
       where: { report_id },
       relations: {
         reportee: true,
-        paymentMethod: true,
         annotations: true,
         contexts: true,
       },
