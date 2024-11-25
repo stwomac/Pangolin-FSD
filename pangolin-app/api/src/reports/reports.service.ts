@@ -24,7 +24,7 @@ export class ReportsService {
   // Get by ID
   async getReportById(report_id: number): Promise<Reports> {
     return await this.reportsRepository.findOne({
-      where: { report_id },
+      where: { reportId: report_id },
       relations: {
         reportee: true,
         annotations: true,
@@ -41,7 +41,7 @@ export class ReportsService {
   // update one
   async updateReport(routeId: number, reportToUpdate: Reports) {
     // checking if the route ID and the one in the body match
-    if (routeId != reportToUpdate.report_id) {
+    if (routeId != reportToUpdate.reportId) {
       throw new HttpException(
         `Route ID and Body ID do not match!`,
         HttpStatus.BAD_REQUEST,
@@ -53,13 +53,13 @@ export class ReportsService {
     await this.reportsRepository
       .exists({
         where: {
-          report_id: reportToUpdate.report_id,
+          reportId: reportToUpdate.reportId,
         },
       })
       .then((exists) => {
         if (!exists)
           throw new HttpException(
-            `Report with ID ${reportToUpdate.report_id} does not exist!`,
+            `Report with ID ${reportToUpdate.reportId} does not exist!`,
             HttpStatus.NOT_FOUND,
           )
       })

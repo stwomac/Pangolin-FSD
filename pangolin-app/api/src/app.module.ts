@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 import { ConfigModule } from '@nestjs/config'
 import { validate } from './env.validation'
 import { AppController } from './app.controller'
@@ -22,6 +23,7 @@ import { ContextTypeModule } from './context_type/context_type.module'
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: false,
+      namingStrategy: new SnakeNamingStrategy(),
     }),
     UsersModule,
     ReportsModule,

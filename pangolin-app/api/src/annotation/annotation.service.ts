@@ -11,7 +11,7 @@ export class AnnotationService {
 
   async getAllAnnotationsByReportId(reportId: number): Promise<Annotation[]> {
     return await this.repo.find({
-      where: { report: { report_id: reportId } },
+      where: { report: { reportId: reportId } },
       relations: ['report'],
     })
   }

@@ -23,7 +23,7 @@ export class ContextTypeService {
     return await this.repo
       .findOneOrFail({
         where: {
-          context_type_id: idToFind,
+          contextTypeId: idToFind,
         },
         relations: {
           contexts: true, // Include the related contexts

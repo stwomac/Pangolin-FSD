@@ -24,7 +24,7 @@ export class UsersService {
     return await this.repo
       .findOneOrFail({
         where: {
-          user_id: idToFind,
+          userId: idToFind,
         },
         // relations: {
         //     reports: true
@@ -54,13 +54,13 @@ export class UsersService {
     await this.repo
       .exists({
         where: {
-          user_id: newUser.user_id,
+          userId: newUser.userId,
         },
       })
       .then((exists) => {
         if (exists) {
           throw new HttpException(
-            `User with ID ${newUser.user_id} already exists!`,
+            `User with ID ${newUser.userId} already exists!`,
             HttpStatus.BAD_REQUEST,
           )
         }
@@ -70,7 +70,7 @@ export class UsersService {
   }
 
   async updateUser(routeId: number, userToUpdate: Users) {
-    if (routeId != userToUpdate.user_id) {
+    if (routeId != userToUpdate.userId) {
       throw new HttpException(
         `Route ID and Body ID do not match`,
         HttpStatus.BAD_REQUEST,
@@ -80,13 +80,13 @@ export class UsersService {
     await this.repo
       .exists({
         where: {
-          user_id: userToUpdate.user_id,
+          userId: userToUpdate.userId,
         },
       })
       .then((exists) => {
         if (!exists) {
           throw new HttpException(
-            `User with ID ${userToUpdate.user_id} does not exists!`,
+            `User with ID ${userToUpdate.userId} does not exists!`,
             HttpStatus.NOT_FOUND,
           )
         }
@@ -102,10 +102,10 @@ export class UsersService {
   async validateUser(userToLogin: Users): Promise<{ access_token: string }> {
     try {
       const user = await this.repo.findOneOrFail({
-        where: { user_id: userToLogin.user_id },
+        where: { userId: userToLogin.userId },
       })
-      if (userToLogin.pass_hash === user.pass_hash) {
-        const payload = { sub: user.user_id, email: user.email }
+      if (userToLogin.passHash === user.passHash) {
+        const payload = { sub: user.userId, email: user.email }
         const token = await this.jwtService.signAsync(payload) // JWT generation
         return { access_token: token } // Explicitly return the token
       }

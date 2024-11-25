@@ -10,7 +10,7 @@ export class ContextService {
   async getAllContext(): Promise<Context[]> {
     return await this.repo.find({
       relations: {
-        context_type: true,
+        contextType: true,
         report: true,
       },
     })
@@ -20,10 +20,10 @@ export class ContextService {
     return await this.repo
       .findOneOrFail({
         where: {
-          context_id: idToFind,
+          contextId: idToFind,
         },
         relations: {
-          context_type: true,
+          contextType: true,
           report: true,
         },
       })
@@ -40,7 +40,7 @@ export class ContextService {
   }
 
   async updateContext(routeId: number, contextToUpdate: Context) {
-    if (routeId != contextToUpdate.context_id) {
+    if (routeId != contextToUpdate.contextId) {
       throw new HttpException(
         `Route ID and Body ID do not match`,
         HttpStatus.BAD_REQUEST,
@@ -50,13 +50,13 @@ export class ContextService {
     await this.repo
       .exists({
         where: {
-          context_id: contextToUpdate.context_id,
+          contextId: contextToUpdate.contextId,
         },
       })
       .then((exists) => {
         if (!exists) {
           throw new HttpException(
-            `Context with ID ${contextToUpdate.context_id} does not exists!`,
+            `Context with ID ${contextToUpdate.contextId} does not exists!`,
             HttpStatus.NOT_FOUND,
           )
         }
