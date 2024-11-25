@@ -1,12 +1,18 @@
 import { Context } from 'src/context/context'
-import { Type } from 'src/type/type'
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+
+export enum ReportType {
+  IMPERSONATOR = 'IMPERSONATOR',
+  JOB_OPPORTUNITY = 'JOB_OPPORTUNITY',
+  SERVICE_SCAM = 'SERVICE_SCAM',
+  HEALTH_SCAM = 'HEALTH_SCAM',
+  ANNOYING_CALL = 'ANNOYING_CALL',
+  ONLINE_SHOPPING = 'ONLINE_SHOPPING',
+  SWEEPSTAKES = 'SWEEPSTAKES',
+  AUTO_SALE = 'AUTO_SALE',
+  CREDIT_SCAM = 'CREDIT_SCAM',
+  OTHER = 'OTHER',
+}
 
 @Entity()
 export class ContextType {
@@ -19,6 +25,9 @@ export class ContextType {
   @OneToMany(() => Context, (context) => context.context_type)
   contexts: Context[]
 
-  @ManyToOne(() => Type, (type) => type.type_id)
-  type: Type
+  @Column({
+    type: 'enum',
+    enum: ReportType,
+  })
+  report_type: ReportType
 }
