@@ -9,6 +9,11 @@ import { ReportsModule } from './reports/reports.module'
 import { ContextModule } from './context/context.module'
 import { AnnotationModule } from './annotation/annotation.module'
 import { ContextTypeModule } from './context_type/context_type.module'
+<<<<<<< HEAD
+=======
+import { MethodModule } from './method/method.module'
+import { AuthModule } from './auth/auth.module'
+>>>>>>> origin/feat/password_hashing
 
 @Module({
   imports: [
@@ -28,6 +33,11 @@ import { ContextTypeModule } from './context_type/context_type.module'
     ContextModule,
     AnnotationModule,
     ContextTypeModule,
+<<<<<<< HEAD
+=======
+    MethodModule,
+    AuthModule,
+>>>>>>> origin/feat/password_hashing
   ],
   controllers: [AppController],
   providers: [AppService],

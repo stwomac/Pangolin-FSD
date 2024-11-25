@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
   "devDependencies": {
     "@types/jest": "^29.5.14"
+=======
+  "dependencies": {
+    "bcrypt": "^5.1.1"
+>>>>>>> origin/feat/password_hashing
   }
 }
