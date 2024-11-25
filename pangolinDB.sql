@@ -1,3 +1,14 @@
+/******* Remove existing schema *******/
+-- Drop all tables (in reverse order of reliances)
+DROP TABLE IF EXISTS annotation;
+DROP TABLE IF EXISTS context;
+DROP TABLE IF EXISTS context_type;
+DROP TABLE IF EXISTS reports;
+DROP TABLE IF EXISTS users;
+-- Drop types
+DROP TYPE IF EXISTS report_type_enum;
+DROP TYPE IF EXISTS payment_method_enum;
+
 /*************** Types ****************/
 CREATE TYPE report_type_enum AS ENUM (
     'IMPERSONATOR',
@@ -127,13 +138,6 @@ INSERT INTO users (email, pass_hash, salt, role) VALUES
 ('user@gmail.com', 'password', '', 'user'),
 ('anonymous@gmail.com', 'password', '', 'anonymous'),
 ('admin@gmail.com', 'admin', '', 'admin');
-
--- -- Insert data into method table
--- INSERT INTO method (method_id, method_name) VALUES
--- (1, 'Cash'),
--- (2, 'Check'),
--- (3, 'Bitcoin'),
--- (4, 'EFT');
 
 -- Print a success message
 DO $$ BEGIN RAISE NOTICE 'Database schema created and populated successfully!'; END $$;
