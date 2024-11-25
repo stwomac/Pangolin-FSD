@@ -10,41 +10,37 @@ import {
 } from '@nestjs/common'
 import { ReportsService } from './reports.service'
 import { Reports } from './reports'
-import { DeleteResult } from 'typeorm'
 
 @Controller('reports')
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
-  // GET /reports - Fetch all reports
   @Get()
-  async getAllReports(): Promise<Reports[]> {
-    return await this.reportsService.getAllReports()
+  getAll(): Promise<Reports[]> {
+    return this.reportsService.getAll()
   }
 
-  // GET /reports/:id
   @Get(':id')
-  async getReportById(@Param('id') id: number): Promise<Reports> {
-    return await this.reportsService.getReportById(id)
+  getReportById(@Param('id') id: number): Promise<Reports> {
+    return this.reportsService.get(id)
   }
 
-  // POST /reports
   @Post()
   @HttpCode(201)
   createReport(@Body() newReport: Reports) {
-    return this.reportsService.createReport(newReport)
+    return this.reportsService.create(newReport)
   }
 
-  // Put /reports/:id
   @Put(':id')
-  @HttpCode(200)
-  updateReport(@Param('id') routeId: number, @Body() reportToUpdate) {
-    return this.reportsService.updateReport(routeId, reportToUpdate)
+  async updateReport(@Param('id') id: number, @Body() reportToUpdate) {
+    const report = await this.reportsService.get(id)
+    return await this.reportsService.update(report, reportToUpdate)
   }
-  // DELETE /reports/:id
+
   @Delete(':id')
   @HttpCode(204)
-  async deleteReport(@Param('id') id: number): Promise<DeleteResult> {
-    return this.reportsService.deleteReport(id)
+  async deleteReport(@Param('id') id: number): Promise<Reports> {
+    const report = await this.reportsService.get(id)
+    return await this.reportsService.delete(report)
   }
 }

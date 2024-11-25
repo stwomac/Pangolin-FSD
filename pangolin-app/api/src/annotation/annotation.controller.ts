@@ -23,7 +23,7 @@ export class AnnotationController {
   async getAllAnnotationsByReportId(
     @Param('reportId') reportId: number,
   ): Promise<Annotation[]> {
-    const report = await this.reportsService.getReportById(reportId)
+    const report = await this.reportsService.get(reportId)
     return await this.annotationService.getAllForReport(report)
   }
 
