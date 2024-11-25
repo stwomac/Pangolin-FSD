@@ -1,14 +1,21 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { Inject,forwardRef, ForwardReference, HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Users } from './users'
 import { DeleteResult, EntityNotFoundError, Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
+import { CreateUserDto } from './dto/create-user-dto'
+import { AuthService } from 'src/auth/auth.service'
+import { AuthValues } from 'src/auth/config'
+import { compare } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users) private repo: Repository<Users>,
     private jwtService: JwtService,
+    
+    @Inject(forwardRef(() => AuthService))
+    private authService : AuthService
   ) {}
 
   async getAllUsers(): Promise<Users[]> {
@@ -39,34 +46,49 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string): Promise<Users> {
-    return await this.repo
-      .findOneOrFail({
-        where: {
-          email: email,
-        },
-      })
-      .catch(() => {
+     console.log("retriving email: " + email);
+      try {
+           return await this.repo.findOneOrFail({
+              where: {
+                email: email,
+              },
+            })
+      }
+      catch(e) {
         throw new EntityNotFoundError(Users, 'did not find user')
-      })
+      };
   }
 
-  async createUser(newUser: Users): Promise<Users> {
-    await this.repo
-      .exists({
-        where: {
-          user_id: newUser.user_id,
-        },
-      })
-      .then((exists) => {
-        if (exists) {
-          throw new HttpException(
-            `User with ID ${newUser.user_id} already exists!`,
-            HttpStatus.BAD_REQUEST,
-          )
-        }
-      })
+  async createUser(createUserDto: CreateUserDto): Promise<Users> {
+      let exists = await this.repo
+         .exists({
+            where: {
+             email: createUserDto.email,
+            },
+         });
 
-    return await this.repo.save(newUser)
+
+      console.log(exists);
+
+      if (exists) {
+       throw new HttpException(
+         `User with ID ${createUserDto.email} already exists!`,
+         HttpStatus.BAD_REQUEST,
+       )
+      }
+
+      let toCreate : Users = new Users();
+      toCreate.email = createUserDto.email;
+      toCreate.role = "user";
+
+      toCreate.pass_hash = await this.authService.hashPassword(createUserDto.password);
+
+      console.log(`user hashed password: ${toCreate.pass_hash}`);
+
+      let result : boolean = await compare(createUserDto.password + AuthValues.PEPPER,toCreate.pass_hash);
+      console.log(`password test ${result} `);
+
+      return await this.repo.save(toCreate)
   }
 
   async updateUser(routeId: number, userToUpdate: Users) {
@@ -99,18 +121,4 @@ export class UsersService {
     return await this.repo.delete(id)
   }
 
-  async validateUser(userToLogin: Users): Promise<{ access_token: string }> {
-    try {
-      const user = await this.repo.findOneOrFail({
-        where: { user_id: userToLogin.user_id },
-      })
-      if (userToLogin.pass_hash === user.pass_hash) {
-        const payload = { sub: user.user_id, email: user.email }
-        const token = await this.jwtService.signAsync(payload) // JWT generation
-        return { access_token: token } // Explicitly return the token
-      }
-    } catch (error) {
-      throw new HttpException(`Invalid!`, HttpStatus.BAD_REQUEST)
-    }
-  }
 }

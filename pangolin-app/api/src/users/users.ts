@@ -13,9 +13,6 @@ export class Users {
   pass_hash: string
 
   @Column()
-  salt: string
-
-  @Column()
   role: string
 
   @OneToMany(() => Reports, (reports) => reports.reportee)
