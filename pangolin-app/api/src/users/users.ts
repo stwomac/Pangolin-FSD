@@ -4,16 +4,13 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 @Entity()
 export class Users {
   @PrimaryGeneratedColumn()
-  user_id: number
+  userId: number
 
   @Column()
   email: string
 
   @Column()
-  pass_hash: string
-
-  @Column()
-  salt: string
+  passHash: string
 
   @Column()
   role: string

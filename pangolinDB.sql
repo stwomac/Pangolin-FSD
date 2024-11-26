@@ -26,8 +26,7 @@ CREATE TYPE payment_method_enum AS ENUM (
 CREATE TABLE users (
     user_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email VARCHAR(50) NOT NULL,
-    pass_hash VARCHAR(50) NOT NULL,
-    salt VARCHAR(50) NOT NULL,
+    pass_hash VARCHAR(100) NOT NULL,
     role VARCHAR(50) NOT NULL
 );
 
@@ -123,10 +122,10 @@ INSERT INTO context_type (context_type_id, context_name, report_type) VALUES
 (32, 'Company charging fees to get a loan or credit card', 'CREDIT_SCAM');
 
 -- Insert data into users table
-INSERT INTO users (email, pass_hash, salt, role) VALUES
-('user@gmail.com', 'password', '', 'user'),
-('anonymous@gmail.com', 'password', '', 'anonymous'),
-('admin@gmail.com', 'admin', '', 'admin');
+INSERT INTO users (email, pass_hash, role) VALUES
+('user@gmail.com', 'password', 'user'),
+('anonymous@gmail.com', 'password',  'anonymous'),
+('admin@gmail.com', 'admin', 'admin');
 
 -- -- Insert data into method table
 -- INSERT INTO method (method_id, method_name) VALUES

@@ -1,4 +1,10 @@
 import { Routes } from '@angular/router'
-import { LoginComponent } from './components/login/login.component'
+import { LoginOrReportComponent } from '../app/components/login-or-report/login-or-report.component' 
 
-export const routes: Routes = [{path: "app-login", component: LoginComponent}]
+export const routes: Routes = [
+
+    {
+        path: 'view1',
+        component: LoginOrReportComponent
+    }
+]

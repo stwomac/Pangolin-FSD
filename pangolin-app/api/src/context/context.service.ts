@@ -7,65 +7,36 @@ import { Context } from './context'
 export class ContextService {
   constructor(@InjectRepository(Context) private repo: Repository<Context>) {}
 
-  async getAllContext(): Promise<Context[]> {
+  async get(contextId: number) {
+    const context = await this.repo.findOne({
+      where: { contextId },
+      relations: { contextType: true, report: true },
+    })
+    if (context == null)
+      throw new HttpException(
+        `No context with id ${contextId} exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    return context
+  }
+
+  async getAll(): Promise<Context[]> {
     return await this.repo.find({
-      relations: {
-        context_type: true,
-        report: true,
-      },
+      relations: { contextType: true },
     })
   }
 
-  async getContextById(idToFind: number): Promise<Context> {
-    return await this.repo
-      .findOneOrFail({
-        where: {
-          context_id: idToFind,
-        },
-        relations: {
-          context_type: true,
-          report: true,
-        },
-      })
-      .catch(() => {
-        throw new HttpException(
-          `Context with Id ${idToFind} does not exist`,
-          HttpStatus.NOT_FOUND,
-        )
-      })
+  async create(newContext: Context): Promise<Context> {
+    const context = this.repo.create(newContext)
+    return await this.repo.save(context)
   }
 
-  async createContext(newContext: Context): Promise<Context> {
-    return await this.repo.save(newContext)
+  async update(context: Context, updateData: Context) {
+    const updatedContext = this.repo.merge(context, updateData)
+    return await this.repo.save(updatedContext)
   }
 
-  async updateContext(routeId: number, contextToUpdate: Context) {
-    if (routeId != contextToUpdate.context_id) {
-      throw new HttpException(
-        `Route ID and Body ID do not match`,
-        HttpStatus.BAD_REQUEST,
-      )
-    }
-
-    await this.repo
-      .exists({
-        where: {
-          context_id: contextToUpdate.context_id,
-        },
-      })
-      .then((exists) => {
-        if (!exists) {
-          throw new HttpException(
-            `Context with ID ${contextToUpdate.context_id} does not exists!`,
-            HttpStatus.NOT_FOUND,
-          )
-        }
-      })
-
-    return await this.repo.save(contextToUpdate)
-  }
-
-  async deleteContext(id: number): Promise<DeleteResult> {
-    return await this.repo.delete(id)
+  async delete(context: Context): Promise<Context> {
+    return await this.repo.remove(context)
   }
 }
