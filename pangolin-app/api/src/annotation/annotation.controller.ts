@@ -19,9 +19,9 @@ export class AnnotationController {
     private readonly reportsService: ReportsService,
   ) {}
 
-  @Get('report/:reportId')
+  @Get(':id')
   async getAllAnnotationsByReportId(
-    @Param('reportId') reportId: number,
+    @Param('id') reportId: number,
   ): Promise<Annotation[]> {
     const report = await this.reportsService.get(reportId)
     return await this.annotationService.getAllForReport(report)

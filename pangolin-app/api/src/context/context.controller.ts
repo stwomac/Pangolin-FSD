@@ -9,10 +9,9 @@ import {
   Put,
 } from '@nestjs/common'
 import { ContextService } from './context.service'
-import { DeleteResult } from 'typeorm'
 import { Context } from './context'
 
-@Controller('context')
+@Controller('contexts')
 export class ContextController {
   constructor(private readonly contextService: ContextService) {}
 
