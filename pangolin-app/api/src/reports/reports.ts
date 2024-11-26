@@ -15,13 +15,13 @@ export enum PaymentMethod {
   CASH = 'CASH',
   CHECK = 'CHECK',
   BITCOIN = 'BITCOIN',
-  EFT = 'EFT'
+  EFT = 'EFT',
 }
 
 @Entity()
 export class Reports {
   @PrimaryGeneratedColumn()
-  report_id: number
+  reportId: number
 
   @ManyToOne(() => Users, (user) => user.reports)
   @JoinColumn({ name: 'reportee_id' })
@@ -32,7 +32,7 @@ export class Reports {
     type: 'enum',
     enum: ReportType,
   })
-  report_type: ReportType
+  reportType: ReportType
 
   @Column()
   description: string
@@ -44,23 +44,23 @@ export class Reports {
   amount: string
 
   @Column({
-    name:'payment_method',
+    name: 'payment_method',
     type: 'enum',
-    enum: PaymentMethod
+    enum: PaymentMethod,
   })
   paymentMethod: PaymentMethod // Relation to payment method
 
   @Column({ type: 'date' })
-  recent_date: Date
+  recentDate: Date
 
   @Column({ type: 'date' })
-  initial_date: Date
+  initialDate: Date
 
   @Column()
-  is_sus: boolean
+  isSus: boolean
 
   @Column()
-  is_done: boolean
+  isDone: boolean
 
   @OneToMany(() => Annotation, (annotation) => annotation.report)
   annotations: Annotation[] // Relation to annotations

@@ -7,68 +7,47 @@ import { Reports } from './reports'
 export class ReportsService {
   constructor(
     @InjectRepository(Reports)
-    private readonly reportsRepository: Repository<Reports>,
+    private readonly repo: Repository<Reports>,
   ) {}
 
-  // get All
-  async getAllReports(): Promise<Reports[]> {
-    return await this.reportsRepository.find({
+  async get(reportId: number): Promise<Reports> {
+    const report = await this.repo.findOne({
+      where: { reportId },
       relations: {
         reportee: true,
         annotations: true,
         contexts: true,
       },
     })
-  }
-
-  // Get by ID
-  async getReportById(report_id: number): Promise<Reports> {
-    return await this.reportsRepository.findOne({
-      where: { report_id },
-      relations: {
-        reportee: true,
-        annotations: true,
-        contexts: true,
-      },
-    })
-  }
-
-  //create a new report
-  async createReport(newReport: Reports): Promise<Reports> {
-    return await this.reportsRepository.save(newReport)
-  }
-
-  // update one
-  async updateReport(routeId: number, reportToUpdate: Reports) {
-    // checking if the route ID and the one in the body match
-    if (routeId != reportToUpdate.report_id) {
+    if (report == null)
       throw new HttpException(
-        `Route ID and Body ID do not match!`,
-        HttpStatus.BAD_REQUEST,
+        `No report with id ${reportId} exist.`,
+        HttpStatus.NOT_FOUND,
       )
-    }
-
-    // checking that the Report we want to update exists in the database already
-    // if it doesn't we'd create a new one, which we don't want
-    await this.reportsRepository
-      .exists({
-        where: {
-          report_id: reportToUpdate.report_id,
-        },
-      })
-      .then((exists) => {
-        if (!exists)
-          throw new HttpException(
-            `Report with ID ${reportToUpdate.report_id} does not exist!`,
-            HttpStatus.NOT_FOUND,
-          )
-      })
-
-    return await this.reportsRepository.save(reportToUpdate)
+    return report
   }
 
-  // Delete a report
-  async deleteReport(report_id: number): Promise<DeleteResult> {
-    return await this.reportsRepository.delete(report_id)
+  async getAll(): Promise<Reports[]> {
+    return await this.repo.find({
+      relations: {
+        reportee: true,
+        annotations: true,
+        contexts: true,
+      },
+    })
+  }
+
+  async create(newReport: Reports): Promise<Reports> {
+    const report = this.repo.create(newReport)
+    return await this.repo.save(report)
+  }
+
+  async update(report: Reports, updatedData: Reports) {
+    const updatedReport = this.repo.merge(report, updatedData)
+    return await this.repo.save(updatedReport)
+  }
+
+  async delete(report: Reports): Promise<Reports> {
+    return await this.repo.remove(report)
   }
 }

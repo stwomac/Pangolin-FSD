@@ -34,23 +34,19 @@ export class AuthService {
   async validateLogin(
     validateUserDto: ValidateUserDto,
   ): Promise<{ access_token: string }> {
-    console.log(validateUserDto)
-
-    let userToAuth: Users = await this.userService.getUserByEmail(
+    let userToAuth: Users = await this.userService.getByEmail(
       validateUserDto.username,
     )
-
-    console.log(userToAuth)
 
     let peppered_password: string = validateUserDto.password + AuthValues.PEPPER
     let authentication: boolean = await compare(
       peppered_password,
-      userToAuth.pass_hash,
+      userToAuth.passHash,
     )
 
     if (!authentication) throw new UnauthorizedException()
 
-    const payload = { sub: userToAuth.user_id, username: userToAuth.email }
+    const payload = { sub: userToAuth.userId, username: userToAuth.email }
 
     let access_token = {
       access_token: await this.jwtService.signAsync(payload, {

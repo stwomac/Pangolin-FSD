@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /******* Remove existing schema *******/
 -- Drop all tables (in reverse order of reliances)
 DROP TABLE IF EXISTS annotation;
@@ -10,12 +8,7 @@ DROP TABLE IF EXISTS users;
 -- Drop types
 DROP TYPE IF EXISTS report_type_enum;
 DROP TYPE IF EXISTS payment_method_enum;
-=======
--- Create tables in the specified order to satisfy foreign key dependencies
->>>>>>> origin/feat/password_hashing
 
-=======
->>>>>>> 661272d372ee79b9051769752b481197be9e6637
 /*************** Types ****************/
 CREATE TYPE report_type_enum AS ENUM (
     'IMPERSONATOR',

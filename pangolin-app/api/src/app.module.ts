@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
 import { ConfigModule } from '@nestjs/config'
 import { validate } from './env.validation'
 import { AppController } from './app.controller'
@@ -9,11 +10,7 @@ import { ReportsModule } from './reports/reports.module'
 import { ContextModule } from './context/context.module'
 import { AnnotationModule } from './annotation/annotation.module'
 import { ContextTypeModule } from './context_type/context_type.module'
-<<<<<<< HEAD
-=======
-import { MethodModule } from './method/method.module'
 import { AuthModule } from './auth/auth.module'
->>>>>>> origin/feat/password_hashing
 
 @Module({
   imports: [
@@ -27,17 +24,14 @@ import { AuthModule } from './auth/auth.module'
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true,
       synchronize: false,
+      namingStrategy: new SnakeNamingStrategy(),
     }),
     UsersModule,
     ReportsModule,
     ContextModule,
     AnnotationModule,
     ContextTypeModule,
-<<<<<<< HEAD
-=======
-    MethodModule,
     AuthModule,
->>>>>>> origin/feat/password_hashing
   ],
   controllers: [AppController],
   providers: [AppService],
