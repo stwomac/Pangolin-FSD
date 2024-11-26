@@ -11,23 +11,23 @@ import {
 @Entity()
 export class Context {
   @PrimaryGeneratedColumn()
-  context_id: number
+  contextId: number
 
   @ManyToOne(() => ContextType, (contextType) => contextType.contexts)
   @JoinColumn({ name: 'context_type' })
-  context_type: ContextType
+  contextType: ContextType
 
   @Column({ nullable: true })
-  org_claim: string
+  orgClaim: string
 
   @Column({ nullable: true })
-  first_name: string
+  firstName: string
 
   @Column({ nullable: true })
-  last_name: string
+  lastName: string
 
   @Column({ nullable: true })
-  street_address: string
+  streetAddress: string
 
   @Column({ nullable: true })
   city: string
