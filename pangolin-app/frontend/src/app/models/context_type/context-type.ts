@@ -1,23 +1,20 @@
 import { Context } from '../context/context'
-
-export enum ReportType {
-  IMPERSONATOR = 'IMPERSONATOR',
-  JOB_OPPORTUNITY = 'JOB_OPPORTUNITY',
-  SERVICE_SCAM = 'SERVICE_SCAM',
-  HEALTH_SCAM = 'HEALTH_SCAM',
-  ANNOYING_CALL = 'ANNOYING_CALL',
-  ONLINE_SHOPPING = 'ONLINE_SHOPPING',
-  SWEEPSTAKES = 'SWEEPSTAKES',
-  AUTO_SALE = 'AUTO_SALE',
-  CREDIT_SCAM = 'CREDIT_SCAM',
-  OTHER = 'OTHER',
-}
+import { Type } from '../type/type'
 
 export class ContextType {
   constructor(
-    public context_type_id: number,
-    public context_name: string,
-    public contexts: Context[],
-    public report_type: ReportType,
-  ) {}
+    context_type_id: number,
+    context_name: string,
+    contexts: Context[],
+    type: Type,
+  ) {
+    this.context_type_id = context_type_id
+    this.context_name = context_name
+    this.contexts = contexts
+    this.type = type
+  }
+  context_type_id: number
+  context_name: string
+  contexts: Context[]
+  type: Type
 }
