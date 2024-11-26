@@ -1,3 +1,14 @@
+/******* Remove existing schema *******/
+-- Drop all tables (in reverse order of reliances)
+DROP TABLE IF EXISTS annotation;
+DROP TABLE IF EXISTS context;
+DROP TABLE IF EXISTS context_type;
+DROP TABLE IF EXISTS reports;
+DROP TABLE IF EXISTS users;
+-- Drop types
+DROP TYPE IF EXISTS report_type_enum;
+DROP TYPE IF EXISTS payment_method_enum;
+
 /*************** Types ****************/
 CREATE TYPE report_type_enum AS ENUM (
     'IMPERSONATOR',

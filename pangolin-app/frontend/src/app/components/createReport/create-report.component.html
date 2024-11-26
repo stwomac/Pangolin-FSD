@@ -1,0 +1,13 @@
+<h1>Make a report!</h1>
+<div>
+    <mat-form-field >
+        <mat-label>What type of report?</mat-label>
+        <mat-select [(value)]="selectedType">
+            <mat-option *ngFor="let reportType of report_types" [value]="reportType.key">{{ reportType.value }}</mat-option>
+        </mat-select>
+    </mat-form-field>   
+    <mat-form-field>
+    <mat-label>Input</mat-label>
+    <input matInput>
+    </mat-form-field>
+</div> 
