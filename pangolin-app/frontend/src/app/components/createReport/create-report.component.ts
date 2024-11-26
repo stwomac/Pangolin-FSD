@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { HttpService } from '../../services/http.service'
 import { MatInputModule } from '@angular/material/input'
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -9,11 +8,15 @@ import {
 } from '@angular/material/form-field'
 import { MatOptionModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
+<<<<<<< HEAD
 import { Reports, PaymentMethod } from '../../models/reports'
 import { Users } from '../../models/users'
 import { ContextType, ReportType } from '../../models/context-type'
 import { Context } from '../../models/context'
 
+=======
+import { Report } from '../../models/reports'
+>>>>>>> 009074de9e0ede2cfc7049bb6417b1e9464ceae6
 
 @Component({
   selector: 'app-create-report',
@@ -36,10 +39,15 @@ import { Context } from '../../models/context'
   ],
 })
 export class CreateReportComponent {
+<<<<<<< HEAD
   constructor(private httpService: HttpService) {}
    // Available payment methods for the dropdown
    payment_methods = Object.values(PaymentMethod);
   loggedInUser: Users = new Users(2, 'anonymous@gmail.com', 'anonymous');
+=======
+  constructor() {}
+
+>>>>>>> 009074de9e0ede2cfc7049bb6417b1e9464ceae6
   report_types: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },
     {
