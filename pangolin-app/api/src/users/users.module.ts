@@ -13,9 +13,8 @@ import { AuthModule } from 'src/auth/auth.module'
     PassportModule,
     TypeOrmModule.forFeature([Users]),
     forwardRef(() => AuthModule),
-    forwardRef(() => AuthModule),
   ],
-  exports: [TypeOrmModule, UsersService],
+  exports: [UsersService],
   controllers: [UsersController],
   providers: [UsersService, LocalStrategy, JwtStrategy],
 })

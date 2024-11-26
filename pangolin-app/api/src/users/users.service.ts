@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Users } from './users'
-import { DeleteResult, EntityNotFoundError, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from './dto/create-user-dto'
 import { AuthService } from 'src/auth/auth.service'
@@ -25,46 +25,34 @@ export class UsersService {
     private authService: AuthService,
   ) {}
 
-  async getAllUsers(): Promise<Users[]> {
-    return await this.repo.find({
-      //commenting this out until we have some reports in the database, it leads to errors.
-      // relations: {
-      //     reports: true
-      // }
+  async getAll(): Promise<Users[]> {
+    return await this.repo.find()
+  }
+
+  async getById(userId: number): Promise<Users> {
+    const user = await this.repo.findOne({
+      where: { userId },
+      relations: { reports: true },
     })
+    return user;
   }
 
-  async getUserById(idToFind: number): Promise<Users> {
-    return await this.repo
-      .findOneOrFail({
-        where: {
-          user_id: idToFind,
-        },
-        // relations: {
-        //     reports: true
-        // }
-      })
-      .catch(() => {
-        throw new HttpException(
-          `User with Id ${idToFind} does not exist`,
-          HttpStatus.NOT_FOUND,
-        )
-      })
+
+  async getByEmail(email: string): Promise<Users> {
+    const user = await this.repo.findOne({
+      where: { email },
+      relations: { reports: true },
+    })
+    if (user == null)
+      throw new HttpException(
+        `No user with email ${email} exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    return user
   }
 
-  async getUserByEmail(email: string): Promise<Users> {
-    try {
-      return await this.repo.findOneOrFail({
-        where: {
-          email: email,
-        },
-      })
-    } catch (e) {
-      throw new EntityNotFoundError(Users, 'did not find user')
-    }
-  }
+  async create(createUserDto: CreateUserDto): Promise<Users> {
 
-  async createUser(createUserDto: CreateUserDto): Promise<Users> {
     let exists = await this.repo.exists({
       where: {
         email: createUserDto.email,
@@ -73,7 +61,7 @@ export class UsersService {
 
     if (exists) {
       throw new HttpException(
-        `User with ID ${createUserDto.email} already exists!`,
+        `User with email ${createUserDto.email} already exists!`,
         HttpStatus.BAD_REQUEST,
       )
     }
@@ -82,45 +70,20 @@ export class UsersService {
     toCreate.email = createUserDto.email
     toCreate.role = 'user'
 
-    toCreate.pass_hash = await this.authService.hashPassword(
+    toCreate.passHash = await this.authService.hashPassword(
       createUserDto.password,
     )
 
-    let result: boolean = await compare(
-      createUserDto.password + AuthValues.PEPPER,
-      toCreate.pass_hash,
-    )
 
     return await this.repo.save(toCreate)
   }
 
-  async updateUser(routeId: number, userToUpdate: Users) {
-    if (routeId != userToUpdate.user_id) {
-      throw new HttpException(
-        `Route ID and Body ID do not match`,
-        HttpStatus.BAD_REQUEST,
-      )
-    }
-
-    await this.repo
-      .exists({
-        where: {
-          user_id: userToUpdate.user_id,
-        },
-      })
-      .then((exists) => {
-        if (!exists) {
-          throw new HttpException(
-            `User with ID ${userToUpdate.user_id} does not exists!`,
-            HttpStatus.NOT_FOUND,
-          )
-        }
-      })
-
-    return await this.repo.save(userToUpdate)
+  async update(user: Users, updatedData: Users) {
+    const updatedUser = this.repo.merge(user, updatedData)
+    return await this.repo.save(updatedUser)
   }
 
-  async deleteUser(id: number): Promise<DeleteResult> {
-    return await this.repo.delete(id)
+  async delete(user: Users): Promise<Users> {
+    return await this.repo.remove(user)
   }
 }

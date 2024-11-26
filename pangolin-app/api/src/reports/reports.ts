@@ -1,8 +1,7 @@
 import { Annotation } from 'src/annotation/annotation'
-import { Context } from 'src/context/context'
-import { Method } from 'src/method/method'
+import { ReportType } from '../context_type/context_type'
+import { Context } from '../context/context'
 import { Users } from 'src/users/users'
-import { Type } from 'src/type/type'
 import {
   Column,
   Entity,
@@ -12,18 +11,28 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 
+export enum PaymentMethod {
+  CASH = 'CASH',
+  CHECK = 'CHECK',
+  BITCOIN = 'BITCOIN',
+  EFT = 'EFT',
+}
+
 @Entity()
 export class Reports {
   @PrimaryGeneratedColumn()
-  report_id: number
+  reportId: number
 
   @ManyToOne(() => Users, (user) => user.reports)
   @JoinColumn({ name: 'reportee_id' })
   reportee: Users // Relation to the user who reported
 
-  @ManyToOne(() => Type, (type) => type.reports)
-  @JoinColumn({ name: 'type' })
-  type: Type // Relation to Type entity
+  @Column({
+    name: 'report_type',
+    type: 'enum',
+    enum: ReportType,
+  })
+  reportType: ReportType
 
   @Column()
   description: string
@@ -34,21 +43,24 @@ export class Reports {
   @Column() // Assuming "amount" is a monetary value
   amount: string
 
-  @ManyToOne(() => Method, (method) => method.reports)
-  @JoinColumn({ name: 'payment_method' })
-  paymentMethod: Method // Relation to payment method
+  @Column({
+    name: 'payment_method',
+    type: 'enum',
+    enum: PaymentMethod,
+  })
+  paymentMethod: PaymentMethod // Relation to payment method
 
   @Column({ type: 'date' })
-  recent_date: Date
+  recentDate: Date
 
   @Column({ type: 'date' })
-  initial_date: Date
+  initialDate: Date
 
   @Column()
-  is_sus: boolean
+  isSus: boolean
 
   @Column()
-  is_done: boolean
+  isDone: boolean
 
   @OneToMany(() => Annotation, (annotation) => annotation.report)
   annotations: Annotation[] // Relation to annotations
