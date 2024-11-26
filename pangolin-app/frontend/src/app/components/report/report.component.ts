@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core'
-import { PaymentMethod, Reports, Users, ReportType } from '../../models/reports';
+import { Report, ReportLike, ReportType, User, Annotation, PaymentMethod } from '../../models/reports';
+import { Context } from '../../models/context';
+import { ReportServices } from '../../services/report.service';
 //import { Users } from '../../models/users';
 //import { ReportType } from '../../models/context-type';
-
-let user: Users
-let reportType: ReportType
-let paymentMethod: PaymentMethod
-let date: Date
-
+let reportlike :ReportLike
+let user:User
+let reportType:ReportType
+let annotation:Annotation
+let paymentMethod:PaymentMethod
+let contexts:Context
 @Component({
   selector: 'app-report',
   imports: [],
@@ -16,5 +18,25 @@ let date: Date
   standalone: true
 })
 export class ReportComponent {
-  @Input() report: Reports = new Reports(0, user , reportType, '', false, '', paymentMethod, date, date, false);
+  
+  //constructor(private apiService: ReportServices) { };
+  // ngOnInit() {
+  //   this.apiService.getMessage().subscribe(data => {
+  //       this.message = data;
+  //       console.log(this.message)
+  //   });
+  // } 
+  @Input() report: ReportLike = {
+    reportId: 1,
+    reportee: user,
+    reportType: reportType,
+    description: '',
+    paid: false,
+    amount: '',
+    paymentMethod: paymentMethod,
+    isSus: false,
+    isDone: false,
+    annotations: annotation,
+    contexts: contexts
+  }
 }

@@ -78,4 +78,4 @@ export enum ReportType {
   OTHER = 'OTHER',
 }
 
-export{Users, ReportType}
+export{User, Annotation, }

@@ -19,4 +19,8 @@ export const routes: Routes = [
         path: 'report',
         component: ReportComponent
     },
+    {
+        path: 'login',
+        component: LoginComponent
+    }
 ]
