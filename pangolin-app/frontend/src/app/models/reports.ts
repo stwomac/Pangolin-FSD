@@ -27,3 +27,5 @@ export class Reports {
     public contexts: Context[] = [],
   ) {}
 }
+
+export{Users, ReportType}
