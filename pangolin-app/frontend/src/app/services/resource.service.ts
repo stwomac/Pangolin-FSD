@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs'
 import { Serializable, Deserializable } from '../models/utils/serializable'
 
 export abstract class ResourceService<T, M extends Serializable<T>> {
-  private baseUrl = 'http://localhost:3000'
+  protected baseUrl = 'http://localhost:3000'
   protected resourceUrl: string
 
   protected constructor(
