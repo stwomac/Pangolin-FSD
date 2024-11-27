@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common'
 import { AnnotationService } from './annotation.service'
 import { Annotation } from './annotation'
+import { CreateAnnotationDto } from './dto/create-annotation.dto'
+import { UpdateAnnotationDto } from './dto/update-annotation.dto'
 
 @Controller('annotations')
 export class AnnotationController {
@@ -16,17 +18,18 @@ export class AnnotationController {
 
   @Post()
   @HttpCode(201)
-  createAnnotation(@Body() newAnnotation: Annotation): Promise<Annotation> {
+  createAnnotation(
+    @Body() newAnnotation: CreateAnnotationDto,
+  ): Promise<Annotation> {
     return this.annotationService.createAnnotation(newAnnotation)
   }
 
   @Put(':id')
   async updateAnnotation(
     @Param('id') id: number,
-    @Body() annotationToUpdate: Annotation,
+    @Body() annotationToUpdate: UpdateAnnotationDto,
   ): Promise<Annotation> {
-    const annotation = await this.annotationService.get(id)
-    return await this.annotationService.update(annotation, annotationToUpdate)
+    return await this.annotationService.update(id, annotationToUpdate)
   }
 
   @Delete(':id')
