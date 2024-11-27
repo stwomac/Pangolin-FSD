@@ -1,7 +1,7 @@
 import { Annotation } from 'src/annotation/annotation'
-import { ReportType } from '../context_type/context_type'
+import { ReportType } from '../context-type/context-type'
 import { Context } from '../context/context'
-import { Users } from 'src/users/users'
+import { Users } from 'src/user/user'
 import {
   Column,
   Entity,

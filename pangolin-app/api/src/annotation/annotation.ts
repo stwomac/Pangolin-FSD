@@ -1,4 +1,4 @@
-import { Reports } from 'src/reports/reports'
+import { Reports } from 'src/report/report'
 import {
   Entity,
   Column,

@@ -8,8 +8,8 @@ import {
   Body,
   HttpCode,
 } from '@nestjs/common'
-import { ReportsService } from './reports.service'
-import { Reports } from './reports'
+import { ReportsService } from './report.service'
+import { Reports } from './report'
 
 @Controller('reports')
 export class ReportsController {

@@ -1,5 +1,5 @@
-import { ContextType } from 'src/context_type/context_type'
-import { Reports } from 'src/reports/reports'
+import { ContextType } from 'src/context-type/context-type'
+import { Reports } from 'src/report/report'
 import {
   Column,
   Entity,

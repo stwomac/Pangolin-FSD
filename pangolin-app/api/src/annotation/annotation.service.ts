@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Annotation } from './annotation'
 import { Repository } from 'typeorm'
-import { Reports } from '../reports/reports'
+import { Reports } from '../report/report'
 
 @Injectable()
 export class AnnotationService {

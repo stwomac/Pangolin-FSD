@@ -9,8 +9,8 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common'
-import { UsersService } from './users.service'
-import { Users } from './users'
+import { UsersService } from './user.service'
+import { Users } from './user'
 import { DeleteResult } from 'typeorm'
 import { LocalGuard } from 'src/guards/local.guard'
 import { JwtAuthGuard } from 'src/guards/jwt.guard'

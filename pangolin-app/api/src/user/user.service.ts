@@ -7,7 +7,7 @@ import {
   Injectable,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Users } from './users'
+import { Users } from './user'
 import { Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from './dto/create-user-dto'
@@ -34,9 +34,8 @@ export class UsersService {
       where: { userId },
       relations: { reports: true },
     })
-    return user;
+    return user
   }
-
 
   async getByEmail(email: string): Promise<Users> {
     const user = await this.repo.findOne({
@@ -52,7 +51,6 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<Users> {
-
     let exists = await this.repo.exists({
       where: {
         email: createUserDto.email,
@@ -73,7 +71,6 @@ export class UsersService {
     toCreate.passHash = await this.authService.hashPassword(
       createUserDto.password,
     )
-
 
     return await this.repo.save(toCreate)
   }

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeleteResult, Repository } from 'typeorm'
-import { Reports } from './reports'
+import { Reports } from './report'
 
 @Injectable()
 export class ReportsService {
