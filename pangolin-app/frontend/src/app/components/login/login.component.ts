@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import {UserServices} from '../../services/users.service';
+import { UserServices } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',

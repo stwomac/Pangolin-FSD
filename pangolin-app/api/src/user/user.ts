@@ -1,8 +1,8 @@
-import { Reports } from 'src/reports/reports'
+import { Report } from 'src/report/report'
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
-@Entity()
-export class Users {
+@Entity({ name: 'person' })
+export class User {
   @PrimaryGeneratedColumn()
   userId: number
 
@@ -15,6 +15,6 @@ export class Users {
   @Column()
   role: string
 
-  @OneToMany(() => Reports, (reports) => reports.reportee)
-  reports: Reports[]
+  @OneToMany(() => Report, (reports) => reports.reportee)
+  reports: Report[]
 }

@@ -1,4 +1,4 @@
-import { ReportType } from './reports'
+import { ReportType } from './report'
 
 export interface ContextType {
   contextTypeId: number

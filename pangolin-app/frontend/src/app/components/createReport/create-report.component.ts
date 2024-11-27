@@ -8,7 +8,7 @@ import {
 } from '@angular/material/form-field'
 import { MatOptionModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
-import { Report } from '../../models/reports'
+import { Report } from '../../models/report'
 
 @Component({
   selector: 'app-create-report',
