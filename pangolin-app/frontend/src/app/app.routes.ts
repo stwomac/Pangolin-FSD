@@ -4,6 +4,7 @@ import { CreateReportComponent } from './components/createReport/create-report.c
 import { LoginComponent } from './components/login/login.component'
 import { Nav_BarComponent } from './components/nav_bar/nav_bar.component'
 import { ReportComponent } from './components/report/report.component'
+import { ReportListComponent } from './components/report-list/report-list.component'
 
 export const routes: Routes = [
 
@@ -22,5 +23,9 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    {
+        path: 'report-list',
+        component: ReportListComponent
     }
 ]

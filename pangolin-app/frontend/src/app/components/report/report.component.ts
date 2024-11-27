@@ -7,12 +7,12 @@ import {MatChipsModule} from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
 //import { Users } from '../../models/users';
 //import { ReportType } from '../../models/context-type';
-let reportlike :ReportLike
 let user:User
 let reportType:ReportType
 let annotation:Annotation[]
 let paymentMethod:PaymentMethod
 let contexts:Context[]
+
 @Component({
   selector: 'app-report',
   imports: [MatCardModule, MatChipsModule, MatButton],
@@ -22,7 +22,8 @@ let contexts:Context[]
 })
 export class ReportComponent {
   message:any;
-   @Input() report: ReportLike = {
+  @Input() getID!: number;
+  report: ReportLike = {
      reportId: 1,
      reportee: user,
      reportType: reportType,
@@ -37,9 +38,9 @@ export class ReportComponent {
    }
   constructor(private apiService: ReportServices) { };
    ngOnInit() {
-     this.apiService.get(1).subscribe(data => {
-         this.message = data;
-         console.log(this.message)
+     this.apiService.get(this.getID).subscribe(data => {
+         //this.message = data;
+         //console.log(this.getID)
          this.report.reportee = data.reportee
          this.report.reportType = data.reportType
          this.report.description = data.description

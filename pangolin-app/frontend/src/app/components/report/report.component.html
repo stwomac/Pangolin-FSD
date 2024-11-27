@@ -11,12 +11,15 @@
         <mat-card-header>
           <mat-card-title>{{report.reportType}}</mat-card-title>
         </mat-card-header>
+        <div></div>
         <mat-card-content>
+          <b>Description</b>
           <p>{{report.description}}</p>
-          @for(annotation of report.annotations; track report.annotations;){
+          <b>Annotations</b>
+          @for(annotation of report.annotations; track annotation;){
           <p>{{annotation.annotation}}</p>
           }@empty {
-            <li></li>
+            <p>none</p>
           }
         </mat-card-content>
         <div>
