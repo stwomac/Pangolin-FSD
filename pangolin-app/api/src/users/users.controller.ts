@@ -75,7 +75,7 @@ export class UsersController {
     return this.usersService.create(newUser)
   }
 
-  @Delete('/delete/:id')
+  @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id') id: number): Promise<Users> {
     const user = await this.usersService.getById(id)

@@ -15,8 +15,8 @@ export interface ReportLike {
   initialDate?: Date
   isSus: boolean
   isDone: boolean
-  annotations: Annotation
-  contexts: Context
+  annotations: Annotation[]
+  contexts: Context[]
 }
 
 export class Report
@@ -33,8 +33,8 @@ export class Report
   public initialDate?: Date
   public isSus: boolean
   public isDone: boolean
-  public annotations: Annotation
-  public contexts: Context
+  public annotations: Annotation[]
+  public contexts: Context[]
 
   constructor(data: ReportLike) {
     super(data.reportId)
