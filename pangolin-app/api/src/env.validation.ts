@@ -1,5 +1,12 @@
 import { plainToInstance } from 'class-transformer'
-import { validateSync, IsString, IsNumber, Min, Max } from 'class-validator'
+import {
+  validateSync,
+  IsString,
+  IsNumber,
+  Min,
+  Max,
+  IsUrl,
+} from 'class-validator'
 
 class EnvironmentVariables {
   @IsString()
@@ -18,6 +25,8 @@ class EnvironmentVariables {
   JWTSECRET: string
   @IsString()
   PEPPER: string
+  @IsUrl({ require_tld: false })
+  TRUSTED_ORIGINS: string
 }
 
 export function validate(config: Record<string, unknown>) {

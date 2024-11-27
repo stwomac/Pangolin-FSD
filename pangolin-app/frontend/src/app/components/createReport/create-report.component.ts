@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { HttpService } from '../../services/http.service'
 import { MatInputModule } from '@angular/material/input'
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -9,7 +8,7 @@ import {
 } from '@angular/material/form-field'
 import { MatOptionModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
-import { Reports } from '../../models/reports'
+import { Report } from '../../models/report'
 
 @Component({
   selector: 'app-create-report',
@@ -32,7 +31,7 @@ import { Reports } from '../../models/reports'
   ],
 })
 export class CreateReportComponent {
-  constructor(private httpService: HttpService) {}
+  constructor() {}
 
   report_types: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },

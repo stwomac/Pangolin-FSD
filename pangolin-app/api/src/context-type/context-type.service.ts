@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm'
-import { ContextType } from './context_type'
+import { ContextType } from './context-type'
 import { Repository } from 'typeorm'
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 

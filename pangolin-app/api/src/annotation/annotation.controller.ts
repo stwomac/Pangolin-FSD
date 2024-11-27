@@ -1,6 +1,5 @@
 import {
   Controller,
-  Get,
   Post,
   Put,
   Delete,
@@ -9,23 +8,11 @@ import {
   HttpCode,
 } from '@nestjs/common'
 import { AnnotationService } from './annotation.service'
-import { ReportsService } from '../reports/reports.service'
 import { Annotation } from './annotation'
 
 @Controller('annotations')
 export class AnnotationController {
-  constructor(
-    private readonly annotationService: AnnotationService,
-    private readonly reportsService: ReportsService,
-  ) {}
-
-  @Get('report/:reportId')
-  async getAllAnnotationsByReportId(
-    @Param('reportId') reportId: number,
-  ): Promise<Annotation[]> {
-    const report = await this.reportsService.get(reportId)
-    return await this.annotationService.getAllForReport(report)
-  }
+  constructor(private readonly annotationService: AnnotationService) {}
 
   @Post()
   @HttpCode(201)

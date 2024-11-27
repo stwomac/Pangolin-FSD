@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Annotation } from './annotation'
 import { Repository } from 'typeorm'
-import { Reports } from '../reports/reports'
+import { Report } from '../report/report'
 
 @Injectable()
 export class AnnotationService {
@@ -22,7 +22,7 @@ export class AnnotationService {
     return annotation
   }
 
-  async getAllForReport(report: Reports): Promise<Annotation[]> {
+  async getAllForReport(report: Report): Promise<Annotation[]> {
     return await this.repo.find({
       where: { report: report },
     })
