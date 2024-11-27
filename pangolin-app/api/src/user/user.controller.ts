@@ -58,7 +58,10 @@ export class UserController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() userToUpdate): Promise<User> {
+  async update(
+    @Param('id') id: number,
+    @Body() userToUpdate: User,
+  ): Promise<User> {
     const user = await this.usersService.getById(id)
     return await this.usersService.update(user, userToUpdate)
   }

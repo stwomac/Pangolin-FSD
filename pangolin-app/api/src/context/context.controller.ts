@@ -26,7 +26,10 @@ export class ContextController {
   }
 
   @Put(':id')
-  async updateContext(@Param('id') id: number, @Body() contextToUpdate) {
+  async updateContext(
+    @Param('id') id: number,
+    @Body() contextToUpdate: Context,
+  ) {
     const context = await this.contextService.get(id)
     return await this.contextService.update(context, contextToUpdate)
   }

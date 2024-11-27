@@ -23,7 +23,7 @@ export class AnnotationController {
   @Put(':id')
   async updateAnnotation(
     @Param('id') id: number,
-    @Body() annotationToUpdate,
+    @Body() annotationToUpdate: Annotation,
   ): Promise<Annotation> {
     const annotation = await this.annotationService.get(id)
     return await this.annotationService.update(annotation, annotationToUpdate)

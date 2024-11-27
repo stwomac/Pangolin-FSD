@@ -34,6 +34,11 @@ export class UserService {
       where: { userId },
       relations: { reports: true },
     })
+    if (user == null)
+      throw new HttpException(
+        `No user with id ${userId} exist.`,
+        HttpStatus.NOT_FOUND,
+      )
     return user
   }
 
