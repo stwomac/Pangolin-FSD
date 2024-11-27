@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config'
 import { validate } from './env.validation'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { UsersModule } from './user/user.module'
+import { UserModule } from './user/user.module'
 import { ReportModule } from './report/report.module'
 import { ContextModule } from './context/context.module'
 import { AnnotationModule } from './annotation/annotation.module'
@@ -26,7 +26,7 @@ import { AuthModule } from './auth/auth.module'
       synchronize: false,
       namingStrategy: new SnakeNamingStrategy(),
     }),
-    UsersModule,
+    UserModule,
     ReportModule,
     ContextModule,
     AnnotationModule,
