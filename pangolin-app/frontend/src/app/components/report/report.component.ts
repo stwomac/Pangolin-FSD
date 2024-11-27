@@ -21,13 +21,6 @@ let contexts:Context
 })
 export class ReportComponent {
   message:any;
-  constructor(private apiService: ReportServices) { };
-   ngOnInit() {
-     this.apiService.get(1).subscribe(data => {
-         this.message = data;
-         console.log(this.message)
-     });
-   } 
   @Input() report: ReportLike = {
     reportId: 1,
     reportee: user,
@@ -41,4 +34,11 @@ export class ReportComponent {
     annotations: annotation,
     contexts: contexts
   }
+  constructor(private apiService: ReportServices) { };
+   ngOnInit() {
+     this.apiService.get(1).subscribe(data => {
+         this.message = data;
+         console.log(this.message)
+     });
+   } 
 }

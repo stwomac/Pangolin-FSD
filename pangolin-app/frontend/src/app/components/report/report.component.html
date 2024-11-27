@@ -1,6 +1,6 @@
 <article>
     <ul>
-        <!-- <li>ID: {{ message.reportee }}</li> -->
+        <li>ID: {{ message.description }}</li>
         <li>Reportee: {{ report.reportee }}</li>
         <li>Last Name: {{ report.reportType }}</li>
         <li>Department: {{ report.paid }}</li>
@@ -12,11 +12,13 @@
           <mat-card-title>report</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <p>{{report.description}}</p>
+          <p>{{message.description}}</p>
         </mat-card-content>
         <mat-card-footer class="example-card-footer">
           <mat-chip-set aria-label="Chihuahua traits">
-            <mat-chip>charming</mat-chip>
+            @if(false){
+              <mat-chip>charming</mat-chip>
+            }
             <mat-chip>graceful</mat-chip>
             <mat-chip>sassy</mat-chip>
           </mat-chip-set>
