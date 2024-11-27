@@ -8,8 +8,8 @@ import {
 } from '@angular/material/form-field'
 import { MatOptionModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
-import { Report, PaymentMethod, ReportType } from '../../models/reports'
-import { User } from '../../models/users'
+import { Report, PaymentMethod, ReportType } from '../../models/report'
+import { User } from '../../models/user'
 import { ContextType } from '../../models/context-type'
 import { Context } from '../../models/context'
 

@@ -7,7 +7,7 @@ import {
   Injectable,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Users } from './users'
+import { User } from './user'
 import { Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
 import { CreateUserDto } from './dto/create-user-dto'
@@ -16,29 +16,28 @@ import { AuthValues } from 'src/auth/config'
 import { compare } from 'bcrypt'
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(
-    @InjectRepository(Users) private repo: Repository<Users>,
+    @InjectRepository(User) private repo: Repository<User>,
     private jwtService: JwtService,
 
     @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
   ) {}
 
-  async getAll(): Promise<Users[]> {
+  async getAll(): Promise<User[]> {
     return await this.repo.find()
   }
 
-  async getById(userId: number): Promise<Users> {
+  async getById(userId: number): Promise<User> {
     const user = await this.repo.findOne({
       where: { userId },
       relations: { reports: true },
     })
-    return user;
+    return user
   }
 
-
-  async getByEmail(email: string): Promise<Users> {
+  async getByEmail(email: string): Promise<User> {
     const user = await this.repo.findOne({
       where: { email },
       relations: { reports: true },
@@ -51,8 +50,7 @@ export class UsersService {
     return user
   }
 
-  async create(createUserDto: CreateUserDto): Promise<Users> {
-
+  async create(createUserDto: CreateUserDto): Promise<User> {
     let exists = await this.repo.exists({
       where: {
         email: createUserDto.email,
@@ -66,7 +64,7 @@ export class UsersService {
       )
     }
 
-    let toCreate: Users = new Users()
+    let toCreate: User = new User()
     toCreate.email = createUserDto.email
     toCreate.role = 'user'
 
@@ -74,16 +72,15 @@ export class UsersService {
       createUserDto.password,
     )
 
-
     return await this.repo.save(toCreate)
   }
 
-  async update(user: Users, updatedData: Users) {
+  async update(user: User, updatedData: User) {
     const updatedUser = this.repo.merge(user, updatedData)
     return await this.repo.save(updatedUser)
   }
 
-  async delete(user: Users): Promise<Users> {
+  async delete(user: User): Promise<User> {
     return await this.repo.remove(user)
   }
 }

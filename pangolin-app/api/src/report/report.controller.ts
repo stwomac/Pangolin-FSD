@@ -8,26 +8,26 @@ import {
   Body,
   HttpCode,
 } from '@nestjs/common'
-import { ReportsService } from './reports.service'
-import { Reports } from './reports'
+import { ReportService } from './report.service'
+import { Report } from './report'
 
 @Controller('reports')
-export class ReportsController {
-  constructor(private readonly reportsService: ReportsService) {}
+export class ReportController {
+  constructor(private readonly reportsService: ReportService) {}
 
   @Get()
-  getAll(): Promise<Reports[]> {
+  getAll(): Promise<Report[]> {
     return this.reportsService.getAll()
   }
 
   @Get(':id')
-  getReportById(@Param('id') id: number): Promise<Reports> {
+  getReportById(@Param('id') id: number): Promise<Report> {
     return this.reportsService.get(id)
   }
 
   @Post()
   @HttpCode(201)
-  createReport(@Body() newReport: Reports) {
+  createReport(@Body() newReport: Report) {
     return this.reportsService.create(newReport)
   }
 
@@ -39,7 +39,7 @@ export class ReportsController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteReport(@Param('id') id: number): Promise<Reports> {
+  async deleteReport(@Param('id') id: number): Promise<Report> {
     const report = await this.reportsService.get(id)
     return await this.reportsService.delete(report)
   }

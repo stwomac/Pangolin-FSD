@@ -1,16 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { DeleteResult, Repository } from 'typeorm'
-import { Reports } from './reports'
+import { Report } from './report'
 
 @Injectable()
-export class ReportsService {
+export class ReportService {
   constructor(
-    @InjectRepository(Reports)
-    private readonly repo: Repository<Reports>,
+    @InjectRepository(Report)
+    private readonly repo: Repository<Report>,
   ) {}
 
-  async get(reportId: number): Promise<Reports> {
+  async get(reportId: number): Promise<Report> {
     const report = await this.repo.findOne({
       where: { reportId },
       relations: {
@@ -27,7 +27,7 @@ export class ReportsService {
     return report
   }
 
-  async getAll(): Promise<Reports[]> {
+  async getAll(): Promise<Report[]> {
     return await this.repo.find({
       relations: {
         reportee: true,
@@ -37,17 +37,17 @@ export class ReportsService {
     })
   }
 
-  async create(newReport: Reports): Promise<Reports> {
+  async create(newReport: Report): Promise<Report> {
     const report = this.repo.create(newReport)
     return await this.repo.save(report)
   }
 
-  async update(report: Reports, updatedData: Reports) {
+  async update(report: Report, updatedData: Report) {
     const updatedReport = this.repo.merge(report, updatedData)
     return await this.repo.save(updatedReport)
   }
 
-  async delete(report: Reports): Promise<Reports> {
+  async delete(report: Report): Promise<Report> {
     return await this.repo.remove(report)
   }
 }

@@ -9,8 +9,8 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common'
-import { UsersService } from './users.service'
-import { Users } from './users'
+import { UserService } from './user.service'
+import { User } from './user'
 import { DeleteResult } from 'typeorm'
 import { LocalGuard } from 'src/guards/local.guard'
 import { JwtAuthGuard } from 'src/guards/jwt.guard'
@@ -20,9 +20,9 @@ import { ValidateUserDto } from './dto/validate-user.dto'
 import { AuthGuard } from '@nestjs/passport'
 
 @Controller('users')
-export class UsersController {
+export class UserController {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly usersService: UserService,
     private readonly authService: AuthService,
   ) {}
 
@@ -47,18 +47,18 @@ export class UsersController {
 
   @Get()
   @HttpCode(200)
-  getAll(): Promise<Users[]> {
+  getAll(): Promise<User[]> {
     return this.usersService.getAll()
   }
 
   // get by ID
   @Get(':id')
-  get(@Param('id') idToFind: number): Promise<Users> {
+  get(@Param('id') idToFind: number): Promise<User> {
     return this.usersService.getById(idToFind)
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() userToUpdate): Promise<Users> {
+  async update(@Param('id') id: number, @Body() userToUpdate): Promise<User> {
     const user = await this.usersService.getById(id)
     return await this.usersService.update(user, userToUpdate)
   }
@@ -75,9 +75,9 @@ export class UsersController {
     return this.usersService.create(newUser)
   }
 
-  @Delete('/delete/:id')
+  @Delete(':id')
   @HttpCode(204)
-  async delete(@Param('id') id: number): Promise<Users> {
+  async delete(@Param('id') id: number): Promise<User> {
     const user = await this.usersService.getById(id)
     return await this.usersService.delete(user)
   }

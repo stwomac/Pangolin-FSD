@@ -1,7 +1,7 @@
 import { Serializable } from './utils/serializable'
 import { Annotation } from './annotation'
 import { Context } from './context'
-import { User } from './users'
+import { User } from './user'
 
 export interface ReportLike {
   reportId: number

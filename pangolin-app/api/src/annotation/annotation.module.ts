@@ -3,13 +3,11 @@ import { AnnotationService } from './annotation.service'
 import { AnnotationController } from './annotation.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Annotation } from './annotation'
-import { ReportsModule } from '../reports/reports.module'
-import { ReportsService } from 'src/reports/reports.service'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Annotation]), ReportsModule],
+  imports: [TypeOrmModule.forFeature([Annotation])],
   exports: [TypeOrmModule],
   controllers: [AnnotationController],
-  providers: [ReportsService,AnnotationService],
+  providers: [AnnotationService],
 })
 export class AnnotationModule {}
