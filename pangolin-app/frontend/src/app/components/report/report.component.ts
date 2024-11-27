@@ -40,6 +40,16 @@ export class ReportComponent {
      this.apiService.get(1).subscribe(data => {
          this.message = data;
          console.log(this.message)
+         this.report.reportee = data.reportee
+         this.report.reportType = data.reportType
+         this.report.description = data.description
+         this.report.paid = data.paid
+         this.report.amount = data.amount
+         this.report.paymentMethod = data.paymentMethod
+         this.report.isSus = data.isSus
+         this.report.isDone = data.isDone
+         this.report.annotations = data.annotations
+         this.report.contexts = data.contexts
      });
    } 
 }
