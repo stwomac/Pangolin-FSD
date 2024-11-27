@@ -35,7 +35,7 @@ export class AuthService {
     validateUserDto: ValidateUserDto,
   ): Promise<{ access_token: string }> {
     let userToAuth: User = await this.userService.getByEmail(
-      validateUserDto.username,
+      validateUserDto.email,
     )
 
     let peppered_password: string = validateUserDto.password + AuthValues.PEPPER

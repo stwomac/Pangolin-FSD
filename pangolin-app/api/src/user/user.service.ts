@@ -1,7 +1,6 @@
 import {
   Inject,
   forwardRef,
-  ForwardReference,
   HttpException,
   HttpStatus,
   Injectable,
@@ -10,10 +9,9 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user'
 import { Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
-import { CreateUserDto } from './dto/create-user-dto'
 import { AuthService } from 'src/auth/auth.service'
-import { AuthValues } from 'src/auth/config'
-import { compare } from 'bcrypt'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Injectable()
 export class UserService {
@@ -80,7 +78,8 @@ export class UserService {
     return await this.repo.save(toCreate)
   }
 
-  async update(user: User, updatedData: User) {
+  async update(userId: number, updatedData: UpdateUserDto) {
+    const user = await this.getById(userId)
     const updatedUser = this.repo.merge(user, updatedData)
     return await this.repo.save(updatedUser)
   }

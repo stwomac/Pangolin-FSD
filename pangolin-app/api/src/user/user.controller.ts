@@ -11,13 +11,11 @@ import {
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './user'
-import { DeleteResult } from 'typeorm'
-import { LocalGuard } from 'src/guards/local.guard'
 import { JwtAuthGuard } from 'src/guards/jwt.guard'
-import { CreateUserDto } from './dto/create-user-dto'
 import { AuthService } from 'src/auth/auth.service'
 import { ValidateUserDto } from './dto/validate-user.dto'
-import { AuthGuard } from '@nestjs/passport'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Controller('users')
 export class UserController {
@@ -58,12 +56,11 @@ export class UserController {
   }
 
   @Put(':id')
-  async update(
+  update(
     @Param('id') id: number,
-    @Body() userToUpdate: User,
+    @Body() userToUpdate: UpdateUserDto,
   ): Promise<User> {
-    const user = await this.usersService.getById(id)
-    return await this.usersService.update(user, userToUpdate)
+    return this.usersService.update(id, userToUpdate)
   }
 
   @Post('/login')
