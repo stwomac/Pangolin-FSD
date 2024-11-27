@@ -1,5 +1,5 @@
 import { Serializable } from './utils/serializable'
-import { Report } from './reports'
+import { Report } from './report'
 import { ContextType } from './context-type'
 
 export interface ContextLike {
