@@ -1,7 +1,7 @@
 import { Annotation } from 'src/annotation/annotation'
 import { ReportType } from '../context-type/context-type'
 import { Context } from '../context/context'
-import { Users } from 'src/user/user'
+import { User } from 'src/user/user'
 import {
   Column,
   Entity,
@@ -19,13 +19,13 @@ export enum PaymentMethod {
 }
 
 @Entity()
-export class Reports {
+export class Report {
   @PrimaryGeneratedColumn()
   reportId: number
 
-  @ManyToOne(() => Users, (user) => user.reports)
+  @ManyToOne(() => User, (user) => user.reports)
   @JoinColumn({ name: 'reportee_id' })
-  reportee: Users // Relation to the user who reported
+  reportee: User // Relation to the user who reported
 
   @Column({
     name: 'report_type',

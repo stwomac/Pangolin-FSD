@@ -4,8 +4,8 @@ import {
   UnauthorizedException,
   Inject,
 } from '@nestjs/common'
-import { UsersService } from 'src/user/user.service'
-import { Users } from 'src/user/user'
+import { UserService } from 'src/user/user.service'
+import { User } from 'src/user/user'
 import { AuthValues } from './config'
 import { hash, compare } from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
@@ -14,8 +14,8 @@ import { ValidateUserDto } from 'src/user/dto/validate-user.dto'
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => UsersService))
-    private userService: UsersService,
+    @Inject(forwardRef(() => UserService))
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
@@ -34,7 +34,7 @@ export class AuthService {
   async validateLogin(
     validateUserDto: ValidateUserDto,
   ): Promise<{ access_token: string }> {
-    let userToAuth: Users = await this.userService.getByEmail(
+    let userToAuth: User = await this.userService.getByEmail(
       validateUserDto.username,
     )
 

@@ -6,7 +6,7 @@ import { validate } from './env.validation'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UsersModule } from './user/user.module'
-import { ReportsModule } from './report/report.module'
+import { ReportModule } from './report/report.module'
 import { ContextModule } from './context/context.module'
 import { AnnotationModule } from './annotation/annotation.module'
 import { ContextTypeModule } from './context-type/context-type.module'
@@ -27,7 +27,7 @@ import { AuthModule } from './auth/auth.module'
       namingStrategy: new SnakeNamingStrategy(),
     }),
     UsersModule,
-    ReportsModule,
+    ReportModule,
     ContextModule,
     AnnotationModule,
     ContextTypeModule,

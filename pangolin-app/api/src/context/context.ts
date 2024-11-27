@@ -1,5 +1,5 @@
 import { ContextType } from 'src/context-type/context-type'
-import { Reports } from 'src/report/report'
+import { Report } from 'src/report/report'
 import {
   Column,
   Entity,
@@ -41,7 +41,7 @@ export class Context {
   @Column({ nullable: true })
   phone: string
 
-  @ManyToOne(() => Reports, (reports) => reports.contexts)
+  @ManyToOne(() => Report, (reports) => reports.contexts)
   @JoinColumn({ name: 'report_id' })
-  report: Reports
+  report: Report
 }

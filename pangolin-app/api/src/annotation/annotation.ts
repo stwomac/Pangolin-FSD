@@ -1,4 +1,4 @@
-import { Reports } from 'src/report/report'
+import { Report } from 'src/report/report'
 import {
   Entity,
   Column,
@@ -15,7 +15,7 @@ export class Annotation {
   @Column()
   annotation: string // Text content of the annotation
 
-  @ManyToOne(() => Reports, (report) => report.annotations)
+  @ManyToOne(() => Report, (report) => report.annotations)
   @JoinColumn({ name: 'report_id' })
-  report: Reports // Relation to Reports entity
+  report: Report // Relation to Reports entity
 }
