@@ -8,15 +8,11 @@ import {
 } from '@angular/material/form-field'
 import { MatOptionModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
-<<<<<<< HEAD
-import { Reports, PaymentMethod } from '../../models/reports'
-import { Users } from '../../models/users'
-import { ContextType, ReportType } from '../../models/context-type'
+import { Report, PaymentMethod, ReportType } from '../../models/reports'
+import { User } from '../../models/users'
+import { ContextType } from '../../models/context-type'
 import { Context } from '../../models/context'
 
-=======
-import { Report } from '../../models/reports'
->>>>>>> 009074de9e0ede2cfc7049bb6417b1e9464ceae6
 
 @Component({
   selector: 'app-create-report',
@@ -39,15 +35,9 @@ import { Report } from '../../models/reports'
   ],
 })
 export class CreateReportComponent {
-<<<<<<< HEAD
-  constructor(private httpService: HttpService) {}
    // Available payment methods for the dropdown
    payment_methods = Object.values(PaymentMethod);
-  loggedInUser: Users = new Users(2, 'anonymous@gmail.com', 'anonymous');
-=======
-  constructor() {}
-
->>>>>>> 009074de9e0ede2cfc7049bb6417b1e9464ceae6
+  loggedInUser: User = new User({userId: 2, email:'anonymous@gmail.com', role:'anonymous'});
   report_types: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },
     {
@@ -67,50 +57,50 @@ export class CreateReportComponent {
     { key: 'OTHER', value: 'Other' },
   ];
   contextTypes: ContextType[] = [
-    new ContextType(1, 'Government authority or agency', ReportType.IMPERSONATOR),
-    new ContextType(2, 'Grandchild, family member, friend', ReportType.IMPERSONATOR),
-    new ContextType(3, 'Your boss or co-worker', ReportType.IMPERSONATOR),
-    new ContextType(4, 'Well-known or trusted business', ReportType.IMPERSONATOR),
-    new ContextType(5, 'Love interest', ReportType.IMPERSONATOR),
-    new ContextType(6, 'Charity or charitable cause', ReportType.JOB_OPPORTUNITY),
-    new ContextType(7, 'Investment/seminar', ReportType.JOB_OPPORTUNITY),
-    new ContextType(8, 'Program for self/employ or start business', ReportType.JOB_OPPORTUNITY),
-    new ContextType(9, 'Franchise', ReportType.JOB_OPPORTUNITY),
-    new ContextType(10, 'Job scam, job listing or employment service', ReportType.JOB_OPPORTUNITY),
-    new ContextType(11, 'Pyramid scheme', ReportType.JOB_OPPORTUNITY),
-    // Add remaining mappings...
-    new ContextType(0, 'None/Other', ReportType.OTHER)
+    { contextTypeId: 0, contextName: 'None/Other', type: ReportType.OTHER },
+    { contextTypeId: 1, contextName: 'Government authority or agency', type: ReportType.IMPERSONATOR },
+    { contextTypeId: 2, contextName: 'Grandchild, family member, friend', type: ReportType.IMPERSONATOR },
+    { contextTypeId: 3, contextName: 'Your boss or co-worker', type: ReportType.IMPERSONATOR },
+    { contextTypeId: 4, contextName: 'Well-known or trusted business', type: ReportType.IMPERSONATOR },
+    { contextTypeId: 5, contextName: 'Love interest', type: ReportType.IMPERSONATOR },
+    { contextTypeId: 6, contextName: 'Charity or charitable cause', type: ReportType.JOB_OPPORTUNITY },
+    { contextTypeId: 7, contextName: 'Investment/seminar', type: ReportType.JOB_OPPORTUNITY },
+    { contextTypeId: 8, contextName: 'Program for self/employ or start business', type: ReportType.JOB_OPPORTUNITY },
+    { contextTypeId: 9, contextName: 'Franchise', type: ReportType.JOB_OPPORTUNITY },
+    { contextTypeId: 10, contextName: 'Job scam, job listing or employment service', type: ReportType.JOB_OPPORTUNITY },
+    { contextTypeId: 11, contextName: 'Pyramid scheme', type: ReportType.JOB_OPPORTUNITY },
+    { contextTypeId: 12, contextName: 'Computer tech support service', type: ReportType.SERVICE_SCAM },
+    { contextTypeId: 13, contextName: 'Internet service', type: ReportType.SERVICE_SCAM },
+    { contextTypeId: 14, contextName: 'Privacy or data security concern', type: ReportType.SERVICE_SCAM },
+    { contextTypeId: 15, contextName: 'Cellular or landline phone service', type: ReportType.SERVICE_SCAM },
+    { contextTypeId: 16, contextName: 'TV Service', type: ReportType.SERVICE_SCAM },
+    { contextTypeId: 17, contextName: 'Weight loss product or plan', type: ReportType.HEALTH_SCAM },
+    { contextTypeId: 18, contextName: 'Eye care', type: ReportType.HEALTH_SCAM },
+    { contextTypeId: 19, contextName: 'Any other health care problem', type: ReportType.HEALTH_SCAM },
+    { contextTypeId: 20, contextName: 'Fake or misleading medical treatment', type: ReportType.HEALTH_SCAM },
+    { contextTypeId: 21, contextName: 'Pretending to be working with government health agency (Medicare, Medicaid)', type: ReportType.HEALTH_SCAM },
+    { contextTypeId: 22, contextName: 'Problem with online purchase or sale', type: ReportType.ONLINE_SHOPPING },
+    { contextTypeId: 23, contextName: 'Someone pretending to be a well-known online seller', type: ReportType.ONLINE_SHOPPING },
+    { contextTypeId: 24, contextName: 'Vacation or cruise', type: ReportType.SWEEPSTAKES },
+    { contextTypeId: 25, contextName: 'Money or prize', type: ReportType.SWEEPSTAKES },
+    { contextTypeId: 26, contextName: 'New auto sales experience', type: ReportType.AUTO_SALE },
+    { contextTypeId: 27, contextName: 'Auto parts or repair', type: ReportType.AUTO_SALE },
+    { contextTypeId: 28, contextName: 'Used auto sales experience', type: ReportType.AUTO_SALE },
+    { contextTypeId: 29, contextName: 'Auto warranty', type: ReportType.AUTO_SALE },
+    { contextTypeId: 30, contextName: 'Credit repair, debt relief (including student loan debt relief)', type: ReportType.CREDIT_SCAM },
+    { contextTypeId: 31, contextName: 'Debt collection, credit card, credit reporting, or banking', type: ReportType.CREDIT_SCAM },
+    { contextTypeId: 32, contextName: 'Company charging fees to get a loan or credit card', type: ReportType.CREDIT_SCAM },
   ];
 
-  filteredContextTypes: ContextType[] = [];
-
-  onReportTypeChange() {
-    this.filteredContextTypes = this.contextTypes.filter(
+  // Computed getter for filtered context types
+  get filteredContextTypes(): ContextType[] {
+    return this.contextTypes.filter(
       (contextType) => contextType.type === this.newReport.reportType
     );
-    if (this.filteredContextTypes.length === 0) {
-      this.newContextType = null; // Clear context type if none applicable
-    }
   }
-  newContextType: ContextType | null = null;
-  newContext: Context | null = null;
-  newReport: Reports = new Reports(
-    0,
-    this.loggedInUser,
-    ReportType.OTHER,
-    '',
-    false,
-    '0',
-    PaymentMethod.CASH,
-    new Date(),
-    new Date(),
-    false,
-    false,
-    [],
-    []
-  );
 
-  needsContext(reportType: ReportType): boolean {
+  // Getter to reset contextType if no valid context found
+  get needsContext(): boolean {
     const typesRequiringContext: ReportType[] = [
       ReportType.IMPERSONATOR,
       ReportType.JOB_OPPORTUNITY,
@@ -121,8 +111,25 @@ export class CreateReportComponent {
       ReportType.AUTO_SALE,
       ReportType.CREDIT_SCAM,
     ];
-    return typesRequiringContext.includes(reportType);
+    return typesRequiringContext.includes(this.newReport.reportType);
   }
+  newContextType: ContextType | null = null;
+  newContext: Context | null = null;
+  newReport: Report = new Report({
+    reportId: 0,
+    reportee: this.loggedInUser,
+    reportType: ReportType.OTHER,
+    description: '',
+    paid: false,
+    amount: '0',
+    paymentMethod: PaymentMethod.CASH,
+    initialDate: new Date(),
+    recentDate: new Date(),
+    isSus: false,
+    isDone: false,
+    annotations: [],
+    contexts: []
+});
 
 
   ngOnInit(): void {

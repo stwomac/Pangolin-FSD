@@ -1,13 +1,53 @@
 <h1>Make a report!</h1>
-<div>
-    <mat-form-field >
-        <mat-label>What type of report?</mat-label>
-        <mat-select [(value)]="selectedType">
-            <mat-option *ngFor="let reportType of report_types" [value]="reportType.key">{{ reportType.value }}</mat-option>
-        </mat-select>
-    </mat-form-field>   
+<form>
+    <!-- Report Type -->
     <mat-form-field>
-    <mat-label>Input</mat-label>
-    <input matInput>
+      <mat-label>Report Type</mat-label>
+      <mat-select [(ngModel)]="newReport.reportType" name="reportType">
+        <mat-option *ngFor="let reportType of report_types" [value]="reportType.key">
+          {{ reportType.value }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
-</div> 
+  
+    <!-- Description -->
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="newReport.description" name="description"></textarea>
+    </mat-form-field>
+  
+    <!-- Payment Method -->
+    <mat-form-field>
+      <mat-label>Payment Method</mat-label>
+      <mat-select [(ngModel)]="newReport.paymentMethod" name="paymentMethod">
+        <mat-option *ngFor="let method of payment_methods" [value]="method">
+          {{ method }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <!-- Amount -->
+    <mat-form-field>
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" [(ngModel)]="newReport.amount" name="amount" />
+    </mat-form-field>
+  
+    <!-- Paid Checkbox -->
+    <mat-checkbox [(ngModel)]="newReport.paid" name="paid">Paid?</mat-checkbox>
+  
+    <!-- Context Type Selection -->
+    <div *ngIf="filteredContextTypes.length > 0">
+      <mat-form-field>
+        <mat-label>Context Type</mat-label>
+        <mat-select [(ngModel)]="newContextType">
+          <mat-option *ngFor="let contextType of filteredContextTypes" [value]="contextType">
+            {{ contextType.contextName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" (click)="saveReport()">Save Report</button>
+  </form>
+  
