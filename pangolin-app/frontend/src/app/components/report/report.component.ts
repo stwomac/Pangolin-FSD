@@ -20,19 +20,19 @@ let contexts:Context
   standalone: true
 })
 export class ReportComponent {
-  
-  //constructor(private apiService: ReportServices) { };
-  // ngOnInit() {
-  //   this.apiService.getMessage().subscribe(data => {
-  //       this.message = data;
-  //       console.log(this.message)
-  //   });
-  // } 
+  message:any;
+  constructor(private apiService: ReportServices) { };
+   ngOnInit() {
+     this.apiService.get(1).subscribe(data => {
+         this.message = data;
+         console.log(this.message)
+     });
+   } 
   @Input() report: ReportLike = {
     reportId: 1,
     reportee: user,
     reportType: reportType,
-    description: '',
+    description: 'Report',
     paid: false,
     amount: '',
     paymentMethod: paymentMethod,
