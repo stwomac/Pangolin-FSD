@@ -26,8 +26,6 @@ export class LoginComponent {
   btnLogin : FormControl = new FormControl('');
 
   tryLogin(): void {
-    this.userService.login(this.txtUsername.value, this.txtPassword.value).subscribe(data=>{
-      console.log(data);
-    });
+    this.userService.tryLogin(this.txtUsername.value, this.txtPassword.value);
   }
 }
