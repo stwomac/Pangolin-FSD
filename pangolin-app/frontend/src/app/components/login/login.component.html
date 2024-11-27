@@ -1,22 +1,20 @@
-<head>
-    <link rel="stylesheet" href="login.component.css">     
-</head>
+<div>
+{{ token }}
 
-<form class = center > 
+<form class = center >
     <mat-form-field class="">
         <mat-label>Username</mat-label>
-        <input type="Username" matInput  placeholder="Username">
+        <input type="Username" matInput name="username"  placeholder="Username" [formControl]="txtUsername">
     </mat-form-field>
-</form>
 
-<form class = center>
     <mat-form-field class="">
         <mat-label>Password</mat-label>
-      <input type="password" matInput  placeholder="password">
+      <input type="password" matInput  name="password" placeholder="password" [formControl]="txtPassword">
     </mat-form-field>
+
+  <div class = center>
+  <button mat-button (click)="tryLogin()" color="warn" aria-setsize="45" [formControl]="btnLogin">Submit</button>
+  </div>
+
 </form>
-
-<div class = center>
-<button mat-button color="warn" aria-setsize="45">Submit</button>
 </div>
-
