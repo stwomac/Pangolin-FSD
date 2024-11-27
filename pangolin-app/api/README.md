@@ -14,4 +14,5 @@ DATABASE_PASSWORD="..."
 DATABASE_NAME="..."
 JWTSECRET="..."
 PEPPER="..."
+TRUSTED_ORIGINS: "http://localhost:4200"
 ```
