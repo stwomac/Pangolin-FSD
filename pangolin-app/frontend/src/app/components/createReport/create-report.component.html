@@ -1,5 +1,6 @@
 <h1>Make a report!</h1>
-<form>
+<div >
+<form id="reportForm">
     <!-- Report Type -->
     <mat-form-field>
       <mat-label>Report Type</mat-label>
@@ -9,15 +10,31 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-  
+
+        <!-- Context Type Selection -->
+        
+            <mat-form-field *ngIf="filteredContextTypes.length > 0">
+              <mat-label>Report Sub-type</mat-label>
+              <mat-select [(ngModel)]="newContextType" name="newContextType">
+                <mat-option *ngFor="let contextType of filteredContextTypes" [value]="contextType">
+                  {{ contextType.contextName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+       
+
     <!-- Description -->
     <mat-form-field>
       <mat-label>Description</mat-label>
       <textarea matInput [(ngModel)]="newReport.description" name="description"></textarea>
     </mat-form-field>
-  
+
+    <!-- Paid Checkbox -->
+    <mat-checkbox [(ngModel)]="newReport.paid" name="paid">Did you pay them?</mat-checkbox>  
+
     <!-- Payment Method -->
-    <mat-form-field>
+    <div *ngIf="newReport.paid" id="paidForm">
+    <mat-form-field class="matFormField">
       <mat-label>Payment Method</mat-label>
       <mat-select [(ngModel)]="newReport.paymentMethod" name="paymentMethod">
         <mat-option *ngFor="let method of payment_methods" [value]="method">
@@ -27,27 +44,72 @@
     </mat-form-field>
   
     <!-- Amount -->
-    <mat-form-field>
+    <mat-form-field class="matFormField">
       <mat-label>Amount</mat-label>
       <input matInput type="number" [(ngModel)]="newReport.amount" name="amount" />
     </mat-form-field>
-  
-    <!-- Paid Checkbox -->
-    <mat-checkbox [(ngModel)]="newReport.paid" name="paid">Paid?</mat-checkbox>
-  
-    <!-- Context Type Selection -->
-    <div *ngIf="filteredContextTypes.length > 0">
-      <mat-form-field>
-        <mat-label>Context Type</mat-label>
-        <mat-select [(ngModel)]="newContextType">
-          <mat-option *ngFor="let contextType of filteredContextTypes" [value]="contextType">
-            {{ contextType.contextName }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
     </div>
+
+  <!-- Recent Date Picker -->
+  <mat-form-field appearance="fill">
+    <mat-label>Recent Date</mat-label>
+    <input matInput [matDatepicker]="recentDatePicker" [(ngModel)]="newReport.recentDate" name="recentDate" />
+    <mat-datepicker-toggle matSuffix [for]="recentDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #recentDatePicker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- Ongoing Problem Checkbox -->
+  <mat-checkbox [(ngModel)]="isOngoing" name="isOngoing" (change)="onOngoingProblemChange()">Is this an ongoing problem?</mat-checkbox>
+
+  <!-- Initial Date Picker (Conditional) -->
+
+  <mat-form-field appearance="fill" *ngIf="isOngoing">
+    <mat-label>Initial Date</mat-label>
+    <input matInput [matDatepicker]="initialDatePicker" [(ngModel)]="newReport.initialDate" name="initialDate" />
+    <mat-datepicker-toggle matSuffix [for]="initialDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #initialDatePicker></mat-datepicker>
+  </mat-form-field>
+
   
+     <!-- Additional Context Information -->
+  <div *ngIf="needsContext">
+    <h3>Addition Information: Optional</h3>
+    <mat-form-field class="matFormField">
+      <mat-label>Organization Claim</mat-label>
+      <input matInput [(ngModel)]="newContext.orgClaim" name="orgClaim" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>First Name</mat-label>
+      <input matInput [(ngModel)]="newContext.firstName" name="firstName" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>Last Name</mat-label>
+      <input matInput [(ngModel)]="newContext.lastName" name="lastName" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>Street Address</mat-label>
+      <input matInput [(ngModel)]="newContext.streetAddress" name="streetAddress" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>City</mat-label>
+      <input matInput [(ngModel)]="newContext.city" name="city" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>ZIP</mat-label>
+      <input matInput [(ngModel)]="newContext.zip" name="zip" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>Country</mat-label>
+      <input matInput [(ngModel)]="newContext.country" name="country" />
+    </mat-form-field>
+    <mat-form-field class="matFormField">
+      <mat-label>Phone</mat-label>
+      <input matInput [(ngModel)]="newContext.phone" name="phone" />
+    </mat-form-field>
+  </div>
+
     <!-- Submit Button -->
-    <button mat-raised-button color="primary" (click)="saveReport()">Save Report</button>
+    <button id="submitButton" mat-raised-button color="primary" (click)="saveReport()">Save Report</button>
   </form>
+</div>
   

@@ -6,12 +6,17 @@ import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
   MatFormField,
 } from '@angular/material/form-field'
-import { MatOptionModule } from '@angular/material/core'
+import { MatOptionModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
 import { Report, PaymentMethod, ReportType } from '../../models/report'
 import { User } from '../../models/user'
 import { ContextType } from '../../models/context-type'
 import { Context } from '../../models/context'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { ReportServices } from '../../services/report.service'
+import { ContextServices } from '../../services/context.service'
+
 
 
 @Component({
@@ -20,10 +25,13 @@ import { Context } from '../../models/context'
   imports: [
     CommonModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatInputModule,
     MatFormField,
     MatOptionModule,
     MatSelectModule,
+    MatCheckboxModule
   ],
   templateUrl: './create-report.component.html',
   styleUrl: './create-report.component.css',
@@ -32,9 +40,11 @@ import { Context } from '../../models/context'
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-US' }
   ],
 })
 export class CreateReportComponent {
+  constructor(private reportService: ReportServices, contextService: ContextServices){}
    // Available payment methods for the dropdown
    payment_methods = Object.values(PaymentMethod);
   loggedInUser: User = new User({userId: 2, email:'anonymous@gmail.com', role:'anonymous'});
@@ -98,7 +108,13 @@ export class CreateReportComponent {
       (contextType) => contextType.type === this.newReport.reportType
     );
   }
-
+  // Event handler for the "Ongoing Problem" checkbox
+  onOngoingProblemChange(): void {
+    if (!this.isOngoing) {
+      // Reset initialDate to the value of recentDate if ongoing problem is unchecked
+      this.newReport.initialDate = this.newReport.recentDate;
+    }
+  }
   // Getter to reset contextType if no valid context found
   get needsContext(): boolean {
     const typesRequiringContext: ReportType[] = [
@@ -113,10 +129,12 @@ export class CreateReportComponent {
     ];
     return typesRequiringContext.includes(this.newReport.reportType);
   }
+  isOngoing: boolean = false;
   newContextType: ContextType | null = null;
-  newContext: Context | null = null;
-  newReport: Report = new Report({
-    reportId: 0,
+  newContext: Partial<Context> = {};
+  newReport: Report = new Report(
+    //@ts-expect-error
+    {
     reportee: this.loggedInUser,
     reportType: ReportType.OTHER,
     description: '',
@@ -135,10 +153,27 @@ export class CreateReportComponent {
   ngOnInit(): void {
     // Simulate fetching the logged-in user
     //TODO update this.loggedInUser
+    if (!this.isOngoing) {
+      this.newReport.initialDate = this.newReport.recentDate;
+    }
   }
 
+  saveContext(): void {
+    if (this.newContextType) {
+      const contextData = new Context(
+      //@ts-expect-error
+        {
+        ...this.newContext,
+        contextType: this.newContextType,
+        report: this.newReport,
+      });
+      this.newReport.contexts.push(contextData);
+    }
+    console.log('Updated Report Context:', this.newReport.contexts);
+  }
   // Save report logic
   saveReport(): void {
+    this.saveContext();
     console.log('Report to save:', this.newReport);
     // Send `this.newReport` to your backend service
   }
