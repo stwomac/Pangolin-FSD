@@ -34,7 +34,7 @@ export class AuthService {
   async validateLogin(
     validateUserDto: ValidateUserDto,
   ): Promise<{ access_token: string }> {
-    let userToAuth: User = await this.userService.getByEmail(
+      let userToAuth: User = await this.userService.getByEmail(
       validateUserDto.username,
     )
 
