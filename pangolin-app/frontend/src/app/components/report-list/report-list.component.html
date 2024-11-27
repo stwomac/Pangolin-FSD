@@ -1,0 +1,5 @@
+
+<h1 class="mat-h1">Dashboard</h1>
+  @for (report of reports; track report.id;) {
+    <div><app-report [getID]= report.id></app-report></div>
+  }
