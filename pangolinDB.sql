@@ -138,12 +138,26 @@ INSERT INTO users (email, pass_hash, role) VALUES
 ('anonymous@gmail.com', 'password',  'anonymous'),
 ('admin@gmail.com', 'admin', 'admin');
 
--- -- Insert data into method table
--- INSERT INTO method (method_id, method_name) VALUES
--- (1, 'Cash'),
--- (2, 'Check'),
--- (3, 'Bitcoin'),
--- (4, 'EFT');
+-- Insert data into reports table
+INSERT INTO reports (reportee_id, report_type, description, paid, amount, payment_method, recent_date, initial_date, is_sus, is_done)
+VALUES
+(1, 'IMPERSONATOR', 'Pretended to be a government official asking for money.', TRUE, 500.00, 'CASH', '2024-11-01', '2024-10-15', TRUE, FALSE),
+(2, 'JOB_OPPORTUNITY', 'Offered a fake job requiring upfront payment.', FALSE, 0.00, 'BITCOIN', '2024-11-10', '2024-10-20', TRUE, FALSE),
+(3, 'SERVICE_SCAM', 'Claimed to provide tech support but took money.', TRUE, 200.00, 'CHECK', '2024-11-05', '2024-10-25', TRUE, TRUE);
+
+-- Insert data into context table
+INSERT INTO context (context_type, org_claim, first_name, last_name, street_address, city, zip, country, phone, report_id)
+VALUES
+(1, 'IRS', 'John', 'Doe', '123 Fake St', 'Faketown', '12345', 'USA', '1234567890', 1),
+(6, NULL, 'Jane', 'Smith', '456 Scam Ave', 'Scamcity', '67890', 'USA', '0987654321', 2),
+(12, 'TechFixers', 'Mike', 'Brown', '789 Fraud Blvd', 'Fraudville', '54321', 'USA', '1122334455', 3);
+
+-- Insert data into annotation table
+INSERT INTO annotation (annotation, report_id)
+VALUES
+('Caller was aggressive and requested payment via gift card.', 1),
+('Email contained spelling errors and suspicious links.', 2),
+('Requested remote access to my computer.', 3);
 
 -- Print a success message
-DO $$ BEGIN RAISE NOTICE 'Database schema created and populated successfully!'; END $$;
+DO $$ BEGIN RAISE NOTICE 'Additional data inserted into the database successfully!'; END $$;
