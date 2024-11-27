@@ -77,3 +77,5 @@ export enum ReportType {
   CREDIT_SCAM = 'CREDIT_SCAM',
   OTHER = 'OTHER',
 }
+
+export{User, Annotation, }
