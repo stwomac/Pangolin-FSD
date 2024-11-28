@@ -6,7 +6,7 @@ import { Report } from './report'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Report])],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ReportService],
   controllers: [ReportController],
   providers: [ReportService],
 })

@@ -6,7 +6,7 @@ import { ContextType } from './context-type'
 
 @Module({
   imports: [TypeOrmModule.forFeature([ContextType])],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ContextTypeService],
   controllers: [ContextTypeController],
   providers: [ContextTypeService],
 })

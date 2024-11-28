@@ -6,7 +6,7 @@ import { Annotation } from './annotation'
 
 @Module({
   imports: [TypeOrmModule.forFeature([Annotation])],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, AnnotationService],
   controllers: [AnnotationController],
   providers: [AnnotationService],
 })

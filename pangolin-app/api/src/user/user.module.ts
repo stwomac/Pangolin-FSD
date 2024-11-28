@@ -4,9 +4,8 @@ import { UserController } from './user.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from './user'
 import { PassportModule } from '@nestjs/passport'
-import { LocalStrategy } from 'src/strategies/local.strategy'
-import { JwtStrategy } from 'src/strategies/jwt.strategy'
 import { AuthModule } from 'src/auth/auth.module'
+import { AuthService } from 'src/auth/auth.service'
 
 @Module({
   imports: [
@@ -14,8 +13,8 @@ import { AuthModule } from 'src/auth/auth.module'
     TypeOrmModule.forFeature([User]),
     forwardRef(() => AuthModule),
   ],
-  exports: [UserService],
+  exports: [TypeOrmModule, UserService, AuthService],
   controllers: [UserController],
-  providers: [UserService, LocalStrategy, JwtStrategy],
+  providers: [UserService, AuthService],
 })
 export class UserModule {}

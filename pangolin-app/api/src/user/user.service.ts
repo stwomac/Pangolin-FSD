@@ -1,14 +1,7 @@
-import {
-  Inject,
-  forwardRef,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user'
 import { Repository } from 'typeorm'
-import { JwtService } from '@nestjs/jwt'
 import { AuthService } from 'src/auth/auth.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -17,9 +10,6 @@ import { UpdateUserDto } from './dto/update-user.dto'
 export class UserService {
   constructor(
     @InjectRepository(User) private repo: Repository<User>,
-    private jwtService: JwtService,
-
-    @Inject(forwardRef(() => AuthService))
     private authService: AuthService,
   ) {}
 

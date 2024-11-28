@@ -14,7 +14,7 @@ import { ContextTypeService } from 'src/context-type/context-type.service'
     ReportModule,
     ContextTypeModule,
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, ContextService, ContextTypeService, ReportService],
   controllers: [ContextController],
   providers: [ContextService, ReportService, ContextTypeService],
 })
