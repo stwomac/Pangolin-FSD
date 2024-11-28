@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common'
 import { ReportService } from './report.service'
 import { Report } from './report'
+import { CreateReportDto } from './dto/create-report.dto'
+import { UpdateReportDto } from './dto/update-report.dto'
 
 @Controller('reports')
 export class ReportController {
@@ -27,14 +29,17 @@ export class ReportController {
 
   @Post()
   @HttpCode(201)
-  createReport(@Body() newReport: Report) {
-    return this.reportsService.create(newReport)
+  createReport(@Body() createReportData: CreateReportDto) {
+    return this.reportsService.create(createReportData)
   }
 
   @Put(':id')
-  async updateReport(@Param('id') id: number, @Body() reportToUpdate: Report) {
-    const report = await this.reportsService.get(id)
-    return await this.reportsService.update(report, reportToUpdate)
+  async updateReport(
+    // TODO: Delete parameter
+    @Param('id') id: number,
+    @Body() reportToUpdate: UpdateReportDto,
+  ) {
+    return await this.reportsService.update(reportToUpdate)
   }
 
   @Delete(':id')
