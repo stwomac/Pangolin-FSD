@@ -69,7 +69,7 @@ export class UserController {
     return await this.authService.validateLogin(userToLogin) // Await the promise
   }
 
-  @Post('/create')
+  @Post()
   @HttpCode(201)
   createUser(@Body() newUser: CreateUserDto) {
     return this.usersService.create(newUser)
