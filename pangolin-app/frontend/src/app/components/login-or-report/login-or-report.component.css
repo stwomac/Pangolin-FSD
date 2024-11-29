@@ -41,10 +41,11 @@ div.welcome-img {
 }
 
 div#welcome>p{
-    font-size: xxx-large;
+    font-size: 45pt;
     text-align: right;
     color: #FFF;
     margin: 22px;
+    font-family: 'Bodoni';
 }
 
 div#welcome-buttons{
@@ -61,5 +62,13 @@ div#welcome-buttons>button {
     box-shadow: yellowgreen 3px 4px;
     border-radius: 8px 0px;
     color: #FFF;
-    font-size: larger;
+    font-size: x-large;
+    font-family: 'Bodoni'
+}
+div#welcome-buttons>button:hover{
+    cursor: pointer;
+}
+div#welcome-buttons>button:active{
+    box-shadow: yellowgreen 0px 0px;
+    transform: translateY(4px) translateX(4px); 
 }
