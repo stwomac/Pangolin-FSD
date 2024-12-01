@@ -32,7 +32,9 @@ export class UserController {
   @Get('secrets')
   @HttpCode(200)
   superSecreteMethod() {
-    return `____________________________________
+
+     console.log("someone found the secret cow!");
+    return {cow:`____________________________________
 < congrats, you found the secret cow >
  ------------------------------------
         \\   ^__^
@@ -40,7 +42,7 @@ export class UserController {
             (__)\\       )\\/\\
                 ||----w |
                 ||     ||
-                \`\`\`\``
+                \`\`\`\``};
   }
 
   @Get()
