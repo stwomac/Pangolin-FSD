@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   UseGuards,
+  Request
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './user'
@@ -47,10 +48,20 @@ export class UserController {
                 \`\`\`\``};
   }
 
+
+
+  @UseGuards(JwtAuthGuard)
+  @Get('userInfo')
+  @HttpCode(200)
+  getUserInfo(@Request() req) {
+     console.log(req);
+  }
+
   @Get()
   @HttpCode(200)
   getAll(): Promise<User[]> {
     return this.usersService.getAll()
+    
   }
 
   // get by ID
