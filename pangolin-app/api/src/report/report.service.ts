@@ -74,7 +74,12 @@ export class ReportService {
         return context
       }) ?? []),
     ])
-    const report = this.repo.create({ reportee, contexts, ...reportData })
+    const report = this.repo.create({
+      reportee,
+      contexts,
+      annotations: [],
+      ...reportData,
+    })
     return await this.repo.save(report)
   }
 

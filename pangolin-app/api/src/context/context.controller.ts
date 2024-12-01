@@ -27,25 +27,22 @@ export class ContextController {
     return this.contextService.get(id)
   }
 
-  @Put(':id')
-  async updateContext(
-    // TODO: Delete parameter
-    @Param('id') id: number,
-    @Body() contextUpdate: UpdateContextDto,
-  ) {
+  @Put()
+  async updateContext(@Body() contextUpdate: UpdateContextDto) {
     return await this.contextService.update(contextUpdate)
   }
 
   @Post()
   @HttpCode(201)
   async createContext(@Body() newContext: CreateContextDto) {
-    return await this.contextService.create(newContext)
+    const { report, ...context } = await this.contextService.create(newContext)
+    return context
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteContext(@Param('id') id: number): Promise<Context> {
+  async deleteContext(@Param('id') id: number): Promise<void> {
     const context = await this.contextService.get(id)
-    return await this.contextService.delete(context)
+    await this.contextService.delete(context)
   }
 }

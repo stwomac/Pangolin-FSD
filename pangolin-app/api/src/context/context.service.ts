@@ -15,10 +15,10 @@ export class ContextService {
     private readonly contextTypeService: ContextTypeService,
   ) {}
 
-  async get(contextId: number) {
+  async get(contextId: number, includeReport = true) {
     const context = await this.repo.findOne({
       where: { contextId },
-      relations: { contextType: true, report: true },
+      relations: { contextType: true, report: includeReport },
     })
     if (context == null)
       throw new HttpException(
@@ -49,7 +49,7 @@ export class ContextService {
 
   async update({ contextId, contextTypeId, ...contextData }: UpdateContextDto) {
     const [context, contextType] = await Promise.all([
-      this.get(contextId),
+      this.get(contextId, false),
       contextTypeId ? this.contextTypeService.get(contextTypeId) : undefined,
     ])
     const updatedContext = this.repo.merge(context, {

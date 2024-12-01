@@ -24,18 +24,17 @@ export class AnnotationController {
     return this.annotationService.createAnnotation(newAnnotation)
   }
 
-  @Put(':id')
+  @Put()
   async updateAnnotation(
-    @Param('id') id: number,
     @Body() annotationToUpdate: UpdateAnnotationDto,
   ): Promise<Annotation> {
-    return await this.annotationService.update(id, annotationToUpdate)
+    return await this.annotationService.update(annotationToUpdate)
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteAnnotation(@Param('id') id: number): Promise<Annotation> {
+  async deleteAnnotation(@Param('id') id: number): Promise<void> {
     const annotation = await this.annotationService.get(id)
-    return await this.annotationService.delete(annotation)
+    await this.annotationService.delete(annotation)
   }
 }

@@ -43,38 +43,25 @@ export class UserService {
     return user
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    let exists = await this.repo.exists({
-      where: {
-        email: createUserDto.email,
-      },
-    })
-
-    if (exists) {
+  async create({ email, password, ...userData }: CreateUserDto): Promise<User> {
+    if (await this.repo.exists({ where: { email } }))
       throw new HttpException(
-        `User with email ${createUserDto.email} already exists!`,
+        `User with email ${email} already exists!`,
         HttpStatus.BAD_REQUEST,
       )
-    }
 
-    let toCreate: User = new User()
-    toCreate.email = createUserDto.email
-    toCreate.role = 'user'
-
-    toCreate.passHash = await this.authService.hashPassword(
-      createUserDto.password,
-    )
-
-    return await this.repo.save(toCreate)
+    const user = this.repo.create({ email, reports: [], ...userData })
+    user.passHash = await this.authService.hashPassword(password)
+    return await this.repo.save(user)
   }
 
-  async update(userId: number, updatedData: UpdateUserDto) {
+  async update({ userId, ...userData }: UpdateUserDto) {
     const user = await this.getById(userId)
-    const updatedUser = this.repo.merge(user, updatedData)
+    const updatedUser = this.repo.merge(user, userData)
     return await this.repo.save(updatedUser)
   }
 
-  async delete(user: User): Promise<User> {
-    return await this.repo.remove(user)
+  async delete(user: User): Promise<void> {
+    await this.repo.remove(user)
   }
 }

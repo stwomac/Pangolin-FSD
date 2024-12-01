@@ -36,7 +36,7 @@ export class AnnotationService {
     return await this.repo.save(newAnnotation)
   }
 
-  async update(annotationId: number, updateData: UpdateAnnotationDto) {
+  async update({ annotationId, ...updateData }: UpdateAnnotationDto) {
     const annotation = await this.get(annotationId)
     const updatedAnnotation = this.repo.merge(annotation, updateData)
     return await this.repo.save(updatedAnnotation)

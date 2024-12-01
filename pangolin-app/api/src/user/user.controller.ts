@@ -55,14 +55,6 @@ export class UserController {
     return this.usersService.getById(idToFind)
   }
 
-  @Put(':id')
-  update(
-    @Param('id') id: number,
-    @Body() userToUpdate: UpdateUserDto,
-  ): Promise<User> {
-    return this.usersService.update(id, userToUpdate)
-  }
-
   @Post('/login')
   @HttpCode(200)
   async login(@Body() userToLogin: ValidateUserDto) {
@@ -75,10 +67,15 @@ export class UserController {
     return this.usersService.create(newUser)
   }
 
+  @Put()
+  update(@Body() userToUpdate: UpdateUserDto): Promise<User> {
+    return this.usersService.update(userToUpdate)
+  }
+
   @Delete(':id')
   @HttpCode(204)
-  async delete(@Param('id') id: number): Promise<User> {
+  async delete(@Param('id') id: number): Promise<void> {
     const user = await this.usersService.getById(id)
-    return await this.usersService.delete(user)
+    await this.usersService.delete(user)
   }
 }

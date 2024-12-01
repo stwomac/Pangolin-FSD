@@ -33,19 +33,15 @@ export class ReportController {
     return this.reportsService.create(createReportData)
   }
 
-  @Put(':id')
-  async updateReport(
-    // TODO: Delete parameter
-    @Param('id') id: number,
-    @Body() reportToUpdate: UpdateReportDto,
-  ) {
+  @Put()
+  async updateReport(@Body() reportToUpdate: UpdateReportDto) {
     return await this.reportsService.update(reportToUpdate)
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteReport(@Param('id') id: number): Promise<Report> {
+  async deleteReport(@Param('id') id: number): Promise<void> {
     const report = await this.reportsService.get(id)
-    return await this.reportsService.delete(report)
+    await this.reportsService.delete(report)
   }
 }

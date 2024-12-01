@@ -3,7 +3,7 @@ import {
   IsString,
   IsOptional,
   IsEnum,
-  IsDate,
+  IsDateString,
   IsNotEmpty,
   IsBoolean,
   IsCurrency,
@@ -42,10 +42,10 @@ export class CreateReportDto {
   @IsEnum(PaymentMethod)
   paymentMethod: PaymentMethod
 
-  @IsDate()
+  @IsDateString()
   recentDate: Date
 
-  @IsDate()
+  @IsDateString()
   initialDate: Date
 
   @IsBoolean()
