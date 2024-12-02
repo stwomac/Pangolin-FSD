@@ -1,6 +1,6 @@
 export abstract class Serializable<DataType, IdKey extends keyof DataType> {
   protected constructor(public idPropKey: IdKey) {}
-  public abstract toJson(): OptionalId<DataType, IdKey>
+  public abstract toJson(): Omit<DataType, IdKey>
 }
 
 export interface Deserializable<Model, DataType, IdKey extends keyof DataType> {

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { UserServices } from '../../services/user.service';
+import { Component } from '@angular/core'
+import { Router } from '@angular/router'
+import { UserServices } from '../../services/user.service'
 
 @Component({
   selector: 'app-nav_bar',
@@ -9,16 +9,17 @@ import { UserServices } from '../../services/user.service';
   styleUrl: './nav_bar.component.css',
 })
 export class Nav_BarComponent {
+  constructor(
+    private router: Router,
+    private userService: UserServices,
+  ) {}
 
-  constructor(private router: Router, private userService : UserServices) {};
-
-  navigateToEntry(){
+  navigateToEntry() {
     this.router.navigate(['/view1'])
   }
 
-  navigateToSignIn(){
-
-    this.userService.isLoggedIn().subscribe(isLoggedIn => {
+  navigateToSignIn() {
+    this.userService.isLoggedIn().subscribe((isLoggedIn) => {
       if (isLoggedIn) {
         this.router.navigate(['/report'])
       } else {
@@ -26,5 +27,4 @@ export class Nav_BarComponent {
       }
     })
   }
-
 }

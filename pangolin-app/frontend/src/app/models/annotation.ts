@@ -1,7 +1,7 @@
 import { Serializable, Deserializable, OptionalId } from './utils/serializable'
 
 export interface AnnotationLike {
-  annotationId: number
+  annotationId?: number
   annotation: string
 }
 

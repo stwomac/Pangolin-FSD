@@ -1,10 +1,10 @@
 import { Serializable, Deserializable, OptionalId } from './utils/serializable'
-import { Annotation } from './annotation'
+import { Annotation, AnnotationLike } from './annotation'
 import { Context } from './context'
 import { User } from './user'
 
 export interface ReportLike {
-  reportId: number
+  reportId?: number
   reportee: User
   reportType: ReportType
   description: string
@@ -15,14 +15,14 @@ export interface ReportLike {
   initialDate?: Date
   isSus: boolean
   isDone: boolean
-  annotations: Annotation[]
+  annotations: AnnotationLike[]
   contexts: Context[]
 }
 
 @Deserializable<Report, ReportLike, 'reportId'>()
 export class Report
   extends Serializable<ReportLike, 'reportId'>
-  implements OptionalId<ReportLike, 'reportId'>
+  implements Omit<OptionalId<ReportLike, 'reportId'>, 'annotations'>
 {
   public readonly reportId?: number
   public reportee: User
@@ -51,13 +51,18 @@ export class Report
     this.initialDate = data.initialDate
     this.isSus = data.isSus
     this.isDone = data.isDone
-    this.annotations = data.annotations
+    this.annotations = data.annotations.map(
+      (annotationLike) => new Annotation(annotationLike),
+    )
     this.contexts = data.contexts
   }
 
   public override toJson() {
-    const { idPropKey, ...reportLike } = this
-    return reportLike
+    const { idPropKey, annotations, ...reportLike } = this
+    return {
+      ...reportLike,
+      annotations: annotations.map((annot) => annot.toJson()),
+    }
   }
 
   public static parse(data: ReportLike) {

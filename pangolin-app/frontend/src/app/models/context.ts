@@ -3,7 +3,7 @@ import { Report } from './report'
 import { ContextType } from './context-type'
 
 export interface ContextLike {
-  contextId: number
+  contextId?: number
   contextType: ContextType
   report: Report
   orgClaim?: string

@@ -1,7 +1,7 @@
 import { Serializable, Deserializable, OptionalId } from './utils/serializable'
 
 export interface UserLike {
-  userId: number
+  userId?: number
   email: string
   role: string
 }

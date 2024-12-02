@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { LoginOrReportComponent } from './login-or-report.component'
+import { ErrorBlockComponent } from './error-block.component'
 
-describe('LoginOrReportComponent', () => {
-  let component: LoginOrReportComponent
-  let fixture: ComponentFixture<LoginOrReportComponent>
+describe('ErrorBlockComponent', () => {
+  let component: ErrorBlockComponent
+  let fixture: ComponentFixture<ErrorBlockComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginOrReportComponent],
+      imports: [ErrorBlockComponent],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(LoginOrReportComponent)
+    fixture = TestBed.createComponent(ErrorBlockComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   UseGuards,
+  Request,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './user'
@@ -32,9 +33,9 @@ export class UserController {
   @Get('secrets')
   @HttpCode(200)
   superSecreteMethod() {
-
-     console.log("someone found the secret cow!");
-    return {cow:`____________________________________
+    console.log('someone found the secret cow!')
+    return {
+      cow: `____________________________________
 < congrats, you found the secret cow >
  ------------------------------------
         \\   ^__^
@@ -42,7 +43,15 @@ export class UserController {
             (__)\\       )\\/\\
                 ||----w |
                 ||     ||
-                \`\`\`\``};
+                \`\`\`\``,
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('userInfo')
+  @HttpCode(200)
+  getUserInfo(@Request() req: any) {
+    console.log(req)
   }
 
   @Get()

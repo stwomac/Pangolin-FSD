@@ -18,16 +18,19 @@ export class UserServices extends ResourceService<User, UserLike, 'userId'> {
   /*
    * attempts to login the given user, can fail if you get 401'ed with invalid creds
    * */
-  tryLogin(username: string, password: string): void {
+  tryLogin(username: string, password: string): Observable<AuthToken> {
+    let observer = this.http.post<AuthToken>(
+      `${this.resourceUrl}/login`,
+      new LoginDto(username, password),
+    )
+
     //set the authentication cookie
-    this.http
-      .post<AuthToken>(
-        `${this.resourceUrl}/login`,
-        new LoginDto(username, password),
-      )
-      .subscribe((data) => {
-        this.cookieService.set('AuthToken', data.access_token)
-      })
+    observer.subscribe((data) => {
+      this.cookieService.set('AuthToken', data.access_token)
+    })
+
+    //allow others to respond to the observer
+    return observer
   }
 
   /*

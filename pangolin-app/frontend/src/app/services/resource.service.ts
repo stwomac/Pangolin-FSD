@@ -37,11 +37,8 @@ export abstract class ResourceService<
   }
 
   public update(resource: ModelType): Observable<ModelType> {
-    const id = resource[resource.idPropKey as keyof ModelType]
-    if (id === undefined)
-      throw new UnsavedModelError(ResourceService.prototype.create.name)
     return this.http
-      .put<DataType>(`${this.resourceUrl}/${id}`, resource.toJson())
+      .put<DataType>(`${this.resourceUrl}`, resource.toJson())
       .pipe(map((result) => this.Model.parse(result)))
   }
 

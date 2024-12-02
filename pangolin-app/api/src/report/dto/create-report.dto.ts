@@ -7,7 +7,6 @@ import {
   IsNotEmpty,
   IsBoolean,
   IsCurrency,
-  Equals,
   IsArray,
   ValidateNested,
 } from 'class-validator'
@@ -51,8 +50,8 @@ export class CreateReportDto {
   @IsBoolean()
   isSus: boolean
 
-  @Equals(false)
-  isDone: boolean
+  @IsBoolean()
+  isDone: boolean = false
 
   @IsOptional()
   @IsArray()
