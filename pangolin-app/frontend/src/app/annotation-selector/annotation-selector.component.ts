@@ -1,55 +1,53 @@
 import { NgIf } from '@angular/common'
-import { Input, Component } from '@angular/core'
+import { Input, Component, OnInit } from '@angular/core'
 import { AnnotationServices } from '../services/annoation.service'
 import { Annotation } from '../models/annotation'
 import { Report } from '../models/report'
 import { MatCheckbox } from '@angular/material/checkbox'
 import { MatButton } from '@angular/material/button'
 import { ReportServices } from '../services/report.service'
+import {FormControl, ReactiveFormsModule} from '@angular/forms'
+import {MatInputModule} from '@angular/material/input'
 
 @Component({
   selector: 'app-annotation-selector',
-  imports: [NgIf, MatCheckbox, MatButton],
+  imports: [NgIf, MatCheckbox, MatButton,ReactiveFormsModule,MatInputModule,MatButton],
   templateUrl: './annotation-selector.component.html',
   styleUrl: './annotation-selector.component.css',
 })
-export class AnnotationSelectorComponent {
+export class AnnotationSelectorComponent implements OnInit {
   constructor(
     private annotationServices: AnnotationServices,
-    private reportServices: ReportServices,
+    private reportServices: ReportServices
   ) {}
 
   //mapped to an ngIf for visibility, see the setter getters :)
-  private isVisible: boolean = false
+  private isVisible: boolean = false;
 
-  //this is the primary list displayed out to the user
-  annotationList: Array<Annotation> = []
+  //this is the report that we are going to edit when saving and loading
+  @Input() report: Report | null = null;
 
-  //report we are adding anotations to, if any
-  @Input() report: Report | null = null
+  //this is the buffer report that we do most of our work in
+  //before saving
+  bufferReport : Report | null = null;
 
-  shouldBeChecked(annotation: Annotation): boolean {
-    if (!this.report) {
-      return false
-    }
-
-    //the lack of functioning id's makes me sad :(
-    return this.report.annotations.some(
-      (ele) => ele.annotation === annotation.annotation,
-    )
-  }
+  txtAnnotation : FormControl = new FormControl('txtAnnotation');
 
   get visible(): boolean {
     return this.isVisible
   }
   @Input() set visible(value: boolean) {
-    //we don't want to re-ping the database
-    if (value && this.annotationList.length < 1) {
-      this.annotationServices.getAll().subscribe((data) => {
-        this.annotationList = data
-      })
-    }
     this.isVisible = value
+  }
+
+  save() {
+    this.pushBuffer();
+    this.visible = false;
+  }
+
+  cancel() {
+    this.pullBuffer();
+    this.visible = false;
   }
 
   //update our report
@@ -58,17 +56,56 @@ export class AnnotationSelectorComponent {
   }
 
   checkBoxInputChanged(event: any) {
-    if (!this.report) return
+    if (!this.report || !this.bufferReport) return
 
     if (!event.event.target.checked)
-      this.report.annotations = this.report.annotations.filter(
+      this.bufferReport.annotations = this.bufferReport.annotations.filter(
         (ele) => ele.annotation !== event.annotation.annotation,
       )
     else if (
-      !this.report.annotations.some(
+      !this.bufferReport.annotations.some(
         (ele) => ele.annotation === event.annotation.annotation,
       )
     )
-      this.report.annotations.push(event.annotation)
+      this.bufferReport.annotations.push(event.annotation)
+  }
+
+  /*
+   * pulls the primary report into the buffer report
+  * */
+  pullBuffer() {
+    if (this.report)
+      {
+        this.bufferReport = {...this.report};
+        this.bufferReport.annotations = this.report.annotations.slice(0); //copy the array so we don't have a pointer to the same ref
+      }
+  }
+
+  /*
+   * saves the buffer
+  * */
+  pushBuffer() {
+    if (!this.bufferReport || !this.report) return
+
+    this.report.annotations = this.bufferReport.annotations;
+
+    //we don't want changes to the buffer to instantly be reflected in the report
+    //so we pull to induce the copy code and prevent reference syncing
+    this.pullBuffer();
+  }
+
+  addAnotation() {
+    if (!this.bufferReport) return;
+
+    this.bufferReport.annotations.push(
+      Annotation.fromString(this.txtAnnotation.value)
+    );
+
+    //clear out the input for convinence
+    this.txtAnnotation.setValue("");
+  }
+
+  ngOnInit() : void {
+    this.pullBuffer();
   }
 }

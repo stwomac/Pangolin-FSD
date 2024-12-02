@@ -19,4 +19,11 @@ export class Annotation implements AnnotationLike {
     this.annotationId = data.annotationId
     this.annotation = data.annotation
   }
+
+  static fromString(annotationString : string) {
+    return new Annotation({
+                          annotationId: undefined,
+                          annotation: annotationString
+      });
+  }
 }
