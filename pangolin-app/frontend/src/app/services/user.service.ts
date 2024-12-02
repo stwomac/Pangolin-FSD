@@ -2,17 +2,21 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { ResourceService } from './resource.service'
 import { LoginDto, AuthToken } from '../models/login'
-import { User, UserLike } from '../models/user'
+import { User, UserLike, ApiUserModel } from '../models/user'
 import { CookieService } from 'ngx-cookie-service'
 import { Observable } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
-export class UserServices extends ResourceService<User, UserLike, 'userId'> {
+export class UserServices extends ResourceService<
+  User,
+  UserLike,
+  ApiUserModel
+> {
   constructor(
     http: HttpClient,
     private cookieService: CookieService,
   ) {
-    super(http, User, '/users')
+    super(http, User, 'userId', '/users')
   }
 
   /*
