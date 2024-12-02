@@ -4,7 +4,7 @@ import { ContextType } from './context-type'
 
 export interface ApiContextModel {
   contextId: number
-  contextType: ContextType
+  contextTypeId: number
   report: ApiReportModel
   orgClaim?: string
   firstName?: string
@@ -25,7 +25,7 @@ export interface ContextLike
 @Deserializable<Context, ContextLike, ApiContextModel>()
 export class Context implements ContextLike {
   public readonly contextId?: number
-  public contextType: ContextType
+  public contextTypeId: number
   public report: Report
   public orgClaim?: string
   public firstName?: string
@@ -36,9 +36,10 @@ export class Context implements ContextLike {
   public country?: string
   public phone?: string
 
+
   constructor(data: ContextLike | ApiContextModel) {
     this.contextId = data.contextId
-    this.contextType = data.contextType
+    this.contextTypeId = data.contextTypeId
     this.report =
       data.report instanceof Report ? data.report : new Report(data.report)
     this.orgClaim = data.orgClaim

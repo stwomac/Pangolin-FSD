@@ -55,6 +55,18 @@ export class Report implements ReportLike {
   public annotations: Annotation[]
   public contexts: Context[]
 
+  toJSON() {
+    const { contexts, ...reportData } = this; // Exclude the contexts property
+    return {
+      ...reportData,
+      contexts: this.contexts.map((context) => {
+      const { report, ...contextData } = context; // Exclude the circular report reference
+    return contextData; // Return a non-circular version of the context
+      }) // Assuming context also has a toJSON method
+    };
+  }
+  
+
   get reporteeId() {
     return this.reportee?.userId;
   }
