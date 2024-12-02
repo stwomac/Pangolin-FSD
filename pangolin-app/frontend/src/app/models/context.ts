@@ -1,11 +1,11 @@
-import { Serializable } from './utils/serializable'
-import { Report } from './report'
+import { Deserializable } from './utils/serializable'
+import { Report, ApiReportModel } from './report'
 import { ContextType } from './context-type'
 
-export interface ContextLike {
+export interface ApiContextModel {
   contextId: number
   contextType: ContextType
-  report: Report
+  report: ApiReportModel
   orgClaim?: string
   firstName?: string
   lastName?: string
@@ -16,10 +16,15 @@ export interface ContextLike {
   phone?: string
 }
 
-export class Context
-  extends Serializable<ContextLike>
-  implements Omit<ContextLike, 'contextId'>
-{
+export interface ContextLike
+  extends Omit<ApiContextModel, 'report' | 'contextId'> {
+  contextId?: ApiContextModel['contextId']
+  report: Report
+}
+
+@Deserializable<Context, ContextLike, ApiContextModel>()
+export class Context implements ContextLike {
+  public readonly contextId?: number
   public contextType: ContextType
   public report: Report
   public orgClaim?: string
@@ -31,10 +36,11 @@ export class Context
   public country?: string
   public phone?: string
 
-  constructor(data: ContextLike) {
-    super(data.contextId)
+  constructor(data: ContextLike | ApiContextModel) {
+    this.contextId = data.contextId
     this.contextType = data.contextType
-    this.report = data.report
+    this.report =
+      data.report instanceof Report ? data.report : new Report(data.report)
     this.orgClaim = data.orgClaim
     this.firstName = data.firstName
     this.lastName = data.lastName
@@ -43,10 +49,5 @@ export class Context
     this.zip = data.zip
     this.country = data.country
     this.phone = data.phone
-  }
-
-  public override toJson(): ContextLike {
-    const { id, ...contextLike } = this
-    return { ...contextLike, contextId: id }
   }
 }

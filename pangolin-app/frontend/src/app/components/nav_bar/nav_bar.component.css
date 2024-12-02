@@ -34,27 +34,31 @@ h1 {
   filter: invert(1);
 }
 
-button{
+button {
   border-radius: 50%;
   border: 0;
   width: 50px;
   height: 50px;
 }
 
-#profile-button{
+#profile-button {
   background-color: #426135;
 }
-#profile-button:hover{
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+#profile-button:hover {
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
 }
-#pang-button:hover{
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+#pang-button:hover {
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
 }
-#profile-button:active{
+#profile-button:active {
   background-color: #2d4224;
 }
-#pang-button:active{
- background-color: #d9d9d9;
+#pang-button:active {
+  background-color: #d9d9d9;
 }

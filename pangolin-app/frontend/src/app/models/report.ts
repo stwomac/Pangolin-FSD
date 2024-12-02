@@ -1,10 +1,30 @@
-import { Serializable } from './utils/serializable'
-import { Annotation } from './annotation'
-import { Context } from './context'
-import { User } from './user'
+import { Deserializable } from './utils/serializable'
+import { Annotation, ApiAnnotationModel } from './annotation'
+import { Context, ApiContextModel } from './context'
+import { User, ApiUserModel } from './user'
 
-export interface ReportLike {
+export interface ApiReportModel {
   reportId: number
+  reportee: ApiUserModel
+  reportType: ReportType
+  description: string
+  paid: boolean
+  amount: string
+  paymentMethod: PaymentMethod
+  recentDate?: Date
+  initialDate?: Date
+  isSus: boolean
+  isDone: boolean
+  annotations: ApiAnnotationModel[]
+  contexts: ApiContextModel[]
+}
+
+export interface ReportLike
+  extends Omit<
+    ApiReportModel,
+    'reportId' | 'reportee' | 'annotations' | 'contexts'
+  > {
+  reportId?: number
   reportee: User
   reportType: ReportType
   description: string
@@ -19,10 +39,9 @@ export interface ReportLike {
   contexts: Context[]
 }
 
-export class Report
-  extends Serializable<ReportLike>
-  implements Omit<ReportLike, 'reportId'>
-{
+@Deserializable<Report, ReportLike, ApiReportModel>()
+export class Report implements ReportLike {
+  public readonly reportId?: number
   public reportee: User
   public reportType: ReportType
   public description: string
@@ -36,9 +55,10 @@ export class Report
   public annotations: Annotation[]
   public contexts: Context[]
 
-  constructor(data: ReportLike) {
-    super(data.reportId)
-    this.reportee = data.reportee
+  constructor(data: ReportLike | ApiReportModel) {
+    this.reportId = data.reportId
+    this.reportee =
+      data.reportee instanceof User ? data.reportee : new User(data.reportee)
     this.reportType = data.reportType
     this.description = data.description
     this.paid = data.paid
@@ -48,13 +68,14 @@ export class Report
     this.initialDate = data.initialDate
     this.isSus = data.isSus
     this.isDone = data.isDone
-    this.annotations = data.annotations
-    this.contexts = data.contexts
-  }
-
-  public override toJson(): ReportLike {
-    const { id, ...reportLike } = this
-    return { ...reportLike, reportId: id }
+    this.annotations = data.annotations.map((annotation) =>
+      annotation instanceof Annotation
+        ? annotation
+        : new Annotation(annotation),
+    )
+    this.contexts = data.contexts.map((context) =>
+      context instanceof Context ? context : new Context(context),
+    )
   }
 }
 
@@ -77,5 +98,3 @@ export enum ReportType {
   CREDIT_SCAM = 'CREDIT_SCAM',
   OTHER = 'OTHER',
 }
-
-export{User, Annotation, }
