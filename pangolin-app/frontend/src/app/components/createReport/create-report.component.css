@@ -1,5 +1,6 @@
 *{
-    color: #2d4224;
+    color: #426135;
+
 }
 #body{
     background-color: #F1F1EF;
@@ -45,7 +46,7 @@ h1{
     text-align: center;
     font-family: 'Bodoni';
     font-weight: 600;
-    color: #2d4224;
+    color: #426135;
     margin-bottom: 50px;
     
 }
@@ -54,7 +55,7 @@ h2{
     text-align: center;
     font-family: 'Bodoni';
     font-weight: 600;
-    color: #2d4224;
+    color: #426135;
 }
 #context-table{
     display: grid;
