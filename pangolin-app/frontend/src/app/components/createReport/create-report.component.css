@@ -1,17 +1,93 @@
-#reportForm{
-    display: flex;
-    margin: 50px;
-    flex-direction: column;
-    justify-content: space-between;
+* {
+  color: #2d4224;
 }
-#paidForm{
-    display: flex;
-    justify-content: flex-start;
+#reportForm {
+  display: flex;
+  margin: 50px;
+  flex-direction: column;
+  justify-content: space-between;
 }
-#submitButton{
-    width: 120px;
-    height: 60px;
+textarea[name='description'] {
+  height: 200px;
+  font-size: 15pt;
 }
-.matFormField{
-    margin-right: 40px;
+
+#paidForm {
+  display: flex;
+  justify-content: flex-start;
+}
+#submitButton {
+  width: 200px;
+  height: 60px;
+  align-self: center;
+  background-color: #426135;
+  color: white;
+  font-family: 'Bodoni';
+  font-size: large;
+  border-radius: 8px 8px;
+  box-shadow: yellowgreen 3px 3px;
+}
+.matFormField {
+  margin-right: 40px;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Bodoni';
+  font-weight: 600;
+  color: #2d4224;
+  margin-bottom: 0px;
+}
+
+h2 {
+  text-align: center;
+  font-family: 'Bodoni';
+  font-weight: 600;
+  color: #2d4224;
+}
+#context-table {
+  display: grid;
+  grid-template-areas:
+    'add-info add-info'
+    'org org'
+    'f-name l-name'
+    'phone phone'
+    'address city'
+    'country zip ';
+}
+#add-info {
+  grid-area: add-info;
+  text-align: center;
+}
+#org-claim {
+  grid-area: org;
+}
+#first-name {
+  grid-area: f-name;
+}
+#last-name {
+  grid-area: l-name;
+}
+#street-address {
+  grid-area: address;
+}
+#city {
+  grid-area: city;
+}
+#zip {
+  grid-area: zip;
+}
+#country {
+  grid-area: country;
+}
+#phone {
+  grid-area: phone;
+}
+#submitButton:hover {
+  cursor: pointer;
+}
+#submitButton:active {
+  background-color: #2d4224;
+  transform: translateY(3px) translateX(3px);
+  box-shadow: yellowgreen 0px 0px;
 }

@@ -12,4 +12,14 @@ export class ContextTypeService {
   async getAll(): Promise<ContextType[]> {
     return await this.repo.find()
   }
+
+  async get(contextTypeId: number): Promise<ContextType> {
+    const contextType = await this.repo.findOne({ where: { contextTypeId } })
+    if (contextType == null)
+      throw new HttpException(
+        `No context type with id ${contextTypeId} exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    return contextType
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { ContextTypeService } from './context-type.service'
 import { ContextType } from './context-type'
 
@@ -9,5 +9,10 @@ export class ContextTypeController {
   @Get()
   getAll(): Promise<ContextType[]> {
     return this.contextTypeService.getAll()
+  }
+
+  @Get(':id')
+  get(@Param('id') id: number): Promise<ContextType> {
+    return this.contextTypeService.get(id)
   }
 }

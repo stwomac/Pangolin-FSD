@@ -1,41 +1,50 @@
-<article>
-    <ul>
-        <!-- <li>ID: {{ message.description }}</li>
-        <li>Reportee: {{ report.reportee }}</li>
-        <li>Last Name: {{ report.reportType }}</li>
-        <li>Department: {{ report.paid }}</li>
-        <li>Hire Date: {{ report.amount }}</li>
-        <li>Salary: {{ report.paymentMethod }}</li> -->
-    </ul>
-    <mat-card class="example-card" appearance="outlined">
-        <mat-card-header>
-          <mat-card-title>{{report.reportType}}</mat-card-title>
-        </mat-card-header>
-        <div></div>
-        <mat-card-content>
-          <b>Description</b>
-          <p>{{report.description}}</p>
-          <b>Annotations</b>
-          @for(annotation of report.annotations; track annotation;){
-          <p>{{annotation.annotation}}</p>
-          }@empty {
-            <p>none</p>
-          }
-        </mat-card-content>
-        <div>
-        <mat-card-footer class="example-card-footer">
-          <mat-chip-set aria-label="Chihuahua traits">
-            @if(report.paid){
-              <mat-chip>Paid</mat-chip>
-            }
-            @if(report.isDone){
-            <mat-chip>Completed</mat-chip>
-            }
-            @if(report.isSus){
-            <mat-chip>Suspicious</mat-chip>
-            }
-          </mat-chip-set>
-          <button mat-button>Annotate</button><button mat-button>Update</button><button mat-button>Delete</button>
-        </mat-card-footer>
+@if (report) {
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ report.reportType }}</mat-card-title>
+    </mat-card-header>
+    <div></div>
+    <mat-card-content>
+      <b>Description</b>
+      <p>{{ report.description }}</p>
+
+      <div class="annotation-container" *ngIf="!visibleAnnotationSelector">
+        <b>Annotations</b>
+        @for (annotation of report.annotations; track annotation) {
+          <p>{{ annotation.annotation }}</p>
+        } @empty {
+          <p>none</p>
+        }
       </div>
-      </mat-card>
+
+      <div class="annotation-editor">
+        <app-annotation-selector
+          [visible]="visibleAnnotationSelector"
+          [report]="report"
+        />
+      </div>
+
+      <button mat-button (click)="displayAnnotationSelector()">
+        Edit Annotations
+      </button>
+    </mat-card-content>
+    <div>
+      <mat-card-footer class="example-card-footer">
+        <mat-chip-set aria-label="Chihuahua traits">
+          @if (report.paid) {
+            <mat-chip>Paid</mat-chip>
+          }
+          @if (report.isDone) {
+            <mat-chip>Completed</mat-chip>
+          }
+          @if (report.isSus) {
+            <mat-chip>Suspicious</mat-chip>
+          }
+        </mat-chip-set>
+
+        <button mat-button (click)="updateReport()">Update</button
+        ><button mat-button>Delete</button>
+      </mat-card-footer>
+    </div>
+  </mat-card>
+}

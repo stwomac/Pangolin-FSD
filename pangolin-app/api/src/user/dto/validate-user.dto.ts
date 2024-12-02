@@ -1,12 +1,13 @@
-/*
- * this class represents the data required to validate a user for authentication,
+import { PickType } from '@nestjs/mapped-types'
+import { CreateUserDto } from './create-user.dto'
+
+/**
+ * This class represents the data required to validate a user for authentication.
  *
- * note that this is VERY similar to the CreateUserDto as validation data is
- * needed in order to create an account, however for future expansion having this as
- * a seperate dto allows us to add more properties to the create user dto like phone number
- * or non essential objects
- * */
-export class ValidateUserDto {
-  username: string //mapps over to email on CreatUserDto
-  password: string
-}
+ * Note: This class is VERY similar to {@link CreateUserDto}. Keeping this seperate
+ * allows us to expand {@link CreateUserDto} in the future.
+ */
+export class ValidateUserDto extends PickType(CreateUserDto, [
+  'email',
+  'password',
+] as const) {}

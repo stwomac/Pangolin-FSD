@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common'
 import { ContextService } from './context.service'
 import { Context } from './context'
+import { CreateContextDto } from './dto/create-context.dto'
+import { UpdateContextDto } from './dto/update-context.dto'
 
 @Controller('contexts')
 export class ContextController {
@@ -25,22 +27,22 @@ export class ContextController {
     return this.contextService.get(id)
   }
 
-  @Put(':id')
-  async updateContext(@Param('id') id: number, @Body() contextToUpdate) {
-    const context = await this.contextService.get(id)
-    return await this.contextService.update(context, contextToUpdate)
+  @Put()
+  async updateContext(@Body() contextUpdate: UpdateContextDto) {
+    return await this.contextService.update(contextUpdate)
   }
 
   @Post()
   @HttpCode(201)
-  createContext(@Body() newContext: Context) {
-    return this.contextService.create(newContext)
+  async createContext(@Body() newContext: CreateContextDto) {
+    const { report, ...context } = await this.contextService.create(newContext)
+    return context
   }
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteContext(@Param('id') id: number): Promise<Context> {
+  async deleteContext(@Param('id') id: number): Promise<void> {
     const context = await this.contextService.get(id)
-    return await this.contextService.delete(context)
+    await this.contextService.delete(context)
   }
 }
