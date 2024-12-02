@@ -50,9 +50,10 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get('whoami')
   @HttpCode(200)
-  getUserInfo(@Request() req: any) {
-    console.log(req.user);
-    return req.user;
+  async getUserInfo(@Request() req: any) {
+    const user = await this.usersService.getById(req.user.sub);
+    console.log(user);
+    return user;
   }
 
   @Get()

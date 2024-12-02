@@ -5,7 +5,7 @@ import { User, ApiUserModel } from './user'
 
 export interface ApiReportModel {
   reportId: number
-  reportee: ApiUserModel
+  reportee: ApiUserModel | null
   reportType: ReportType
   description: string
   paid: boolean
@@ -57,8 +57,7 @@ export class Report implements ReportLike {
 
   constructor(data: ReportLike | ApiReportModel) {
     this.reportId = data.reportId
-    this.reportee =
-      data.reportee instanceof User ? data.reportee : new User(data.reportee)
+    this.reportee = ( data.reportee === null || data.reportee instanceof User ) ? data.reportee : new User(data.reportee)
     this.reportType = data.reportType
     this.description = data.description
     this.paid = data.paid

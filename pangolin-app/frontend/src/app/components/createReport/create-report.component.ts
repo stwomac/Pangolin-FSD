@@ -288,8 +288,10 @@ export class CreateReportComponent {
   ngOnInit(): void {
 
     if (this.userService.isLoggedIn()) {
-      this.loggedInUser = this.userService.whoami();
-      console.log(this.loggedInUser);
+       this.userService.whoami().subscribe(data => {
+          console.log(data);
+          this.loggedInUser = data;
+       });
     } else {
       console.log("you are not logged in");
     }
