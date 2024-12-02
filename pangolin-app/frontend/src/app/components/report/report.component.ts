@@ -1,12 +1,5 @@
 import { Component, Input } from '@angular/core'
-import {
-  Report,
-  ReportLike,
-  ReportType,
-  User,
-  Annotation,
-  PaymentMethod,
-} from '../../models/report'
+import { Report } from '../../models/report'
 import { ReportServices } from '../../services/report.service'
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
