@@ -5,7 +5,7 @@ import { User, ApiUserModel } from './user'
 
 export interface ApiReportModel {
   reportId: number
-  reportee: ApiUserModel
+  reportee: ApiUserModel | null
   reportType: ReportType
   description: string
   paid: boolean
@@ -25,7 +25,7 @@ export interface ReportLike
     'reportId' | 'reportee' | 'annotations' | 'contexts'
   > {
   reportId?: number
-  reportee: User
+  reportee: User | null
   reportType: ReportType
   description: string
   paid: boolean
@@ -42,7 +42,7 @@ export interface ReportLike
 @Deserializable<Report, ReportLike, ApiReportModel>()
 export class Report implements ReportLike {
   public readonly reportId?: number
-  public reportee: User
+  public reportee: User | null
   public reportType: ReportType
   public description: string
   public paid: boolean
@@ -57,8 +57,7 @@ export class Report implements ReportLike {
 
   constructor(data: ReportLike | ApiReportModel) {
     this.reportId = data.reportId
-    this.reportee =
-      data.reportee instanceof User ? data.reportee : new User(data.reportee)
+    this.reportee = ( data.reportee === null || data.reportee instanceof User ) ? data.reportee : new User(data.reportee)
     this.reportType = data.reportType
     this.description = data.description
     this.paid = data.paid
