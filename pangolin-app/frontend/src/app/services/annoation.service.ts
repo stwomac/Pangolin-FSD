@@ -5,8 +5,9 @@ import { Annotation, AnnotationLike } from '../models/annotation'
 
 @Injectable({ providedIn: 'root' })
 export class AnnotationServices extends ResourceService<
+  Annotation,
   AnnotationLike,
-  Annotation
+  'annotationId'
 > {
   constructor(http: HttpClient) {
     super(http, Annotation, '/annotations')

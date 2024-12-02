@@ -6,7 +6,11 @@ import { Context, ContextLike } from '../models/context'
 import { ContextType } from '../models/context-type'
 
 @Injectable({ providedIn: 'root' })
-export class ContextServices extends ResourceService<ContextLike, Context> {
+export class ContextServices extends ResourceService<
+  Context,
+  ContextLike,
+  'contextId'
+> {
   constructor(http: HttpClient) {
     super(http, Context, '/contexts')
   }

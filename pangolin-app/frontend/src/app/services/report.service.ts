@@ -4,7 +4,11 @@ import { ResourceService } from './resource.service'
 import { Report, ReportLike } from '../models/report'
 
 @Injectable({ providedIn: 'root' })
-export class ReportServices extends ResourceService<ReportLike, Report> {
+export class ReportServices extends ResourceService<
+  Report,
+  ReportLike,
+  'reportId'
+> {
   constructor(http: HttpClient) {
     super(http, Report, '/reports')
   }
