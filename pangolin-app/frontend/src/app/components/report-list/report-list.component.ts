@@ -29,6 +29,7 @@ export class ReportListComponent {
   constructor(private apiService: ReportServices) {}
   ngOnInit() {
     this.apiService.getAll().subscribe((data) => {
+      console.log(data);
       this.reports = data
     })
   }
