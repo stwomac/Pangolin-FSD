@@ -28,6 +28,12 @@ export class AnnotationService {
     })
   }
 
+  
+  async getAll(): Promise<Annotation[]> {
+    return await this.repo.find({
+    });
+  }
+
   //create a new annotation
   async createAnnotation(annotation: Annotation): Promise<Annotation> {
     const newAnnotation = this.repo.create(annotation)

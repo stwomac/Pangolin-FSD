@@ -5,6 +5,8 @@ import { ReportServices } from '../../services/report.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import { MatButton } from '@angular/material/button';
+import {AnnotationSelectorComponent} from '../../annotation-selector/annotation-selector.component';
+import {NgIf} from '@angular/common';
 //import { Users } from '../../models/users';
 //import { ReportType } from '../../models/context-type';
 let user:User
@@ -15,42 +17,39 @@ let contexts:Context[]
 
 @Component({
   selector: 'app-report',
-  imports: [MatCardModule, MatChipsModule, MatButton],
+  imports: [MatCardModule, MatChipsModule, MatButton,AnnotationSelectorComponent,NgIf],
   templateUrl: './report.component.html',
   styleUrl: './report.component.css',
   standalone: true
 })
 export class ReportComponent {
+
+  visibleAnnotationSelector : boolean = false
   message:any;
+
   @Input() getID!: number;
-  report: ReportLike = {
-     reportId: 1,
-     reportee: user,
-     reportType: reportType,
-     description: 'Report',
-     paid: false,
-     amount: '',
-     paymentMethod: paymentMethod,
-     isSus: false,
-     isDone: false,
-     annotations: annotation,
-     contexts: contexts
-   }
+
+  report: Report | null = null;
+
   constructor(private apiService: ReportServices) { };
    ngOnInit() {
      this.apiService.get(this.getID).subscribe(data => {
-         //this.message = data;
-         //console.log(this.getID)
-         this.report.reportee = data.reportee
-         this.report.reportType = data.reportType
-         this.report.description = data.description
-         this.report.paid = data.paid
-         this.report.amount = data.amount
-         this.report.paymentMethod = data.paymentMethod
-         this.report.isSus = data.isSus
-         this.report.isDone = data.isDone
-         this.report.annotations = data.annotations
-         this.report.contexts = data.contexts
+       this.report = data;
      });
-   } 
+   }
+   /*
+    * this function is used to connect the Annotate button to displaying the child
+    * anotation selector element in the UI
+    * */
+   displayAnnotationSelector() {
+     this.visibleAnnotationSelector = !this.visibleAnnotationSelector;
+   }
+
+   updateReport() {
+     console.log("updating the report!")
+     if (this.report) {
+        this.apiService.update(this.report).subscribe(data => {data});
+        console.log("after update");
+      }
+   }
 }

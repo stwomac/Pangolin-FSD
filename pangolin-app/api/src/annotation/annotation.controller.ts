@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   HttpCode,
+  Get,
 } from '@nestjs/common'
 import { AnnotationService } from './annotation.service'
 import { Annotation } from './annotation'
@@ -13,6 +14,12 @@ import { Annotation } from './annotation'
 @Controller('annotations')
 export class AnnotationController {
   constructor(private readonly annotationService: AnnotationService) {}
+
+  @Get()
+  @HttpCode(200)
+  getAnnotations() : Promise<Annotation[]> {
+     return this.annotationService.getAll();
+  }
 
   @Post()
   @HttpCode(201)

@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { Component } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
@@ -33,9 +31,8 @@ export class ReportListComponent {
      this.apiService.getAll().subscribe(data => {
          this.reports = data;
          console.log(this.reports)
-         
      });
-   } 
+   }
 
 
 

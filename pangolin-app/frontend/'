@@ -1,0 +1,45 @@
+import { NgIf } from '@angular/common';
+import { Input,Component } from '@angular/core';
+import {AnnotationServices} from '../services/annoation.service';
+import {Annotation} from '../models/annotation';
+import {MatCheckbox} from '@angular/material/checkbox';
+
+@Component({
+  selector: 'app-annotation-selector',
+  imports: [NgIf,MatCheckbox],
+  templateUrl: './annotation-selector.component.html',
+  styleUrl: './annotation-selector.component.css'
+})
+export class AnnotationSelectorComponent {
+  constructor(private annotationServices : AnnotationServices) {}
+
+  //mapped to an ngIf for visibility, see the setter getters :)
+  private isVisible : boolean = false
+
+  //this is the primary list displayed out to the user
+  annotationList : Array<Annotation> = [];
+
+  //this input is used to indicate what annotations should ALREADY be selected
+  @Input() report : Report = null;
+
+  shouldBeChecked(annotation : Annotation) {
+    return this.existingAnnotationList.
+  }
+
+  get visible () : boolean {
+    return this.isVisible;
+  }
+  @Input() set visible(value : boolean) {
+    //we don't want to re-ping the database
+    if (value && this.annotationList.length < 1) {
+      this.annotationServices.getAll().subscribe(data => {
+        this.annotationList = data;
+      });
+    }
+    this.isVisible = value;
+  }
+
+  ngOnInit() {
+
+  }
+}

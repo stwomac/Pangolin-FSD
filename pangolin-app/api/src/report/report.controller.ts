@@ -32,7 +32,8 @@ export class ReportController {
   }
 
   @Put(':id')
-  async updateReport(@Param('id') id: number, @Body() reportToUpdate) {
+  async updateReport(@Param('id') id: number, @Body() reportToUpdate : Report) {
+    console.log(reportToUpdate);
     const report = await this.reportsService.get(id)
     return await this.reportsService.update(report, reportToUpdate)
   }
