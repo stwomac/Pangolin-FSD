@@ -124,12 +124,10 @@ export class CreateReportComponent {
   })
 
   ngOnInit(): void {
-    this.contextService
-      .getTypes()
-      .subscribe((data) => {
-        this.contextTypes = data;
-        console.log(this.contextTypes)
-      })
+    this.contextService.getTypes().subscribe((data) => {
+      this.contextTypes = data
+      console.log(this.contextTypes)
+    })
     if (this.userService.isLoggedIn()) {
       this.userService.whoami().subscribe((data) => {
         console.log(data)

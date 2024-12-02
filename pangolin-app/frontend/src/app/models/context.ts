@@ -36,7 +36,6 @@ export class Context implements ContextLike {
   public country?: string
   public phone?: string
 
-
   constructor(data: ContextLike | ApiContextModel) {
     this.contextId = data.contextId
     this.contextTypeId = data.contextTypeId

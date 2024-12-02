@@ -48,8 +48,8 @@ export class ReportService {
         contexts: true,
       },
     })
-    console.log(report);
-    return report;
+    console.log(report)
+    return report
   }
 
   async create({
