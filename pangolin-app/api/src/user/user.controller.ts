@@ -48,10 +48,11 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('userInfo')
+  @Get('whoami')
   @HttpCode(200)
   getUserInfo(@Request() req: any) {
-    console.log(req)
+    console.log(req.user);
+    return req.user;
   }
 
   @Get()

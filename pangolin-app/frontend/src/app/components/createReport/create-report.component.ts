@@ -21,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { ReportServices } from '../../services/report.service'
 import { ContextServices } from '../../services/context.service'
+import {UserServices} from '../../services/user.service'
 
 @Component({
   selector: 'app-create-report',
@@ -49,15 +50,12 @@ import { ContextServices } from '../../services/context.service'
 export class CreateReportComponent {
   constructor(
     private reportService: ReportServices,
+    private userService : UserServices,
     contextService: ContextServices,
   ) {}
   // Available payment methods for the dropdown
   payment_methods = Object.values(PaymentMethod)
-  loggedInUser: User = new User({
-    userId: 2,
-    email: 'anonymous@gmail.com',
-    role: 'anonymous',
-  })
+  loggedInUser: User | null = null;
   report_types: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },
     {
@@ -288,8 +286,14 @@ export class CreateReportComponent {
   })
 
   ngOnInit(): void {
-    // Simulate fetching the logged-in user
-    //TODO update this.loggedInUser
+
+    if (this.userService.isLoggedIn()) {
+      this.loggedInUser = this.userService.whoami();
+      console.log(this.loggedInUser);
+    } else {
+      console.log("you are not logged in");
+    }
+
     if (!this.isOngoing) {
       this.newReport.initialDate = this.newReport.recentDate
     }

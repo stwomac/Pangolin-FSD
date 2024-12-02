@@ -25,7 +25,7 @@ export interface ReportLike
     'reportId' | 'reportee' | 'annotations' | 'contexts'
   > {
   reportId?: number
-  reportee: User
+  reportee: User | null
   reportType: ReportType
   description: string
   paid: boolean
@@ -42,7 +42,7 @@ export interface ReportLike
 @Deserializable<Report, ReportLike, ApiReportModel>()
 export class Report implements ReportLike {
   public readonly reportId?: number
-  public reportee: User
+  public reportee: User | null
   public reportType: ReportType
   public description: string
   public paid: boolean
