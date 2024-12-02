@@ -41,13 +41,15 @@ export class ReportService {
   }
 
   async getAll(): Promise<Report[]> {
-    return await this.repo.find({
+    let report = await this.repo.find({
       relations: {
         reportee: true,
         annotations: true,
         contexts: true,
       },
     })
+    console.log(report);
+    return report;
   }
 
   async create({
