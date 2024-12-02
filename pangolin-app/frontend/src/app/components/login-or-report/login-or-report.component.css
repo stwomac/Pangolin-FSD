@@ -1,6 +1,6 @@
 .welcome-container {
     width:100vw;
-    /* height: 60vh;  leave be can cause shennanigains*/
+    height: 90%;  
     background-color: #F1F1EF;
     display: flex;
     align-items: center;
@@ -67,8 +67,15 @@ div#welcome-buttons>button {
 }
 div#welcome-buttons>button:hover{
     cursor: pointer;
+    transform: translateY(1px) translateX(1px);
+    box-shadow: yellowgreen 3px 3px;
 }
 div#welcome-buttons>button:active{
     box-shadow: yellowgreen 0px 0px;
     transform: translateY(4px) translateX(4px); 
+}
+@media only screen and (max-height: 700px){
+    .welcome-container {
+        height: 600px;
+    }
 }
