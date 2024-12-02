@@ -1,4 +1,4 @@
-import { Serializable } from './utils/serializable'
+import { Serializable, Deserializable, OptionalId } from './utils/serializable'
 import { Annotation } from './annotation'
 import { Context } from './context'
 import { User } from './user'
@@ -19,10 +19,12 @@ export interface ReportLike {
   contexts: Context[]
 }
 
+@Deserializable<Report, ReportLike, 'reportId'>()
 export class Report
-  extends Serializable<ReportLike>
-  implements Omit<ReportLike, 'reportId'>
+  extends Serializable<ReportLike, 'reportId'>
+  implements OptionalId<ReportLike, 'reportId'>
 {
+  public readonly reportId?: number
   public reportee: User
   public reportType: ReportType
   public description: string
@@ -36,8 +38,9 @@ export class Report
   public annotations: Annotation[]
   public contexts: Context[]
 
-  constructor(data: ReportLike) {
-    super(data.reportId)
+  constructor(data: OptionalId<ReportLike, 'reportId'>) {
+    super('reportId')
+    this.reportId = data.reportId
     this.reportee = data.reportee
     this.reportType = data.reportType
     this.description = data.description
@@ -52,9 +55,13 @@ export class Report
     this.contexts = data.contexts
   }
 
-  public override toJson(): ReportLike {
-    const { id, ...reportLike } = this
-    return { ...reportLike, reportId: id }
+  public override toJson() {
+    const { idPropKey, ...reportLike } = this
+    return reportLike
+  }
+
+  public static parse(data: ReportLike) {
+    return new Report(data)
   }
 }
 
@@ -78,4 +85,4 @@ export enum ReportType {
   OTHER = 'OTHER',
 }
 
-export{User, Annotation, }
+export { User, Annotation }
