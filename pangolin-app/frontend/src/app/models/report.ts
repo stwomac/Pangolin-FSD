@@ -1,5 +1,5 @@
 import { Serializable } from './utils/serializable'
-import { Annotation } from './annotation'
+import { Annotation, AnnotationLike } from './annotation'
 import { Context } from './context'
 import { User } from './user'
 
@@ -15,13 +15,13 @@ export interface ReportLike {
   initialDate?: Date
   isSus: boolean
   isDone: boolean
-  annotations: Annotation[]
+  annotations: AnnotationLike[]
   contexts: Context[]
 }
 
 export class Report
   extends Serializable<ReportLike>
-  implements Omit<ReportLike, 'reportId'>
+  implements Omit<ReportLike, 'reportId' | 'annotations'>
 {
   public reportee: User
   public reportType: ReportType
@@ -48,13 +48,13 @@ export class Report
     this.initialDate = data.initialDate
     this.isSus = data.isSus
     this.isDone = data.isDone
-    this.annotations = data.annotations
+    this.annotations = data.annotations.map(annotationLike => new Annotation(annotationLike));
     this.contexts = data.contexts
   }
 
   public override toJson(): ReportLike {
-    const { id, ...reportLike } = this
-    return { ...reportLike, reportId: id }
+    const { id,annotations, ...reportLike } = this
+    return { ...reportLike,annotations: annotations.map(annot=>annot.toJson()), reportId: id }
   }
 }
 
