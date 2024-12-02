@@ -1,5 +1,5 @@
 services:
-  pangolin-app:
+  api:
     image: pangolin
     build:
       context: pangolin-app/api
@@ -12,7 +12,15 @@ services:
     env_file: pangolin-app/api/.env
     secrets:
       - db_password
-
+  frontend:
+    image: pangolin-frontend
+    build:
+      context: pangolin-app/frontend
+      dockerfile: dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4200:4200
 secrets:
   db_password:
     file: ./db_password.txt
