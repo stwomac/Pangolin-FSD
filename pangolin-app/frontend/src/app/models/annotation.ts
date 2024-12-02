@@ -1,23 +1,30 @@
-import { Serializable } from './utils/serializable'
+import { Serializable, Deserializable, OptionalId } from './utils/serializable'
 
 export interface AnnotationLike {
-  annotationId: number
+  annotationId?: number
   annotation: string
 }
 
+@Deserializable<Annotation, AnnotationLike, 'annotationId'>()
 export class Annotation
-  extends Serializable<AnnotationLike>
-  implements Omit<AnnotationLike, 'annotationId'>
+  extends Serializable<AnnotationLike, 'annotationId'>
+  implements OptionalId<AnnotationLike, 'annotationId'>
 {
-  annotation: string
+  public readonly annotationId?: number
+  public annotation: string
 
-  constructor(data: AnnotationLike) {
-    super(data.annotationId)
+  constructor(data: OptionalId<AnnotationLike, 'annotationId'>) {
+    super('annotationId')
+    this.annotationId = data.annotationId
     this.annotation = data.annotation
   }
 
-  public override toJson(): AnnotationLike {
-    const { id, ...annoationLike } = this
-    return { ...annoationLike, annotationId: id }
+  public override toJson() {
+    const { idPropKey, ...annoationLike } = this
+    return annoationLike
+  }
+
+  public static parse(data: AnnotationLike) {
+    return new Annotation(data)
   }
 }

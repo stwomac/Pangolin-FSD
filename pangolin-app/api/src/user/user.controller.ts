@@ -8,17 +8,15 @@ import {
   Post,
   Put,
   UseGuards,
-  Request
+  Request,
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './user'
-import { DeleteResult } from 'typeorm'
-import { LocalGuard } from 'src/guards/local.guard'
 import { JwtAuthGuard } from 'src/guards/jwt.guard'
-import { CreateUserDto } from './dto/create-user-dto'
 import { AuthService } from 'src/auth/auth.service'
 import { ValidateUserDto } from './dto/validate-user.dto'
-import { AuthGuard } from '@nestjs/passport'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Controller('users')
 export class UserController {
@@ -35,9 +33,9 @@ export class UserController {
   @Get('secrets')
   @HttpCode(200)
   superSecreteMethod() {
-
-     console.log("someone found the secret cow!");
-    return {cow:`____________________________________
+    console.log('someone found the secret cow!')
+    return {
+      cow: `____________________________________
 < congrats, you found the secret cow >
  ------------------------------------
         \\   ^__^
@@ -45,23 +43,21 @@ export class UserController {
             (__)\\       )\\/\\
                 ||----w |
                 ||     ||
-                \`\`\`\``};
+                \`\`\`\``,
+    }
   }
-
-
 
   @UseGuards(JwtAuthGuard)
   @Get('userInfo')
   @HttpCode(200)
-  getUserInfo(@Request() req) {
-     console.log(req);
+  getUserInfo(@Request() req: any) {
+    console.log(req)
   }
 
   @Get()
   @HttpCode(200)
   getAll(): Promise<User[]> {
     return this.usersService.getAll()
-    
   }
 
   // get by ID
@@ -70,28 +66,27 @@ export class UserController {
     return this.usersService.getById(idToFind)
   }
 
-  @Put(':id')
-  async update(@Param('id') id: number, @Body() userToUpdate): Promise<User> {
-    const user = await this.usersService.getById(id)
-    return await this.usersService.update(user, userToUpdate)
-  }
-
   @Post('/login')
   @HttpCode(200)
   async login(@Body() userToLogin: ValidateUserDto) {
     return await this.authService.validateLogin(userToLogin) // Await the promise
   }
 
-  @Post('/create')
+  @Post()
   @HttpCode(201)
   createUser(@Body() newUser: CreateUserDto) {
     return this.usersService.create(newUser)
   }
 
+  @Put()
+  update(@Body() userToUpdate: UpdateUserDto): Promise<User> {
+    return this.usersService.update(userToUpdate)
+  }
+
   @Delete(':id')
   @HttpCode(204)
-  async delete(@Param('id') id: number): Promise<User> {
+  async delete(@Param('id') id: number): Promise<void> {
     const user = await this.usersService.getById(id)
-    return await this.usersService.delete(user)
+    await this.usersService.delete(user)
   }
 }

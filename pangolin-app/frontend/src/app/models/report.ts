@@ -1,10 +1,10 @@
-import { Serializable } from './utils/serializable'
+import { Serializable, Deserializable, OptionalId } from './utils/serializable'
 import { Annotation, AnnotationLike } from './annotation'
 import { Context } from './context'
 import { User } from './user'
 
 export interface ReportLike {
-  reportId: number
+  reportId?: number
   reportee: User
   reportType: ReportType
   description: string
@@ -19,10 +19,12 @@ export interface ReportLike {
   contexts: Context[]
 }
 
+@Deserializable<Report, ReportLike, 'reportId'>()
 export class Report
-  extends Serializable<ReportLike>
-  implements Omit<ReportLike, 'reportId' | 'annotations'>
+  extends Serializable<ReportLike, 'reportId'>
+  implements Omit<OptionalId<ReportLike, 'reportId'>, 'annotations'>
 {
+  public readonly reportId?: number
   public reportee: User
   public reportType: ReportType
   public description: string
@@ -36,8 +38,9 @@ export class Report
   public annotations: Annotation[]
   public contexts: Context[]
 
-  constructor(data: ReportLike) {
-    super(data.reportId)
+  constructor(data: OptionalId<ReportLike, 'reportId'>) {
+    super('reportId')
+    this.reportId = data.reportId
     this.reportee = data.reportee
     this.reportType = data.reportType
     this.description = data.description
@@ -48,13 +51,22 @@ export class Report
     this.initialDate = data.initialDate
     this.isSus = data.isSus
     this.isDone = data.isDone
-    this.annotations = data.annotations.map(annotationLike => new Annotation(annotationLike));
+    this.annotations = data.annotations.map(
+      (annotationLike) => new Annotation(annotationLike),
+    )
     this.contexts = data.contexts
   }
 
-  public override toJson(): ReportLike {
-    const { id,annotations, ...reportLike } = this
-    return { ...reportLike,annotations: annotations.map(annot=>annot.toJson()), reportId: id }
+  public override toJson() {
+    const { idPropKey, annotations, ...reportLike } = this
+    return {
+      ...reportLike,
+      annotations: annotations.map((annot) => annot.toJson()),
+    }
+  }
+
+  public static parse(data: ReportLike) {
+    return new Report(data)
   }
 }
 
@@ -78,4 +90,4 @@ export enum ReportType {
   OTHER = 'OTHER',
 }
 
-export{User, Annotation, }
+export { User, Annotation }

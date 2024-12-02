@@ -18,28 +18,28 @@ export class Context {
   contextType: ContextType
 
   @Column({ nullable: true })
-  orgClaim: string
+  orgClaim?: string
 
   @Column({ nullable: true })
-  firstName: string
+  firstName?: string
 
   @Column({ nullable: true })
-  lastName: string
+  lastName?: string
 
   @Column({ nullable: true })
-  streetAddress: string
+  streetAddress?: string
 
   @Column({ nullable: true })
-  city: string
+  city?: string
 
   @Column({ nullable: true })
-  zip: string
+  zip?: string
 
   @Column({ nullable: true })
-  country: string
+  country?: string
 
   @Column({ nullable: true })
-  phone: string
+  phone?: string
 
   @ManyToOne(() => Report, (reports) => reports.contexts)
   @JoinColumn({ name: 'report_id' })

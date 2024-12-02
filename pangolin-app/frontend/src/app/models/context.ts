@@ -1,9 +1,9 @@
-import { Serializable } from './utils/serializable'
+import { Serializable, Deserializable, OptionalId } from './utils/serializable'
 import { Report } from './report'
 import { ContextType } from './context-type'
 
 export interface ContextLike {
-  contextId: number
+  contextId?: number
   contextType: ContextType
   report: Report
   orgClaim?: string
@@ -16,10 +16,12 @@ export interface ContextLike {
   phone?: string
 }
 
+@Deserializable<Context, ContextLike, 'contextId'>()
 export class Context
-  extends Serializable<ContextLike>
-  implements Omit<ContextLike, 'contextId'>
+  extends Serializable<ContextLike, 'contextId'>
+  implements OptionalId<ContextLike, 'contextId'>
 {
+  public readonly contextId?: number
   public contextType: ContextType
   public report: Report
   public orgClaim?: string
@@ -31,8 +33,9 @@ export class Context
   public country?: string
   public phone?: string
 
-  constructor(data: ContextLike) {
-    super(data.contextId)
+  constructor(data: OptionalId<ContextLike, 'contextId'>) {
+    super('contextId')
+    this.contextId = data.contextId
     this.contextType = data.contextType
     this.report = data.report
     this.orgClaim = data.orgClaim
@@ -45,8 +48,12 @@ export class Context
     this.phone = data.phone
   }
 
-  public override toJson(): ContextLike {
-    const { id, ...contextLike } = this
-    return { ...contextLike, contextId: id }
+  public override toJson() {
+    const { idPropKey, ...contextLike } = this
+    return contextLike
+  }
+
+  public static parse(data: ContextLike) {
+    return new Context(data)
   }
 }

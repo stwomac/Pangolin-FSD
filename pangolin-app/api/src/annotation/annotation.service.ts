@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Annotation } from './annotation'
 import { Repository } from 'typeorm'
 import { Report } from '../report/report'
+import { CreateAnnotationDto } from './dto/create-annotation.dto'
+import { UpdateAnnotationDto } from './dto/update-annotation.dto'
 
 @Injectable()
 export class AnnotationService {
@@ -28,19 +30,18 @@ export class AnnotationService {
     })
   }
 
-  
   async getAll(): Promise<Annotation[]> {
-    return await this.repo.find({
-    });
+    return await this.repo.find({})
   }
 
   //create a new annotation
-  async createAnnotation(annotation: Annotation): Promise<Annotation> {
+  async createAnnotation(annotation: CreateAnnotationDto): Promise<Annotation> {
     const newAnnotation = this.repo.create(annotation)
     return await this.repo.save(newAnnotation)
   }
 
-  async update(annotation: Annotation, updateData: Annotation) {
+  async update({ annotationId, ...updateData }: UpdateAnnotationDto) {
+    const annotation = await this.get(annotationId)
     const updatedAnnotation = this.repo.merge(annotation, updateData)
     return await this.repo.save(updatedAnnotation)
   }

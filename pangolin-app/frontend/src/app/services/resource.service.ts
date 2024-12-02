@@ -1,44 +1,59 @@
 import { HttpClient } from '@angular/common/http'
 import { map, Observable } from 'rxjs'
-import { Serializable, Deserializable } from '../models/utils/serializable'
+import { Serializable, DeserializableType } from '../models/utils/serializable'
 
-export abstract class ResourceService<T, M extends Serializable<T>> {
+export abstract class ResourceService<
+  ModelType extends Serializable<DataType, keyof DataType>,
+  DataType,
+  IdKey extends keyof DataType,
+> {
   protected baseUrl = 'http://localhost:3000'
   protected resourceUrl: string
 
   protected constructor(
     protected http: HttpClient,
-    private model: Deserializable<T, M>,
+    private Model: DeserializableType<ModelType, DataType, IdKey>,
     urlPath: `/${string}`,
   ) {
     this.resourceUrl = this.baseUrl + urlPath
   }
 
-  public get(id: number): Observable<M> {
+  public get(id: number): Observable<ModelType> {
     return this.http
-      .get<T>(`${this.resourceUrl}/${id}`)
-      .pipe(map((result) => new this.model(result)))
+      .get<DataType>(`${this.resourceUrl}/${id}`)
+      .pipe(map((result) => this.Model.parse(result)))
   }
 
-  public getAll(): Observable<M[]> {
+  public getAll(): Observable<ModelType[]> {
     return this.http
-      .get<T[]>(`${this.resourceUrl}`)
-      .pipe(map((result) => result.map((data) => new this.model(data))))
+      .get<DataType[]>(`${this.resourceUrl}`)
+      .pipe(map((result) => result.map((data) => this.Model.parse(data))))
   }
 
-  public create(resource: Serializable<T>): Observable<M> {
+  public create(resource: ModelType): Observable<ModelType> {
     return this.http
-      .post<T>(`${this.resourceUrl}`, resource.toJson())
-      .pipe(map((result) => new this.model(result)))
+      .post<DataType>(`${this.resourceUrl}`, resource.toJson())
+      .pipe(map((result) => this.Model.parse(result)))
   }
 
-  public update(resource: Serializable<T>): Observable<M> {
+  public update(resource: ModelType): Observable<ModelType> {
     return this.http
-      .put<T>(`${this.resourceUrl}/${resource.id}`, resource.toJson())
-      .pipe(map((result) => new this.model(result)))
+      .put<DataType>(`${this.resourceUrl}`, resource.toJson())
+      .pipe(map((result) => this.Model.parse(result)))
   }
 
-  public delete(id: number): Observable<void> {
+  public delete(resource: ModelType): Observable<void> {
+    const id = resource[resource.idPropKey as keyof ModelType]
+    if (id === undefined)
+      throw new UnsavedModelError(ResourceService.prototype.delete.name)
     return this.http.delete<void>(`${this.resourceUrl}/${id}`)
+  }
+}
+
+class UnsavedModelError extends Error {
+  constructor(methodName: string) {
+    super(
+      `'The ${methodName} method can only be called after models that have already been created.'`,
+    )
   }
 }
