@@ -55,6 +55,9 @@ export class Report implements ReportLike {
   public annotations: Annotation[]
   public contexts: Context[]
 
+  get reporteeId() {
+    return this.reportee?.userId;
+  }
   constructor(data: ReportLike | ApiReportModel) {
     console.log(data);
     this.reportId = data.reportId

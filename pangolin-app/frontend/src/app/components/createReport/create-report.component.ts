@@ -22,6 +22,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { ReportServices } from '../../services/report.service'
 import { ContextServices } from '../../services/context.service'
 import {UserServices} from '../../services/user.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-create-report',
@@ -52,6 +53,7 @@ export class CreateReportComponent {
     private reportService: ReportServices,
     private userService : UserServices,
     contextService: ContextServices,
+    private router: Router
   ) {}
   // Available payment methods for the dropdown
   payment_methods = Object.values(PaymentMethod)
@@ -286,7 +288,6 @@ export class CreateReportComponent {
   })
 
   ngOnInit(): void {
-
     if (this.userService.isLoggedIn()) {
        this.userService.whoami().subscribe(data => {
           console.log(data);
@@ -314,8 +315,13 @@ export class CreateReportComponent {
   }
   // Save report logic
   saveReport(): void {
-    this.saveContext()
-    console.log('Report to save:', this.newReport)
-    // Send `this.newReport` to your backend service
+    this.saveContext();
+    try {
+      this.reportService.create(this.newReport).subscribe(console.log);
+      console.log('Report to save:', this.newReport);  
+      this.router.navigate(['/view1'])
+    } catch (error) {
+      console.log('failed to send report')
+    }
   }
 }
