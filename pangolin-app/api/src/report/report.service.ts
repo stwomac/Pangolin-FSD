@@ -13,6 +13,7 @@ import { Context } from 'src/context/context'
 import { UserService } from 'src/user/user.service'
 import { CreateReportDto } from './dto/create-report.dto'
 import { UpdateReportDto } from './dto/update-report.dto'
+import {AnnotationService} from 'src/annotation/annotation.service'
 
 @Injectable()
 export class ReportService {
@@ -21,6 +22,7 @@ export class ReportService {
     private readonly repo: Repository<Report>,
     private readonly contextTypeService: ContextTypeService,
     private readonly userService: UserService,
+    private readonly annotationService: AnnotationService
   ) {}
 
   async get(reportId: number): Promise<Report> {
@@ -48,7 +50,6 @@ export class ReportService {
         contexts: true,
       },
     })
-    console.log(report);
     return report;
   }
 
@@ -86,12 +87,28 @@ export class ReportService {
   }
 
   async update({ reportId, reporteeId, ...updateData }: UpdateReportDto) {
-    const report = await this.get(reportId)
+    const report = await this.get(reportId);
+
+    if (updateData.annotations) {
+      for (let annotation of  updateData.annotations) {
+         annotation.reportId = reportId;
+         console.log(annotation);
+         if (annotation.annotationId) {
+            await this.annotationService.update(annotation);
+         } else {
+            await this.annotationService.createAnnotation(annotation);
+         }
+      }
+    }
+
+    //there is no need to update the annotations twice
+    report.annotations = [];
+
     const updatedReport = this.repo.merge(report, updateData)
     return await this.repo.save(updatedReport)
   }
 
   async delete(report: Report): Promise<Report> {
-    return await this.repo.remove(report)
+    return await this.repo.remove(report);
   }
 }

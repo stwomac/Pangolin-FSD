@@ -56,7 +56,6 @@ export class Report implements ReportLike {
   public contexts: Context[]
 
   constructor(data: ReportLike | ApiReportModel) {
-    console.log(data);
     this.reportId = data.reportId
     this.reportee = ( data.reportee === null || data.reportee instanceof User ) ? data.reportee : new User(data.reportee)
     this.reportType = data.reportType

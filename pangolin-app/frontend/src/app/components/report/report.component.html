@@ -19,12 +19,14 @@
 
       <div class="annotation-editor">
         <app-annotation-selector
+          (onSave)="displayAnnotationSelector()"
+          (onCancel)="displayAnnotationSelector()"
           [visible]="visibleAnnotationSelector"
           [report]="report"
         />
       </div>
 
-      <button mat-button (click)="displayAnnotationSelector()">
+      <button mat-button *ngIf="!visibleAnnotationSelector" (click)="displayAnnotationSelector()">
         Edit Annotations
       </button>
     </mat-card-content>

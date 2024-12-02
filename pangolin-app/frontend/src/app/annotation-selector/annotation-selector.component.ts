@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common'
-import { Input, Component, OnInit } from '@angular/core'
+import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { AnnotationServices } from '../services/annoation.service'
 import { Annotation } from '../models/annotation'
 import { Report } from '../models/report'
@@ -27,6 +27,10 @@ export class AnnotationSelectorComponent implements OnInit {
   //this is the report that we are going to edit when saving and loading
   @Input() report: Report | null = null;
 
+
+  @Output() onSave : EventEmitter<this> = new EventEmitter<this>();
+  @Output() onCancel : EventEmitter<this> = new EventEmitter<this>();
+
   //this is the buffer report that we do most of our work in
   //before saving
   bufferReport : Report | null = null;
@@ -43,11 +47,13 @@ export class AnnotationSelectorComponent implements OnInit {
   save() {
     this.pushBuffer();
     this.visible = false;
+    this.onSave.emit(this);
   }
 
   cancel() {
     this.pullBuffer();
     this.visible = false;
+    this.onCancel.emit(this);
   }
 
   //update our report
@@ -98,7 +104,7 @@ export class AnnotationSelectorComponent implements OnInit {
     if (!this.bufferReport) return;
 
     this.bufferReport.annotations.push(
-      Annotation.fromString(this.txtAnnotation.value)
+      Annotation.fromString(this.txtAnnotation.value,this.report?.reportId)
     );
 
     //clear out the input for convinence
@@ -107,5 +113,6 @@ export class AnnotationSelectorComponent implements OnInit {
 
   ngOnInit() : void {
     this.pullBuffer();
+    this.txtAnnotation.setValue("");
   }
 }
