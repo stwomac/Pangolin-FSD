@@ -56,6 +56,7 @@ export class Report implements ReportLike {
   public contexts: Context[]
 
   constructor(data: ReportLike | ApiReportModel) {
+    console.log(data);
     this.reportId = data.reportId
     this.reportee = ( data.reportee === null || data.reportee instanceof User ) ? data.reportee : new User(data.reportee)
     this.reportType = data.reportType
@@ -73,7 +74,17 @@ export class Report implements ReportLike {
         : new Annotation(annotation),
     )
     this.contexts = data.contexts.map((context) =>
-      context instanceof Context ? context : new Context(context),
+      {
+        //help the context relize that it goes to this report
+        //avoid a circular error by copying the data instead of
+        //referencing
+        context.report = { ...this };
+        //this helps prevent circular generation errors, you have this data
+        //already in this.contexts, theres no need to populate it again
+        context.report.contexts = [];
+
+        return context instanceof Context ? context : new Context(context)
+      }
     )
   }
 }
