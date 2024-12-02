@@ -4,7 +4,7 @@ import { ResourceService } from './resource.service'
 import { LoginDto, AuthToken } from '../models/login'
 import { User, UserLike, ApiUserModel } from '../models/user'
 import { CookieService } from 'ngx-cookie-service'
-import { map,Observable } from 'rxjs'
+import { map, Observable } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class UserServices extends ResourceService<
@@ -41,15 +41,13 @@ export class UserServices extends ResourceService<
    * returns the user that is currently logged in from the back end
    * if the user is not authenticated this WILL fail, you have been warned *^*
    * */
-  whoami() : Observable<User> {
-      return this.http.get<User>(`${this.resourceUrl}/whoami`).
-        pipe(
-          map(
-              (result)=>{
-                console.log(result); return new User(result)
-              }
-             )
-      );
+  whoami(): Observable<User> {
+    return this.http.get<User>(`${this.resourceUrl}/whoami`).pipe(
+      map((result) => {
+        console.log(result)
+        return new User(result)
+      }),
+    )
   }
 
   /*

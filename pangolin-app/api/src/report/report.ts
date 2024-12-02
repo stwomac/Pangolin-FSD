@@ -25,7 +25,7 @@ export class Report {
 
   @ManyToOne(() => User, (user) => user.reports)
   @JoinColumn({ name: 'reportee_id' })
-  reportee: User // Relation to the user who reported
+  reportee?: User // Relation to the user who reported
 
   @Column({
     name: 'report_type',
