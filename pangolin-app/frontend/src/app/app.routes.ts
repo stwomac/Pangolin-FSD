@@ -32,4 +32,5 @@ export const routes: Routes = [
     path: 'secret',
     component: SecretCowComponent,
   },
+  { path: '',   redirectTo: '/view1', pathMatch: 'full' }
 ]

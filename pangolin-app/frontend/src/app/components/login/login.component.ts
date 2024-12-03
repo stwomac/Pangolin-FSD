@@ -45,7 +45,7 @@ export class LoginComponent {
       .subscribe(
         (data) => {
           console.log(data)
-          this.router.navigate(['/view1'])
+          this.router.navigate(['/report-list'])
         },
         (error) => {
           this.error = 'Invalid Credentials'
