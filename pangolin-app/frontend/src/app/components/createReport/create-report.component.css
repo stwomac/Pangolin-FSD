@@ -7,7 +7,7 @@
 }
 #reportForm {
   display: flex;
-  margin: 0px 50px 50px 50px;
+  margin: 30px 50px 50px 50px;
   flex-direction: column;
   justify-content: space-between;
   background-color: white; /* White background for the form */

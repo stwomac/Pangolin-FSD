@@ -4,3 +4,33 @@ article {
 div {
   margin: 5px;
 }
+mat-card{
+  width: 350px;
+  margin: 15px;
+}
+h3{
+  color: var(--primary-color);
+}
+mat-card-title{
+  color: var(--primary-color);
+  text-shadow: -1px 1px 5px #d4d4d4;
+}
+mat-card-footer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+mat-chip-set{
+  width: 100%;
+  display: flex;
+  padding: 15px 5% 15px 5%;
+}
+mat-chip-set > *{
+  display: flex;
+  justify-content: space-around;
+}
+#edit-annotation{
+  justify-self: center;
+  width: 100%;
+}
+
