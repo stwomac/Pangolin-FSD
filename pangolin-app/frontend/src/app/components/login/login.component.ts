@@ -48,7 +48,7 @@ export class LoginComponent {
           this.router.navigate(['/view1'])
         },
         (error) => {
-          this.error = 'invalid credentials'
+          this.error = 'Invalid Credentials'
         },
       )
   }

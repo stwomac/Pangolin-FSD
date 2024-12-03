@@ -1,6 +1,8 @@
-<h1>Select the most relvent report type.</h1>
+
 <div>
   <form id="reportForm" (ngSubmit)="saveReport()" #reportForm="ngForm">
+    <h1>Financial Crime Report Submission</h1>
+    <h2>Start by selecting the most relevant report type</h2>
     <!-- Report Type -->
     <mat-form-field>
       <mat-label>Report Type</mat-label>
@@ -110,7 +112,7 @@
 
     <!-- Additional Context Information -->
     <div *ngIf="needsContext" id="context-table">
-      <h3 id="add-info">Addition Information: Optional</h3>
+      <h2 id="add-info">Addition Information: Optional</h2>
       <mat-form-field class="matFormField" id="org-claim">
         <mat-label>Organization Claim</mat-label>
         <input matInput [(ngModel)]="newContext.orgClaim" name="orgClaim" />

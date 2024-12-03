@@ -1,5 +1,7 @@
+<div id="main">
 <form class="loginForm">
-  <mat-form-field class="">
+  <h1>Welcome Back Fellow Tipster</h1>
+  <mat-form-field class="username">
     <mat-label>Username</mat-label>
     <input
       type="Username"
@@ -7,10 +9,11 @@
       name="username"
       placeholder="Username"
       [formControl]="txtUsername"
+      autofocus
     />
   </mat-form-field>
 
-  <mat-form-field class="">
+  <mat-form-field class="password">
     <mat-label>Password</mat-label>
     <input
       type="password"
@@ -25,7 +28,6 @@
 
   <div class="center">
     <button
-      mat-button
       (click)="tryLogin()"
       color="warn"
       aria-setsize="45"
@@ -35,3 +37,4 @@
     </button>
   </div>
 </form>
+</div>

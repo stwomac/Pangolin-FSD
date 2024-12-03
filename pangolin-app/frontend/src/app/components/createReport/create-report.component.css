@@ -1,93 +1,109 @@
-* {
-  color: #2d4224;
+*{
+    color: #426135;
+
 }
-#reportForm {
-  display: flex;
-  margin: 50px;
-  flex-direction: column;
-  justify-content: space-between;
+#body{
+    background-color: #F1F1EF;
+    padding: 50px 0px 10px 0px;
+
 }
-textarea[name='description'] {
-  height: 200px;
-  font-size: 15pt;
+#reportForm{
+    display: flex;
+    margin: 0px 50px 50px 50px;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+textarea[name="description"]{
+    height: 200px;
+    font-size: 15pt;
 }
 
-#paidForm {
-  display: flex;
-  justify-content: flex-start;
+
+#paidForm{
+    display: flex;
+    justify-content: flex-start;
 }
-#submitButton {
-  width: 200px;
-  height: 60px;
-  align-self: center;
-  background-color: #426135;
-  color: white;
-  font-family: 'Bodoni';
-  font-size: large;
-  border-radius: 8px 8px;
-  box-shadow: yellowgreen 3px 3px;
+#submitButton{
+    width: 200px;
+    height: 60px;
+    align-self: center;
+    background-color: #426135;
+    color: white;
+    font-family: 'Bodoni';
+    font-size: large;
+    border-radius: 8px 8px;
+    box-shadow: yellowgreen 3px 3px;
 }
-.matFormField {
-  margin-right: 40px;
+.matFormField{
+    margin-right: 40px;
 }
 
-h1 {
-  text-align: center;
-  font-family: 'Bodoni';
-  font-weight: 600;
-  color: #2d4224;
-  margin-bottom: 0px;
+h1{
+    text-align: center;
+    font-family: 'Bodoni';
+    font-weight: 600;
+    color: #426135;
+    margin-bottom: 50px;
+    
 }
 
-h2 {
-  text-align: center;
-  font-family: 'Bodoni';
-  font-weight: 600;
-  color: #2d4224;
+h2{
+    text-align: center;
+    font-family: 'Bodoni';
+    font-weight: 600;
+    color: #426135;
 }
-#context-table {
-  display: grid;
-  grid-template-areas:
-    'add-info add-info'
-    'org org'
-    'f-name l-name'
-    'phone phone'
-    'address city'
-    'country zip ';
+#context-table{
+    display: grid;
+    grid-template-areas: 
+    'add-info add-info add-info'
+    'org org org'
+    'f-name l-name l-name'
+    'address city zip'
+    'country phone phone '
+    ;
+    grid-template-columns: 2fr 1fr 1fr;
 }
-#add-info {
-  grid-area: add-info;
-  text-align: center;
+#add-info{
+    grid-area: add-info;
+    text-align: center;
 }
-#org-claim {
-  grid-area: org;
+#org-claim{
+    grid-area: org;
 }
-#first-name {
-  grid-area: f-name;
+#first-name{
+    grid-area: f-name;
 }
-#last-name {
-  grid-area: l-name;
+#last-name{
+    grid-area: l-name;
 }
-#street-address {
-  grid-area: address;
+#street-address{
+    grid-area: address;
 }
-#city {
-  grid-area: city;
+#city{
+    grid-area: city;
 }
-#zip {
-  grid-area: zip;
+#zip{
+    grid-area: zip;
 }
-#country {
-  grid-area: country;
+#country{
+    grid-area: country;
 }
-#phone {
-  grid-area: phone;
+#phone{
+    grid-area: phone;
 }
-#submitButton:hover {
-  cursor: pointer;
+#submitButton:hover{
+    cursor: pointer;
+    transform: translateY(1px) translateX(1px);
+    box-shadow: yellowgreen 2px 2px;
 }
-#submitButton:active {
-  background-color: #2d4224;
-  transform: translateY(3px) translateX(3px);
-  box-shadow: yellowgreen 0px 0px;
+#submitButton:active{
+    background-color: #2d4224;
+    transform: translateY(3px) translateX(3px);
+    box-shadow: yellowgreen 0px 0px;
 }
+

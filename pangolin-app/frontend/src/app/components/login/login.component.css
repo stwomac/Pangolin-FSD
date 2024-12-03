@@ -1,8 +1,61 @@
+#main{
+  background-color: #F1F1EF;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .loginForm {
-  text-align: center;
   flex-direction: row;
+  text-align: center;
+  background-color: #426135;
+  border-radius: 8px;
+  box-shadow: 0 0 10px yellowgreen;
+  padding: 20px;
   padding-left: 10%;
   padding-right: 10%;
+  display: grid;
+  grid-template-areas: 
+  'heading heading'
+  'username password'
+  'error error'
+  'submit submit'
+  ;
+  column-gap: 60px;
+  row-gap: 30px;
+
+}
+h1{
+  text-align: center;
+  font-family: 'Bodoni';
+  font-weight: bolder;
+  color: white;
+  grid-area: heading;
+}
+.username{
+  grid-area: username;
+}
+.password{
+  grid-area: password;
+}
+error-block{
+  grid-area: error;
+  margin-bottom: 20px;
+}
+button{
+  grid-area: submit;
+  position: relative;
+  left: 60%;
+  width: 200px;
+  height: 60px;
+  align-self: center;
+  background-color: white;
+  color: #426135;
+  font-family: 'Bodoni';
+  font-size: large;
+  border-radius: 8px 8px;
+  box-shadow: #22311b 3px 3px;
+  margin-bottom: 20px;
 }
 .loginForm mat-form-field {
   display: block;
@@ -10,19 +63,23 @@
   margin-left: auto;
   margin-right: auto;
 }
+/* input{
+  background-color: white;
+  height: 50px;
+  width: 180px;
+  border-radius: 10px 0px;
+  font-family: 'Bodoni';
+  font-size: 20px;
+  padding-left: 10px;
 
-.error {
-  background-color: var(--primary-error);
-  border-bottom: 5px solid var(--secondary-error);
-  color: white;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  border-radius: 8px 0;
+} */
+button:hover{
+  cursor: pointer;
+  transform: translateY(1px) translateX(1px);
+  box-shadow: #22311b 2px 2px;
 }
-.error p {
-  font-size: 150%;
-  margin: 0;
+button:active{
+  background-color: #e6e6e6;
+  transform: translateY(3px) translateX(3px);
+  box-shadow: #22311b 0px 0px;
 }
