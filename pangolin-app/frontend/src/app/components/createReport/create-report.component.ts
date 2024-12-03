@@ -142,17 +142,6 @@ export class CreateReportComponent {
     }
   }
 
-  // saveContext(): void {
-  //   if (this.newContextType) {
-  //     const contextData = new Context({
-  //       ...this.newContext,
-  //       contextType: this.newContextType,
-  //       report: this.newReport,
-  //     })
-  //     this.newReport.contexts.push(contextData)
-  //   }
-  // }
-  // Save report logic
   saveReport(): void {
     try {
       if (this.newContextType) {
@@ -163,9 +152,7 @@ export class CreateReportComponent {
         })
         this.newReport.contexts.push(contextData)
       }
-      this.reportService.create(this.newReport).subscribe(console.log)
-      console.log('Report to save:', this.newReport)
-
+      this.reportService.create(this.newReport).subscribe()
       this.router.navigate(['/view1'])
     } catch (error) {
       console.log('failed to send report')
