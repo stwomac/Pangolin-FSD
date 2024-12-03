@@ -13,6 +13,8 @@ import { Context } from 'src/context/context'
 import { UserService } from 'src/user/user.service'
 import { CreateReportDto } from './dto/create-report.dto'
 import { UpdateReportDto } from './dto/update-report.dto'
+import { HttpService } from '@nestjs/axios';
+
 
 @Injectable()
 export class ReportService {
@@ -21,6 +23,7 @@ export class ReportService {
     private readonly repo: Repository<Report>,
     private readonly contextTypeService: ContextTypeService,
     private readonly userService: UserService,
+    private readonly httpService: HttpService
   ) {}
 
   async get(reportId: number): Promise<Report> {
@@ -90,6 +93,13 @@ export class ReportService {
   async update({ reportId, reporteeId, ...updateData }: UpdateReportDto) {
     const report = await this.get(reportId)
     const updatedReport = this.repo.merge(report, updateData)
+
+    // Location for API Gateway Call. (do not await)
+    if (updatedReport.isSus) {
+      console.log('sent');
+      const sentReport = this.httpService.axiosRef.put(process.env.API_INVOKE, JSON.stringify(updatedReport));
+    }
+    
     return await this.repo.save(updatedReport)
   }
 
