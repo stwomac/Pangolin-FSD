@@ -70,7 +70,6 @@ export class Report implements ReportLike {
     return this.reportee?.userId
   }
   constructor(data: ReportLike | ApiReportModel) {
-    console.log(data)
     this.reportId = data.reportId
     this.reportee =
       data.reportee === null || data.reportee instanceof User

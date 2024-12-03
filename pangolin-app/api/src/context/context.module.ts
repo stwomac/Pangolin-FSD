@@ -7,14 +7,14 @@ import { ReportModule } from 'src/report/report.module'
 import { ReportService } from 'src/report/report.service'
 import { ContextTypeModule } from 'src/context-type/context-type.module'
 import { ContextTypeService } from 'src/context-type/context-type.service'
-import { HttpModule } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios'
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Context]),
     ReportModule,
     ContextTypeModule,
-    HttpModule
+    HttpModule,
   ],
   exports: [TypeOrmModule, ContextService, ContextTypeService, ReportService],
   controllers: [ContextController],

@@ -13,8 +13,8 @@ import { Context } from 'src/context/context'
 import { UserService } from 'src/user/user.service'
 import { CreateReportDto } from './dto/create-report.dto'
 import { UpdateReportDto } from './dto/update-report.dto'
-import { HttpService } from '@nestjs/axios';
-
+import { AnnotationService } from 'src/annotation/annotation.service'
+import { HttpService } from '@nestjs/axios'
 
 @Injectable()
 export class ReportService {
@@ -23,7 +23,8 @@ export class ReportService {
     private readonly repo: Repository<Report>,
     private readonly contextTypeService: ContextTypeService,
     private readonly userService: UserService,
-    private readonly httpService: HttpService
+    private readonly annotationService: AnnotationService,
+    private readonly httpService: HttpService,
   ) {}
 
   async get(reportId: number): Promise<Report> {
@@ -51,7 +52,6 @@ export class ReportService {
         contexts: true,
       },
     })
-    console.log(report)
     return report
   }
 
@@ -92,14 +92,44 @@ export class ReportService {
 
   async update({ reportId, reporteeId, ...updateData }: UpdateReportDto) {
     const report = await this.get(reportId)
+
+    if (updateData.annotations) {
+      //delete any annotations that are not there
+      for (let annotation of report.annotations) {
+        if (
+          !updateData.annotations.some(
+            (e) => e.annotationId === annotation.annotationId,
+          )
+        ) {
+          await this.annotationService.delete(annotation)
+        }
+      }
+
+      //create or update annotations that are in the array
+      for (let annotation of updateData.annotations) {
+        annotation.reportId = reportId
+
+        if (annotation.annotationId) {
+          await this.annotationService.update(annotation)
+        } else {
+          await this.annotationService.createAnnotation(annotation)
+        }
+      }
+    }
+
     const updatedReport = this.repo.merge(report, updateData)
+
+    //theres no need to update the annotations twice
+    updatedReport.annotations = []
 
     // Location for API Gateway Call. (do not await)
     if (updatedReport.isSus) {
-      console.log('sent');
-      const sentReport = this.httpService.axiosRef.put(process.env.API_INVOKE, JSON.stringify(updatedReport));
+      console.log('sent steven an email, be-ah cleer iz inbOx')
+      const sentReport = this.httpService.axiosRef.put(
+        process.env.API_INVOKE,
+        JSON.stringify(updatedReport),
+      )
     }
-    
     return await this.repo.save(updatedReport)
   }
 

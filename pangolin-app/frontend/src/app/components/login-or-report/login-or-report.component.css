@@ -1,7 +1,7 @@
 .welcome-container {
-  width:100vw;
-  height: 90%;  
-  background-color: #F1F1EF;
+  width: 100vw;
+  height: 90%;
+  background-color: #f1f1ef;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,17 +64,17 @@ div#welcome-buttons > button {
   font-size: x-large;
   font-family: 'Bodoni';
 }
-div#welcome-buttons>button:hover{
-    cursor: pointer;
-    transform: translateY(1px) translateX(1px);
-    box-shadow: yellowgreen 3px 3px;
+div#welcome-buttons > button:hover {
+  cursor: pointer;
+  transform: translateY(1px) translateX(1px);
+  box-shadow: yellowgreen 3px 3px;
 }
 div#welcome-buttons > button:active {
   box-shadow: yellowgreen 0px 0px;
   transform: translateY(4px) translateX(4px);
 }
-@media only screen and (max-height: 700px){
-    .welcome-container {
-        height: 600px;
-    }
+@media only screen and (max-height: 700px) {
+  .welcome-container {
+    height: 600px;
+  }
 }

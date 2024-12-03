@@ -3,7 +3,7 @@ import { map, Observable } from 'rxjs'
 import { Deserializable } from '../models/utils/serializable'
 
 export abstract class ResourceService<ModelType, DataType, ApiDataModel> {
-  protected baseUrl = 'http://localhost:3000'
+  protected baseUrl = 'http://rockhopper:3000'
   protected resourceUrl: string
   protected constructor(
     protected http: HttpClient,

@@ -36,12 +36,10 @@ export class ReportComponent {
   }
 
   updateReport() {
-    console.log('updating the report!')
-    if (this.report) {
-      this.apiService.update(this.report).subscribe((data) => {
-        data
-      })
-      console.log('after update')
-    }
+    if (!this.report) return
+
+    this.apiService.update(this.report).subscribe((data) => {
+      data
+    })
   }
 }
