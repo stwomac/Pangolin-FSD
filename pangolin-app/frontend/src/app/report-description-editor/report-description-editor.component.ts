@@ -19,7 +19,6 @@ export class ReportDescriptionEditorComponent {
   txtDescriptionEditor : FormControl = new FormControl('');
   placeholder : string = "";
   ngOnInit() {
-    console.log(this.report);
     if (!this.report) return;
     this.txtDescriptionEditor.valueChanges.subscribe((data) => {
       console.log(this);
