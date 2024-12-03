@@ -6,7 +6,6 @@ import {
   IsDateString,
   IsNotEmpty,
   IsBoolean,
-  IsCurrency,
   IsArray,
   ValidateNested,
 } from 'class-validator'
@@ -36,7 +35,7 @@ export class CreateReportDto {
   @IsBoolean()
   paid: boolean
 
-  @IsCurrency()
+  @IsNumber()
   amount: string
 
   @IsEnum(PaymentMethod)
