@@ -23,7 +23,8 @@ const CreateHeadlessContextDto = OmitType(CreateContextDto, [
 
 export class CreateReportDto {
   @IsNumber()
-  reporteeId: number
+  @IsOptional()
+  reporteeId?: number
 
   @IsEnum(ReportType)
   reportType: ReportType

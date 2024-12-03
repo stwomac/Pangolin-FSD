@@ -7,11 +7,31 @@ import { ContextTypeModule } from 'src/context-type/context-type.module'
 import { ContextTypeService } from 'src/context-type/context-type.service'
 import { UserModule } from 'src/user/user.module'
 import { UserService } from 'src/user/user.service'
+import { HttpModule } from '@nestjs/axios'
+import { AnnotationService } from 'src/annotation/annotation.service'
+import { AnnotationModule } from 'src/annotation/annotation.module'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Report]), ContextTypeModule, UserModule],
-  exports: [TypeOrmModule, ReportService, ContextTypeService, UserService],
+  imports: [
+    TypeOrmModule.forFeature([Report]),
+    ContextTypeModule,
+    UserModule,
+    AnnotationModule,
+    HttpModule,
+  ],
+  exports: [
+    TypeOrmModule,
+    ReportService,
+    ContextTypeService,
+    UserService,
+    AnnotationService,
+  ],
+  providers: [
+    ReportService,
+    ContextTypeService,
+    UserService,
+    AnnotationService,
+  ],
   controllers: [ReportController],
-  providers: [ReportService, ContextTypeService, UserService],
 })
 export class ReportModule {}

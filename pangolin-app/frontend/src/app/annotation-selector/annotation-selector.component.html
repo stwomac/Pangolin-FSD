@@ -1,13 +1,30 @@
 <div *ngIf="visible" class="annotation-selector">
   <div class="annotation-checkbox-container">
-    @for (annotation of annotationList; track annotation) {
-      <mat-checkbox
-        (input)="
-          checkBoxInputChanged({ event: $event, annotation: annotation })
-        "
-        [checked]="shouldBeChecked(annotation)"
-        >{{ annotation.annotation }}</mat-checkbox
-      >
+    @if (bufferReport) {
+      @for (annotation of bufferReport.annotations; track annotation) {
+        <mat-checkbox
+          (input)="
+            checkBoxInputChanged({ event: $event, annotation: annotation })
+          "
+          [checked]="true"
+          >{{ annotation.annotation }}</mat-checkbox
+        >
+      }
     }
+
+    <mat-form-field class="annotation-input">
+      <mat-label>Annotation</mat-label>
+      <textarea
+        matInput
+        [formControl]="txtAnnotation"
+        value=""
+        placeholder="Annotation"
+      ></textarea>
+
+      <button mat-button (click)="addAnotation()">add</button>
+    </mat-form-field>
+
+    <button mat-button (click)="save()">save</button>
+    <button mat-button (click)="cancel()">cancel</button>
   </div>
 </div>
