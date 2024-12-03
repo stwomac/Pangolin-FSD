@@ -68,6 +68,7 @@ export class ReportComponent {
     this.report.annotations = this.bufferReport.annotations;
   }
   updateReport() {
+    console.log(this.report);
     if (!this.report) return
 
     this.apiService.update(this.report).subscribe((data) => {
