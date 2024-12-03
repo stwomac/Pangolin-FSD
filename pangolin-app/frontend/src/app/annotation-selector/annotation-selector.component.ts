@@ -34,13 +34,6 @@ export class AnnotationSelectorComponent implements OnInit {
   //this is the report that we are going to edit when saving and loading
   @Input() report: Report | null = null
 
-  @Output() onSave: EventEmitter<this> = new EventEmitter<this>()
-  @Output() onCancel: EventEmitter<this> = new EventEmitter<this>()
-
-  //this is the buffer report that we do most of our work in
-  //before saving
-  bufferReport: Report | null = null
-
   txtAnnotation: FormControl = new FormControl('txtAnnotation')
 
   get visible(): boolean {
@@ -50,17 +43,6 @@ export class AnnotationSelectorComponent implements OnInit {
     this.isVisible = value
   }
 
-  save() {
-    this.pushBuffer()
-    this.visible = false
-    this.onSave.emit(this)
-  }
-
-  cancel() {
-    this.pullBuffer()
-    this.visible = false
-    this.onCancel.emit(this)
-  }
 
   //update our report
   updateReport() {
@@ -68,47 +50,25 @@ export class AnnotationSelectorComponent implements OnInit {
   }
 
   checkBoxInputChanged(event: any) {
-    if (!this.report || !this.bufferReport) return
+    if (!this.report) return
 
     if (!event.event.target.checked)
-      this.bufferReport.annotations = this.bufferReport.annotations.filter(
+      this.report.annotations = this.report.annotations.filter(
         (ele) => ele.annotation !== event.annotation.annotation,
       )
     else if (
-      !this.bufferReport.annotations.some(
+      !this.report.annotations.some(
         (ele) => ele.annotation === event.annotation.annotation,
       )
     )
-      this.bufferReport.annotations.push(event.annotation)
+      this.report.annotations.push(event.annotation)
   }
 
-  /*
-   * pulls the primary report into the buffer report
-   * */
-  pullBuffer() {
-    if (this.report) {
-      this.bufferReport = this.report
-      this.bufferReport.annotations = this.report.annotations.slice(0) //copy the array so we don't have a pointer to the same ref
-    }
-  }
-
-  /*
-   * saves the buffer
-   * */
-  pushBuffer() {
-    if (!this.bufferReport || !this.report) return
-
-    this.report.annotations = this.bufferReport.annotations
-
-    //we don't want changes to the buffer to instantly be reflected in the report
-    //so we pull to induce the copy code and prevent reference syncing
-    this.pullBuffer()
-  }
 
   addAnotation() {
-    if (!this.bufferReport) return
+    if (!this.report) return
 
-    this.bufferReport.annotations.push(
+    this.report.annotations.push(
       Annotation.fromString(this.txtAnnotation.value, this.report?.reportId),
     )
 
@@ -117,7 +77,6 @@ export class AnnotationSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.pullBuffer()
     this.txtAnnotation.setValue('')
   }
 }
