@@ -1,4 +1,8 @@
-<h1 class="mat-h1">Dashboard</h1>
-@for (report of reports; track report) {
-  <div><app-report [report]="report"></app-report></div>
-}
+<div id="body">
+  <div id="cards">
+    <h1 class="mat-h1">Dashboard</h1>
+    @for (report of reports; track report) {
+      <div id="card"><app-report [report]="report"></app-report></div>
+    }
+  </div>
+</div>

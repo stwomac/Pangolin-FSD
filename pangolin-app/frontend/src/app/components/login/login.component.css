@@ -29,6 +29,8 @@ h1 {
   font-weight: bolder;
   color: white;
   grid-area: heading;
+  text-shadow: -1px 1px 5px #000,
+  1px 1px 5px #000;
 }
 .username {
   grid-area: username;
