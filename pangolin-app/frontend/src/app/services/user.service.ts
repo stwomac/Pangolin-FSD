@@ -37,6 +37,10 @@ export class UserServices extends ResourceService<
     return observer
   }
 
+  trySignUp(email : string, password : string) : void {
+    this.http.post(`${this.resourceUrl}`, { email: email, password: password }).subscribe(data => {});
+  }
+
   /*
    * returns the user that is currently logged in from the back end
    * if the user is not authenticated this WILL fail, you have been warned *^*
