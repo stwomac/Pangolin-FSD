@@ -42,12 +42,9 @@ export class ReportComponent {
     this.updateMode = !this.updateMode;
   }
 
-  save() {
-    this.pushBuffer()
-  }
-
   cancel() {
     this.pullBuffer()
+    this.toggleEditMode();
   }
 
 
@@ -68,13 +65,14 @@ export class ReportComponent {
   pushBuffer() {
     if (!this.bufferReport) return
     this.report = new Report({...this.bufferReport});
+    this.report.annotations = this.bufferReport.annotations;
   }
   updateReport() {
     if (!this.report) return
 
     this.apiService.update(this.report).subscribe((data) => {
       data
-    })
+    });
   }
 
   ngOnInit() {
@@ -83,6 +81,12 @@ export class ReportComponent {
       //copy over the report to a buffer for save reset functionality
       this.bufferReport = new Report({...this.report});
       this.bufferReport.annotations = this.report.annotations.slice(0)
+  }
+
+  save() {
+    this.pushBuffer();
+    this.toggleEditMode();
+    this.updateReport();
   }
 
 
