@@ -21,7 +21,7 @@ export class Nav_BarComponent {
   navigateToSignIn() {
     this.userService.isLoggedIn().subscribe((isLoggedIn) => {
       if (isLoggedIn) {
-        this.router.navigate(['/report'])
+        this.router.navigate(['/report-list'])
       } else {
         this.router.navigate(['/login'])
       }

@@ -15,6 +15,7 @@ mat-card-title{
   color: var(--primary-color);
   text-shadow: -1px 1px 5px #d4d4d4;
 }
+
 mat-card-footer{
   display: flex;
   flex-wrap: wrap;
@@ -30,7 +31,21 @@ mat-chip-set > *{
   justify-content: space-around;
 }
 #edit-annotation{
-  justify-self: center;
-  width: 100%;
+  margin: auto;
+  width: 80%;
+}
+button{
+  background-color: #426135;
+  color: white;
+  font-family: 'Bodoni';
+  border-radius: 8px 8px;
+  box-shadow: yellowgreen 3px 3px;
+}
+#edit-annotation{
+  height: 60px;
+  font-size: large;
+}
+div.btn-primary > button{
+  
 }
 
