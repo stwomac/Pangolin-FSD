@@ -25,20 +25,10 @@
 
       <div class="annotation-editor">
         <app-annotation-selector
-          (onSave)="displayAnnotationSelector()"
-          (onCancel)="displayAnnotationSelector()"
           [visible]="updateMode"
           [report]="bufferReport"
         />
       </div>
-
-      <button
-        *ngIf="!updateMode"
-        (click)="displayAnnotationSelector()"
-        id="edit-annotation"
-      >
-        Edit Annotations
-      </button>
     </mat-card-content>
     <div>
       <mat-card-footer class="example-card-footer">

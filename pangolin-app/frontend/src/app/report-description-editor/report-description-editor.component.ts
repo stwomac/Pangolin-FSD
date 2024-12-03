@@ -18,17 +18,14 @@ export class ReportDescriptionEditorComponent {
 
   txtDescriptionEditor : FormControl = new FormControl('');
   placeholder : string = "";
-
-  onTxtDescriptionChanged(data : string) {
-    if (!this.report) return;
-
-    this.report.description = data;
-  }
-
   ngOnInit() {
+    console.log(this.report);
     if (!this.report) return;
-
-    this.txtDescriptionEditor.valueChanges.subscribe(this.onTxtDescriptionChanged);
-    this.placeholder = this.report.description;
+    this.txtDescriptionEditor.valueChanges.subscribe((data) => {
+      console.log(this);
+      if (!this.report) return;
+      this.report.description = data
+    });
+    //this.placeholder = this.report.description;
   }
 }
