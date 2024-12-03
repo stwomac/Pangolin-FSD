@@ -48,8 +48,8 @@ export class ReportService {
         contexts: true,
       },
     })
-    console.log(report);
-    return report;
+    console.log(report)
+    return report
   }
 
   async create({
@@ -59,7 +59,9 @@ export class ReportService {
   }: CreateReportDto): Promise<Report> {
     // this is trash code - very sorry
     const [reportee, ...contexts] = await Promise.all([
-      this.userService.getById(reporteeId),
+      reporteeId === undefined
+        ? undefined
+        : this.userService.getById(reporteeId),
       ...(createConextsData?.map(async (contextData) => {
         const context = new Context()
         context.contextType = await this.contextTypeService.get(

@@ -1,12 +1,12 @@
 
-<div id="body">
-<form id="reportForm">
-  <h1>Financial Crime Report Submission</h1>
-  <h2>Start by selecting the most relevant report type</h2>
+<div>
+  <form id="reportForm" (ngSubmit)="saveReport()" #reportForm="ngForm">
+    <h1>Financial Crime Report Submission</h1>
+    <h2>Start by selecting the most relevant report type</h2>
     <!-- Report Type -->
     <mat-form-field>
       <mat-label>Report Type</mat-label>
-      <mat-select [(ngModel)]="newReport.reportType" name="reportType">
+      <mat-select [(ngModel)]="newReport.reportType" name="reportType" required>
         <mat-option
           *ngFor="let reportType of report_types"
           [value]="reportType.key"
@@ -152,12 +152,7 @@
     </div>
 
     <!-- Submit Button -->
-    <button
-      id="submitButton"
-      mat-raised-button
-      color="primary"
-      (click)="saveReport()"
-    >
+    <button id="submitButton" mat-raised-button color="primary" type="submit">
       Save Report
     </button>
   </form>
