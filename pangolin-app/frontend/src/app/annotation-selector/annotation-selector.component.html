@@ -1,7 +1,7 @@
 <div *ngIf="visible" class="annotation-selector">
   <div class="annotation-checkbox-container">
-    @if (bufferReport) {
-      @for (annotation of bufferReport.annotations; track annotation) {
+    @if (report) {
+      @for (annotation of report.annotations; track annotation) {
         <mat-checkbox
           (input)="
             checkBoxInputChanged({ event: $event, annotation: annotation })
@@ -23,8 +23,5 @@
 
       <button mat-button (click)="addAnotation()">add</button>
     </mat-form-field>
-
-    <button mat-button (click)="save()">save</button>
-    <button mat-button (click)="cancel()">cancel</button>
   </div>
 </div>
