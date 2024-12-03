@@ -6,12 +6,9 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
-      #DATABASE_PASSWORD: ./secrets/db_password
     ports:
       - 3000:3000
     env_file: pangolin-app/api/.env
-    secrets:
-      - db_password
   frontend:
     image: pangolin-frontend
     build:
@@ -21,6 +18,3 @@ services:
       NODE_ENV: production
     ports:
       - 4200:4200
-secrets:
-  db_password:
-    file: ./db_password.txt

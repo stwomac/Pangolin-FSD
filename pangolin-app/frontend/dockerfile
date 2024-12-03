@@ -7,10 +7,5 @@ RUN echo "npm install"
 RUN npm install 
 RUN echo "angular install"
 RUN npm install -g @angular/cli
-RUN echo "moving modules"  
-RUN mv node_modules ../ 
 EXPOSE 4200
-# RUN echo "chown"
-# RUN chown -R node /usr/src/app
-# USER node
 CMD ["ng", "serve", "--host", "0.0.0.0"]
