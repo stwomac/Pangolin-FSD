@@ -29,8 +29,7 @@ h1 {
   font-weight: bolder;
   color: white;
   grid-area: heading;
-  text-shadow: -1px 1px 5px #000,
-  1px 1px 5px #000;
+  text-shadow: 1px 1px 3px #000;
 }
 .username {
   grid-area: username;
@@ -52,7 +51,9 @@ button {
   background-color: white;
   color: #426135;
   font-family: 'Bodoni';
-  font-size: large;
+  font-size: 21px;
+  text-shadow: 1px 1px 4px #c7c7be;
+  font-weight: bold;
   border-radius: 8px 8px;
   box-shadow: #22311b 3px 3px;
   margin-bottom: 20px;
