@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips'
 import { MatButton } from '@angular/material/button'
 import { AnnotationSelectorComponent } from '../../annotation-selector/annotation-selector.component'
 import { NgIf } from '@angular/common'
+import {ReportDescriptionEditorComponent} from '../../report-description-editor/report-description-editor.component'
 
 @Component({
   selector: 'app-report',
@@ -14,6 +15,7 @@ import { NgIf } from '@angular/common'
     MatChipsModule,
     MatButton,
     AnnotationSelectorComponent,
+    ReportDescriptionEditorComponent,
     NgIf,
   ],
   templateUrl: './report.component.html',
@@ -21,10 +23,11 @@ import { NgIf } from '@angular/common'
   standalone: true,
 })
 export class ReportComponent {
-  visibleAnnotationSelector: boolean = false
+  updateMode: boolean = false
   message: any
 
   @Input() report: Report | null = null
+  bufferReport : Report | null = null;
 
   constructor(private apiService: ReportServices) {}
   /*
@@ -32,9 +35,40 @@ export class ReportComponent {
    * anotation selector element in the UI
    * */
   displayAnnotationSelector() {
-    this.visibleAnnotationSelector = !this.visibleAnnotationSelector
+    this.updateMode = !this.updateMode
   }
 
+  toggleEditMode() {
+    this.updateMode = !this.updateMode;
+  }
+
+  save() {
+    this.pushBuffer()
+  }
+
+  cancel() {
+    this.pullBuffer()
+  }
+
+
+  /*
+   * pulls the primary report into the buffer report
+   * */
+  pullBuffer() {
+    if (!this.report) return;
+
+    this.bufferReport = new Report({...this.report});
+    this.bufferReport.annotations = this.report.annotations.slice(0) //copy the array so we don't have a pointer to the same ref
+
+  }
+
+  /*
+   * saves the buffer
+   * */
+  pushBuffer() {
+    if (!this.bufferReport) return
+    this.report = new Report({...this.bufferReport});
+  }
   updateReport() {
     if (!this.report) return
 
@@ -42,4 +76,14 @@ export class ReportComponent {
       data
     })
   }
+
+  ngOnInit() {
+    if (!this.report) return;
+
+      //copy over the report to a buffer for save reset functionality
+      this.bufferReport = new Report({...this.report});
+      this.bufferReport.annotations = this.report.annotations.slice(0)
+  }
+
+
 }
