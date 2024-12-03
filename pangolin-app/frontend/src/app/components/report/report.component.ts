@@ -30,14 +30,7 @@ export class ReportComponent {
   bufferReport : Report | null = null;
 
   constructor(private apiService: ReportServices) {}
-  /*
-   * this function is used to connect the Annotate button to displaying the child
-   * anotation selector element in the UI
-   * */
-  displayAnnotationSelector() {
-    this.updateMode = !this.updateMode
-  }
-
+  
   toggleEditMode() {
     this.updateMode = !this.updateMode;
   }
