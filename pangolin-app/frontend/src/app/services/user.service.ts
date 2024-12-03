@@ -4,7 +4,7 @@ import { ResourceService } from './resource.service'
 import { LoginDto, AuthToken } from '../models/login'
 import { User, UserLike, ApiUserModel } from '../models/user'
 import { CookieService } from 'ngx-cookie-service'
-import { map, Observable } from 'rxjs'
+import { map, Observable, ObservableLike } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class UserServices extends ResourceService<
@@ -37,8 +37,8 @@ export class UserServices extends ResourceService<
     return observer
   }
 
-  trySignUp(email : string, password : string) : void {
-    this.http.post(`${this.resourceUrl}`, { email: email, password: password }).subscribe(data => {});
+  trySignUp(email : string, password : string) : Observable<any> {
+    return this.http.post(`${this.resourceUrl}`, { email: email, password: password });
   }
 
   /*
