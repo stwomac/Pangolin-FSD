@@ -12,17 +12,19 @@
       }
     }
 
-
     <mat-form-field class="annotation-input">
       <mat-label>Annotation</mat-label>
-      <textarea matInput [formControl]="txtAnnotation" value="" placeholder="Annotation"></textarea>
+      <textarea
+        matInput
+        [formControl]="txtAnnotation"
+        value=""
+        placeholder="Annotation"
+      ></textarea>
 
       <button mat-button (click)="addAnotation()">add</button>
     </mat-form-field>
 
-
     <button mat-button (click)="save()">save</button>
     <button mat-button (click)="cancel()">cancel</button>
-
   </div>
 </div>

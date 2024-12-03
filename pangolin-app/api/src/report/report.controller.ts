@@ -30,6 +30,7 @@ export class ReportController {
   @Post()
   @HttpCode(201)
   createReport(@Body() createReportData: CreateReportDto) {
+    console.log(createReportData)
     return this.reportsService.create(createReportData)
   }
 

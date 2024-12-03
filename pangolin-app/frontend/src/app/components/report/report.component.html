@@ -26,7 +26,11 @@
         />
       </div>
 
-      <button mat-button *ngIf="!visibleAnnotationSelector" (click)="displayAnnotationSelector()">
+      <button
+        mat-button
+        *ngIf="!visibleAnnotationSelector"
+        (click)="displayAnnotationSelector()"
+      >
         Edit Annotations
       </button>
     </mat-card-content>
