@@ -90,9 +90,17 @@ export class ReportService {
     const report = await this.get(reportId);
 
     if (updateData.annotations) {
+      
+       //delete any annotations that are not there
+      for (let annotation of report.annotations) {
+         if (!updateData.annotations.some(e=>e.annotationId === annotation.annotationId)) {
+            await this.annotationService.delete(annotation);
+         }
+       }
+      
+       //create or update annotations that are in the array
       for (let annotation of  updateData.annotations) {
          annotation.reportId = reportId;
-         console.log(annotation);
          if (annotation.annotationId) {
             await this.annotationService.update(annotation);
          } else {
@@ -101,10 +109,14 @@ export class ReportService {
       }
     }
 
-    //there is no need to update the annotations twice
-    report.annotations = [];
 
-    const updatedReport = this.repo.merge(report, updateData)
+    const updatedReport = this.repo.merge(report, updateData);
+
+    //theres no need to update the annotations twice
+    updatedReport.annotations = []
+
+    console.log(updatedReport);
+
     return await this.repo.save(updatedReport)
   }
 
