@@ -1,19 +1,28 @@
 import { NgIf } from '@angular/common'
-import { Input, Component } from '@angular/core'
+import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { AnnotationServices } from '../services/annoation.service'
 import { Annotation } from '../models/annotation'
 import { Report } from '../models/report'
 import { MatCheckbox } from '@angular/material/checkbox'
 import { MatButton } from '@angular/material/button'
 import { ReportServices } from '../services/report.service'
+import { FormControl, ReactiveFormsModule } from '@angular/forms'
+import { MatInputModule } from '@angular/material/input'
 
 @Component({
   selector: 'app-annotation-selector',
-  imports: [NgIf, MatCheckbox, MatButton],
+  imports: [
+    NgIf,
+    MatCheckbox,
+    MatButton,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButton,
+  ],
   templateUrl: './annotation-selector.component.html',
   styleUrl: './annotation-selector.component.css',
 })
-export class AnnotationSelectorComponent {
+export class AnnotationSelectorComponent implements OnInit {
   constructor(
     private annotationServices: AnnotationServices,
     private reportServices: ReportServices,
@@ -22,35 +31,18 @@ export class AnnotationSelectorComponent {
   //mapped to an ngIf for visibility, see the setter getters :)
   private isVisible: boolean = false
 
-  //this is the primary list displayed out to the user
-  annotationList: Array<Annotation> = []
-
-  //report we are adding anotations to, if any
+  //this is the report that we are going to edit when saving and loading
   @Input() report: Report | null = null
 
-  shouldBeChecked(annotation: Annotation): boolean {
-    if (!this.report) {
-      return false
-    }
-
-    //the lack of functioning id's makes me sad :(
-    return this.report.annotations.some(
-      (ele) => ele.annotation === annotation.annotation,
-    )
-  }
+  txtAnnotation: FormControl = new FormControl('txtAnnotation')
 
   get visible(): boolean {
     return this.isVisible
   }
   @Input() set visible(value: boolean) {
-    //we don't want to re-ping the database
-    if (value && this.annotationList.length < 1) {
-      this.annotationServices.getAll().subscribe((data) => {
-        this.annotationList = data
-      })
-    }
     this.isVisible = value
   }
+
 
   //update our report
   updateReport() {
@@ -70,5 +62,21 @@ export class AnnotationSelectorComponent {
       )
     )
       this.report.annotations.push(event.annotation)
+  }
+
+
+  addAnotation() {
+    if (!this.report) return
+
+    this.report.annotations.push(
+      Annotation.fromString(this.txtAnnotation.value, this.report?.reportId),
+    )
+
+    //clear out the input for convinence
+    this.txtAnnotation.setValue('')
+  }
+
+  ngOnInit(): void {
+    this.txtAnnotation.setValue('')
   }
 }

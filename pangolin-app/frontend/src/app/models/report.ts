@@ -5,7 +5,7 @@ import { User, ApiUserModel } from './user'
 
 export interface ApiReportModel {
   reportId: number
-  reportee: ApiUserModel
+  reportee: ApiUserModel | null
   reportType: ReportType
   description: string
   paid: boolean
@@ -25,7 +25,7 @@ export interface ReportLike
     'reportId' | 'reportee' | 'annotations' | 'contexts'
   > {
   reportId?: number
-  reportee: User
+  reportee: User | null
   reportType: ReportType
   description: string
   paid: boolean
@@ -42,7 +42,7 @@ export interface ReportLike
 @Deserializable<Report, ReportLike, ApiReportModel>()
 export class Report implements ReportLike {
   public readonly reportId?: number
-  public reportee: User
+  public reportee: User | null
   public reportType: ReportType
   public description: string
   public paid: boolean
@@ -55,10 +55,26 @@ export class Report implements ReportLike {
   public annotations: Annotation[]
   public contexts: Context[]
 
+  toJSON() {
+    const { contexts, ...reportData } = this // Exclude the contexts property
+    return {
+      ...reportData,
+      contexts: this.contexts.map((context) => {
+        const { report, ...contextData } = context // Exclude the circular report reference
+        return contextData // Return a non-circular version of the context
+      }), // Assuming context also has a toJSON method
+    }
+  }
+
+  get reporteeId() {
+    return this.reportee?.userId
+  }
   constructor(data: ReportLike | ApiReportModel) {
     this.reportId = data.reportId
     this.reportee =
-      data.reportee instanceof User ? data.reportee : new User(data.reportee)
+      data.reportee === null || data.reportee instanceof User
+        ? data.reportee
+        : new User(data.reportee)
     this.reportType = data.reportType
     this.description = data.description
     this.paid = data.paid
@@ -73,9 +89,17 @@ export class Report implements ReportLike {
         ? annotation
         : new Annotation(annotation),
     )
-    this.contexts = data.contexts.map((context) =>
-      context instanceof Context ? context : new Context(context),
-    )
+    this.contexts = data.contexts.map((context) => {
+      //help the context relize that it goes to this report
+      //avoid a circular error by copying the data instead of
+      //referencing
+      context.report = { ...this }
+      //this helps prevent circular generation errors, you have this data
+      //already in this.contexts, theres no need to populate it again
+      context.report.contexts = []
+
+      return context instanceof Context ? context : new Context(context)
+    })
   }
 }
 

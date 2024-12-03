@@ -21,6 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { ReportServices } from '../../services/report.service'
 import { ContextServices } from '../../services/context.service'
+import { UserServices } from '../../services/user.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-create-report',
@@ -49,15 +51,13 @@ import { ContextServices } from '../../services/context.service'
 export class CreateReportComponent {
   constructor(
     private reportService: ReportServices,
-    contextService: ContextServices,
+    private userService: UserServices,
+    private contextService: ContextServices,
+    private router: Router,
   ) {}
   // Available payment methods for the dropdown
   payment_methods = Object.values(PaymentMethod)
-  loggedInUser: User = new User({
-    userId: 2,
-    email: 'anonymous@gmail.com',
-    role: 'anonymous',
-  })
+  loggedInUser: User | null = null
   report_types: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },
     {
@@ -76,176 +76,12 @@ export class CreateReportComponent {
     { key: 'CREDIT_SCAM', value: 'Credit, debt, loan' },
     { key: 'OTHER', value: 'Other' },
   ]
-  contextTypes: ContextType[] = [
-    { contextTypeId: 0, contextName: 'None/Other', type: ReportType.OTHER },
-    {
-      contextTypeId: 1,
-      contextName: 'Government authority or agency',
-      type: ReportType.IMPERSONATOR,
-    },
-    {
-      contextTypeId: 2,
-      contextName: 'Grandchild, family member, friend',
-      type: ReportType.IMPERSONATOR,
-    },
-    {
-      contextTypeId: 3,
-      contextName: 'Your boss or co-worker',
-      type: ReportType.IMPERSONATOR,
-    },
-    {
-      contextTypeId: 4,
-      contextName: 'Well-known or trusted business',
-      type: ReportType.IMPERSONATOR,
-    },
-    {
-      contextTypeId: 5,
-      contextName: 'Love interest',
-      type: ReportType.IMPERSONATOR,
-    },
-    {
-      contextTypeId: 6,
-      contextName: 'Charity or charitable cause',
-      type: ReportType.JOB_OPPORTUNITY,
-    },
-    {
-      contextTypeId: 7,
-      contextName: 'Investment/seminar',
-      type: ReportType.JOB_OPPORTUNITY,
-    },
-    {
-      contextTypeId: 8,
-      contextName: 'Program for self/employ or start business',
-      type: ReportType.JOB_OPPORTUNITY,
-    },
-    {
-      contextTypeId: 9,
-      contextName: 'Franchise',
-      type: ReportType.JOB_OPPORTUNITY,
-    },
-    {
-      contextTypeId: 10,
-      contextName: 'Job scam, job listing or employment service',
-      type: ReportType.JOB_OPPORTUNITY,
-    },
-    {
-      contextTypeId: 11,
-      contextName: 'Pyramid scheme',
-      type: ReportType.JOB_OPPORTUNITY,
-    },
-    {
-      contextTypeId: 12,
-      contextName: 'Computer tech support service',
-      type: ReportType.SERVICE_SCAM,
-    },
-    {
-      contextTypeId: 13,
-      contextName: 'Internet service',
-      type: ReportType.SERVICE_SCAM,
-    },
-    {
-      contextTypeId: 14,
-      contextName: 'Privacy or data security concern',
-      type: ReportType.SERVICE_SCAM,
-    },
-    {
-      contextTypeId: 15,
-      contextName: 'Cellular or landline phone service',
-      type: ReportType.SERVICE_SCAM,
-    },
-    {
-      contextTypeId: 16,
-      contextName: 'TV Service',
-      type: ReportType.SERVICE_SCAM,
-    },
-    {
-      contextTypeId: 17,
-      contextName: 'Weight loss product or plan',
-      type: ReportType.HEALTH_SCAM,
-    },
-    {
-      contextTypeId: 18,
-      contextName: 'Eye care',
-      type: ReportType.HEALTH_SCAM,
-    },
-    {
-      contextTypeId: 19,
-      contextName: 'Any other health care problem',
-      type: ReportType.HEALTH_SCAM,
-    },
-    {
-      contextTypeId: 20,
-      contextName: 'Fake or misleading medical treatment',
-      type: ReportType.HEALTH_SCAM,
-    },
-    {
-      contextTypeId: 21,
-      contextName:
-        'Pretending to be working with government health agency (Medicare, Medicaid)',
-      type: ReportType.HEALTH_SCAM,
-    },
-    {
-      contextTypeId: 22,
-      contextName: 'Problem with online purchase or sale',
-      type: ReportType.ONLINE_SHOPPING,
-    },
-    {
-      contextTypeId: 23,
-      contextName: 'Someone pretending to be a well-known online seller',
-      type: ReportType.ONLINE_SHOPPING,
-    },
-    {
-      contextTypeId: 24,
-      contextName: 'Vacation or cruise',
-      type: ReportType.SWEEPSTAKES,
-    },
-    {
-      contextTypeId: 25,
-      contextName: 'Money or prize',
-      type: ReportType.SWEEPSTAKES,
-    },
-    {
-      contextTypeId: 26,
-      contextName: 'New auto sales experience',
-      type: ReportType.AUTO_SALE,
-    },
-    {
-      contextTypeId: 27,
-      contextName: 'Auto parts or repair',
-      type: ReportType.AUTO_SALE,
-    },
-    {
-      contextTypeId: 28,
-      contextName: 'Used auto sales experience',
-      type: ReportType.AUTO_SALE,
-    },
-    {
-      contextTypeId: 29,
-      contextName: 'Auto warranty',
-      type: ReportType.AUTO_SALE,
-    },
-    {
-      contextTypeId: 30,
-      contextName:
-        'Credit repair, debt relief (including student loan debt relief)',
-      type: ReportType.CREDIT_SCAM,
-    },
-    {
-      contextTypeId: 31,
-      contextName: 'Debt collection, credit card, credit reporting, or banking',
-      type: ReportType.CREDIT_SCAM,
-    },
-    {
-      contextTypeId: 32,
-      contextName: 'Company charging fees to get a loan or credit card',
-      type: ReportType.CREDIT_SCAM,
-    },
-  ]
+  contextTypes: ContextType[] = []
 
   // Computed getter for filtered context types
   get filteredContextTypes(): ContextType[] {
     return this.contextTypes.filter(
-      (contextType) => contextType.type === this.newReport.reportType,
+      (contextType) => contextType.reportType === this.newReport.reportType,
     )
   }
   // Event handler for the "Ongoing Problem" checkbox
@@ -288,28 +124,40 @@ export class CreateReportComponent {
   })
 
   ngOnInit(): void {
-    // Simulate fetching the logged-in user
-    //TODO update this.loggedInUser
+    this.contextService.getTypes().subscribe((data) => {
+      this.contextTypes = data
+      console.log(this.contextTypes)
+    })
+    if (this.userService.isLoggedIn()) {
+      this.userService.whoami().subscribe((data) => {
+        console.log(data)
+        this.loggedInUser = data
+      })
+    } else {
+      console.log('you are not logged in')
+    }
+
     if (!this.isOngoing) {
       this.newReport.initialDate = this.newReport.recentDate
     }
   }
 
-  saveContext(): void {
-    if (this.newContextType) {
-      const contextData = new Context({
-        ...this.newContext,
-        contextType: this.newContextType,
-        report: this.newReport,
-      })
-      this.newReport.contexts.push(contextData)
-    }
-    console.log('Updated Report Context:', this.newReport.contexts)
-  }
-  // Save report logic
   saveReport(): void {
-    this.saveContext()
-    console.log('Report to save:', this.newReport)
-    // Send `this.newReport` to your backend service
+    try {
+      if (this.newContextType) {
+        const contextData = new Context({
+          ...this.newContext,
+          contextTypeId: this.newContextType.contextTypeId,
+          report: this.newReport,
+        })
+        this.newReport.contexts.push(contextData)
+      }
+
+      this.newReport.amount = this.newReport.amount.toString();
+      this.reportService.create(this.newReport).subscribe()
+      this.router.navigate(['/view1'])
+    } catch (error) {
+      console.log('failed to send report')
+    }
   }
 }

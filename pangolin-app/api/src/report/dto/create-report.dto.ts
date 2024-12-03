@@ -6,9 +6,11 @@ import {
   IsDateString,
   IsNotEmpty,
   IsBoolean,
-  IsCurrency,
   IsArray,
   ValidateNested,
+  IsCurrency,
+  IsNumberString,
+  isNumberString,
 } from 'class-validator'
 import { Type } from 'class-transformer'
 import { OmitType } from '@nestjs/mapped-types'
@@ -23,7 +25,8 @@ const CreateHeadlessContextDto = OmitType(CreateContextDto, [
 
 export class CreateReportDto {
   @IsNumber()
-  reporteeId: number
+  @IsOptional()
+  reporteeId?: number
 
   @IsEnum(ReportType)
   reportType: ReportType
@@ -35,7 +38,7 @@ export class CreateReportDto {
   @IsBoolean()
   paid: boolean
 
-  @IsCurrency()
+  @IsNumberString()
   amount: string
 
   @IsEnum(PaymentMethod)

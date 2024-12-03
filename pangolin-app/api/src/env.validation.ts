@@ -29,6 +29,8 @@ class EnvironmentVariables {
   PEPPER: string
   @IsUrl({ require_tld: false })
   TRUSTED_ORIGINS: string
+  @IsString()
+  API_INVOKE: string
 
   @IsOptional()
   @IsString()

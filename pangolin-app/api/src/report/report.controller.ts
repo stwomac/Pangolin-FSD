@@ -30,11 +30,13 @@ export class ReportController {
   @Post()
   @HttpCode(201)
   createReport(@Body() createReportData: CreateReportDto) {
+    console.log(createReportData)
     return this.reportsService.create(createReportData)
   }
 
   @Put()
   async updateReport(@Body() reportToUpdate: UpdateReportDto) {
+    console.log(reportToUpdate)
     return await this.reportsService.update(reportToUpdate)
   }
 

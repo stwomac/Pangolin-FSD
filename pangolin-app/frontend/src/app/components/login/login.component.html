@@ -1,37 +1,40 @@
-<form class="loginForm">
-  <mat-form-field class="">
-    <mat-label>Username</mat-label>
-    <input
-      type="Username"
-      matInput
-      name="username"
-      placeholder="Username"
-      [formControl]="txtUsername"
-    />
-  </mat-form-field>
+<div id="main">
+  <form class="loginForm">
+    <h1>Welcome Back Fellow Tipster</h1>
+    <mat-form-field class="username">
+      <mat-label>Username</mat-label>
+      <input
+        type="Username"
+        matInput
+        name="username"
+        placeholder="Username"
+        [formControl]="txtUsername"
+        autofocus
+      />
+    </mat-form-field>
 
-  <mat-form-field class="">
-    <mat-label>Password</mat-label>
-    <input
-      type="password"
-      matInput
-      name="password"
-      placeholder="password"
-      [formControl]="txtPassword"
-    />
-  </mat-form-field>
+    <mat-form-field class="password">
+      <mat-label>Password</mat-label>
+      <input
+        type="password"
+        matInput
+        name="password"
+        placeholder="password"
+        [formControl]="txtPassword"
+      />
+    </mat-form-field>
 
-  <error-block [error]="error"></error-block>
+    <error-block [error]="error"></error-block>
 
-  <div class="center">
-    <button
-      mat-button
-      (click)="tryLogin()"
-      color="warn"
-      aria-setsize="45"
-      [formControl]="btnLogin"
-    >
-      Submit
-    </button>
-  </div>
-</form>
+    <div class="center">
+      <button
+        (click)="tryLogin()"
+        color="warn"
+        aria-setsize="45"
+        [formControl]="btnLogin"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

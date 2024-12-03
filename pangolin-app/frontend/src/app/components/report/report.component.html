@@ -5,26 +5,38 @@
     </mat-card-header>
     <div></div>
     <mat-card-content>
-      <b>Description</b>
-      <p>{{ report.description }}</p>
+      <h3>Description</h3>
 
-      <div class="annotation-container" *ngIf="!visibleAnnotationSelector">
-        <b>Annotations</b>
+      <app-report-description-editor [visible]="updateMode" [report]="bufferReport"> </app-report-description-editor>
+      <p *ngIf="!updateMode">{{ report.description }}</p>
+
+
+      <div class="annotation-container">
+
+        <h3>Annotations</h3>
+        <div class="annotation-list-container" *ngIf="!updateMode">
         @for (annotation of report.annotations; track annotation) {
           <p>{{ annotation.annotation }}</p>
         } @empty {
           <p>none</p>
         }
       </div>
+      </div>
 
       <div class="annotation-editor">
         <app-annotation-selector
-          [visible]="visibleAnnotationSelector"
-          [report]="report"
+          (onSave)="displayAnnotationSelector()"
+          (onCancel)="displayAnnotationSelector()"
+          [visible]="updateMode"
+          [report]="bufferReport"
         />
       </div>
 
-      <button mat-button (click)="displayAnnotationSelector()">
+      <button
+        *ngIf="!updateMode"
+        (click)="displayAnnotationSelector()"
+        id="edit-annotation"
+      >
         Edit Annotations
       </button>
     </mat-card-content>
@@ -42,8 +54,15 @@
           }
         </mat-chip-set>
 
-        <button mat-button (click)="updateReport()">Update</button
-        ><button mat-button>Delete</button>
+
+        <div *ngIf="!updateMode" class="btn-primary">
+          <button (click)="toggleEditMode()">Edit</button><button>Delete</button>
+        </div>
+
+        <div *ngIf="updateMode" class="btn-edit">
+          <button (click)="save()">Save</button><button (click)="cancel()">Cancel</button>
+        </div>
+
       </mat-card-footer>
     </div>
   </mat-card>

@@ -13,6 +13,8 @@ import { Context } from 'src/context/context'
 import { UserService } from 'src/user/user.service'
 import { CreateReportDto } from './dto/create-report.dto'
 import { UpdateReportDto } from './dto/update-report.dto'
+import { AnnotationService } from 'src/annotation/annotation.service'
+import { HttpService } from '@nestjs/axios'
 
 @Injectable()
 export class ReportService {
@@ -21,6 +23,8 @@ export class ReportService {
     private readonly repo: Repository<Report>,
     private readonly contextTypeService: ContextTypeService,
     private readonly userService: UserService,
+    private readonly annotationService: AnnotationService,
+    private readonly httpService: HttpService,
   ) {}
 
   async get(reportId: number): Promise<Report> {
@@ -41,13 +45,14 @@ export class ReportService {
   }
 
   async getAll(): Promise<Report[]> {
-    return await this.repo.find({
+    let report = await this.repo.find({
       relations: {
         reportee: true,
         annotations: true,
         contexts: true,
       },
     })
+    return report
   }
 
   async create({
@@ -57,7 +62,9 @@ export class ReportService {
   }: CreateReportDto): Promise<Report> {
     // this is trash code - very sorry
     const [reportee, ...contexts] = await Promise.all([
-      this.userService.getById(reporteeId),
+      reporteeId === undefined
+        ? undefined
+        : this.userService.getById(reporteeId),
       ...(createConextsData?.map(async (contextData) => {
         const context = new Context()
         context.contextType = await this.contextTypeService.get(
@@ -85,8 +92,56 @@ export class ReportService {
 
   async update({ reportId, reporteeId, ...updateData }: UpdateReportDto) {
     const report = await this.get(reportId)
+
+    if (updateData.annotations) {
+      //delete any annotations that are not there
+      for (let annotation of report.annotations) {
+        if (
+          !updateData.annotations.some(
+            (e) => e.annotationId === annotation.annotationId,
+          )
+        ) {
+          await this.annotationService.delete(annotation)
+        }
+      }
+
+      //create or update annotations that are in the array
+      for (let annotation of updateData.annotations) {
+        annotation.reportId = reportId
+
+        if (annotation.annotationId) {
+          console.log('update:');
+          console.log(annotation);
+          await this.annotationService.update(annotation)
+        } else {
+          console.log('create:');
+          console.log(annotation);
+          await this.annotationService.createAnnotation(annotation)
+        }
+      }
+    }
+
     const updatedReport = this.repo.merge(report, updateData)
-    return await this.repo.save(updatedReport)
+    // console.log(updatedReport);
+    // //theres no need to update the annotations twice
+    // report.annotations = [];
+    // updatedReport.annotations.map( (annotation) => { annotation.report = report; return annotation;});
+    // console.log('postmap');
+    // console.log(updatedReport);
+    // Location for API Gateway Call. (do not await)
+    if (updatedReport.isSus) {
+      console.log('sent steven an email, be-ah cleer iz inbOx')
+      const sentReport = this.httpService.axiosRef.put(
+        process.env.API_INVOKE,
+        JSON.stringify(updatedReport),
+      )
+    }
+    console.log('Pre-Save');
+    console.log(updatedReport)
+
+   const { annotations , ...reportData } = updatedReport;
+
+    return await this.repo.save(reportData)
   }
 
   async delete(report: Report): Promise<Report> {

@@ -50,11 +50,11 @@ CREATE TABLE context_type (
 -- Create the report table with auto-incrementing report_id
 CREATE TABLE report (
     report_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    reportee_id INT NOT NULL,
+    reportee_id INT,
     report_type REPORT_TYPE_ENUM NOT NULL,
     description VARCHAR(2500) NOT NULL,
     paid BOOLEAN NOT NULL,
-    amount MONEY NOT NULL,
+    amount VARCHAR(12) NOT NULL,
     payment_method PAYMENT_METHOD_ENUM NOT NULL,
     recent_date DATE,
     initial_date DATE,
