@@ -8,6 +8,4 @@ export class CreateUserDto {
   email: string
   @IsStrongPassword()
   password: string // plain text password that will be hashed later
-  @IsEnum(userRoleEnumValues)
-  role: UserRole
 }
