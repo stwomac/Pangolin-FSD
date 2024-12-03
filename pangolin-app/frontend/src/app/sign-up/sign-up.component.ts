@@ -22,8 +22,22 @@ export class SignUpComponent {
 
   trySignUp() {
     try {
-      this.userService.trySignUp(this.txtEmail.value,this.txtPassword.value);
-      this.router.navigate(['/login']);
+      this.userService.trySignUp(this.txtEmail.value,this.txtPassword.value).subscribe(data => {
+        console.log(data)
+        this.router.navigate(['/login']);
+      },error => {
+          if (Array.isArray(error.error.message)) {
+            for (let value of error.error.message)
+                this.error += String(value) + "\n";
+          }
+          else if (error.error.message) {
+            //TODO: this might POTENTIALLY be another server error, more checking should be done here
+            this.error = String(error.error.message);
+          } else{
+            this.error = "unkown server error has occured";
+          }
+      });
+
     } catch(e) {
       console.log(e);
     }
