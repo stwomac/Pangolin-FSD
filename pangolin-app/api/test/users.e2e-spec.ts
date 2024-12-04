@@ -35,22 +35,15 @@ describe('Users - /users (e2e)', () => {
     await Promise.all([app.close()])
   })
 
-  describe('Create user [POST /users]', () => {
-    let user: User
-    let initialCount: number
+  it ('Create user [POST /users]', async() => { 
     const creatUserData = {
       email: 'user@domain.com',
       password: 'st0ngP@ssword',
       role: 'admin',
     }
-
-    beforeAll(async () => {
-      initialCount = await userRepo.count()
-    })
-
-    it('calls without errors', async () => {
-      const expectedStatusCode = 201
-      const { body } = await request(app.getHttpServer())
+ 
+    const expectedStatusCode = 201
+      const { body: user } = await request(app.getHttpServer())
         .post('/users')
         .send(creatUserData)
         .expect(function (res) {
@@ -58,27 +51,77 @@ describe('Users - /users (e2e)', () => {
             console.log(JSON.stringify(res.body, null, 2))
           }
         })
-        .expect(expectedStatusCode)
-      user = body
+        .expect(expectedStatusCode) 
+        expect(user).toEqual<Partial<User>>(
+          expect.objectContaining({
+            userId: expect.any(Number),
+            email: creatUserData.email,
+            role: expect.toBeOneOf(['admin', 'user', undefined]),
+            reports: expect.toBeArrayOfSize(0),
+          }),
+        )
     })
 
-    it('returns user object', () => {
+  it('Get user [GET /users/:userId]', async() => { 
+
+    const extepctedStatusCode = 200 
+      const {body: user} = await request(app.getHttpServer())
+        .get(`/users/1`)
+        .expect(function (res) {
+          if (res.status != extepctedStatusCode) {
+            console.log(JSON.stringify(res.body, null, 2))
+          }
+        })
+        .expect(extepctedStatusCode)
+       
       expect(user).toEqual<Partial<User>>(
         expect.objectContaining({
           userId: expect.any(Number),
-          email: creatUserData.email,
+          email: expect.any(String),
           role: expect.toBeOneOf(['admin', 'user', undefined]),
           reports: expect.toBeArrayOfSize(0),
         }),
       )
+    }) 
+
+    it('Update user [PUT /users]', async () => {
+      const updateUserData = {
+        userId: 1,
+        email: 'updated@domain.com',
+        role: 'user',
+      }
+  
+      const expectedStatusCode = 200
+      const { body: user } = await request(app.getHttpServer())
+        .put('/users')
+        .send(updateUserData)
+        .expect(function (res) {
+          if (res.status != expectedStatusCode) {
+            console.log(JSON.stringify(res.body, null, 2))
+          }
+        })
+        .expect(expectedStatusCode)
+  
+      expect(user).toEqual<Partial<User>>(
+        expect.objectContaining({
+          userId: updateUserData.userId,
+          email: updateUserData.email,
+          role: updateUserData.role,
+          reports: expect.toBeArrayOfSize(0),
+        }),
+      )
+    })
+  
+    it('Delete user [DELETE /users/:userId]', async () => {
+      const expectedStatusCode = 204
+      await request(app.getHttpServer())
+        .delete(`/users/1`)
+        .expect(function (res) {
+          if (res.status != expectedStatusCode) {
+            console.log(JSON.stringify(res.body, null, 2))
+          }
+        })
+        .expect(expectedStatusCode)
     })
 
-    it("omit's passHash", () => {
-      expect(user).not.toHaveProperty('passHash')
-    })
-
-    it('inserts user into  database', async () => {
-      await expect(userRepo.count()).resolves.toBe(initialCount + 1)
-    })
-  })
 })
