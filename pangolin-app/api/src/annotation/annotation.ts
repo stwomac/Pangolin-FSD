@@ -18,7 +18,9 @@ export class Annotation {
   @Column()
   reportId: number
 
-  @ManyToOne(() => Report, (report) => report.annotations)
+  @ManyToOne(() => Report, (report) => report.annotations, {
+    onDelete: 'CASCADE', // Ensures CASCADE at the database level
+  })
   @JoinColumn({ name: 'report_id' })
   report: Report // Relation to Reports entity
 }
