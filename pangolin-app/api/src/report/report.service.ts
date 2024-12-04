@@ -110,12 +110,12 @@ export class ReportService {
         annotation.reportId = reportId
 
         if (annotation.annotationId) {
-          console.log('update:');
-          console.log(annotation);
+          console.log('update:')
+          console.log(annotation)
           await this.annotationService.update(annotation)
         } else {
-          console.log('create:');
-          console.log(annotation);
+          console.log('create:')
+          console.log(annotation)
           await this.annotationService.createAnnotation(annotation)
         }
       }
@@ -136,10 +136,10 @@ export class ReportService {
         JSON.stringify(updatedReport),
       )
     }
-    console.log('Pre-Save');
+    console.log('Pre-Save')
     console.log(updatedReport)
 
-   const { annotations , ...reportData } = updatedReport;
+    const { annotations, ...reportData } = updatedReport
 
     return await this.repo.save(reportData)
   }

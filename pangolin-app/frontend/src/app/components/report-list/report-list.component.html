@@ -13,7 +13,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <div id="card" *ngFor="let report of filteredReports; trackBy: trackByReportId">
+    <div
+      id="card"
+      *ngFor="let report of filteredReports; trackBy: trackByReportId"
+    >
       <app-report [report]="report"></app-report>
     </div>
   </div>
