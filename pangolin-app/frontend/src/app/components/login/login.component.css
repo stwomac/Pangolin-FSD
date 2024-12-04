@@ -43,8 +43,6 @@ error-block {
 }
 button {
   grid-area: submit;
-  position: relative;
-  left: 60%;
   width: 200px;
   height: 60px;
   align-self: center;
@@ -83,4 +81,17 @@ button:active {
   background-color: #e6e6e6;
   transform: translateY(3px) translateX(3px);
   box-shadow: #22311b 0px 0px;
+}
+
+.center a , .center button {
+  display: block;
+  margin-left:auto;
+  margin-right:auto;
+}
+.center { /*TODO: this should probably use flex box magic to be center but what ev*/
+  width: 100%;
+  display: block;
+  text-align: center;
+  position: relative;
+  left: 64%;
 }
