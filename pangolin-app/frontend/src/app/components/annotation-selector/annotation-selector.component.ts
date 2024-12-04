@@ -1,11 +1,11 @@
 import { NgIf } from '@angular/common'
 import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core'
-import { AnnotationServices } from '../services/annoation.service'
-import { Annotation } from '../models/annotation'
-import { Report } from '../models/report'
+import { AnnotationServices } from '../../services/annoation.service'
+import { Annotation } from '../../models/annotation'
+import { Report } from '../../models/report'
 import { MatCheckbox } from '@angular/material/checkbox'
 import { MatButton } from '@angular/material/button'
-import { ReportServices } from '../services/report.service'
+import { ReportServices } from '../../services/report.service'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { MatInputModule } from '@angular/material/input'
 
@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input'
   ],
   templateUrl: './annotation-selector.component.html',
   styleUrl: './annotation-selector.component.css',
+  standalone:true
 })
 export class AnnotationSelectorComponent implements OnInit {
   constructor(

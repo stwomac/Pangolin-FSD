@@ -13,6 +13,14 @@
       >
       </app-report-description-editor>
       <p *ngIf="!updateMode">{{ report.description }}</p>
+      <app-report-sus-editor
+        [visible]="updateMode"
+        [report]="bufferReport"
+      ></app-report-sus-editor>
+      <app-report-done-editor
+        [visible]="updateMode"
+        [report]="bufferReport"
+      ></app-report-done-editor>
 
       <div class="annotation-container">
         <h3>Annotations</h3>

@@ -1,5 +1,5 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
-import { Report } from '../models/report'
+import { Report } from '../../models/report'
 import { Component, Input } from '@angular/core'
 import { MatButton } from '@angular/material/button'
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input'

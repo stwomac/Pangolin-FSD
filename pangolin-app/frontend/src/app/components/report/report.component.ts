@@ -4,9 +4,11 @@ import { ReportServices } from '../../services/report.service'
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatButton } from '@angular/material/button'
-import { AnnotationSelectorComponent } from '../../annotation-selector/annotation-selector.component'
+import { AnnotationSelectorComponent } from '../annotation-selector/annotation-selector.component'
 import { NgIf } from '@angular/common'
-import { ReportDescriptionEditorComponent } from '../../report-description-editor/report-description-editor.component'
+import { ReportDescriptionEditorComponent } from '../report-description-editor/report-description-editor.component'
+import { ReportSusEditorComponent } from '../report-sus-editor/report-sus-editor.component'
+import { ReportDoneEditorComponent } from '../report-done-editor/report-done-editor.component'
 
 @Component({
   selector: 'app-report',
@@ -16,6 +18,8 @@ import { ReportDescriptionEditorComponent } from '../../report-description-edito
     MatButton,
     AnnotationSelectorComponent,
     ReportDescriptionEditorComponent,
+    ReportSusEditorComponent,
+    ReportDoneEditorComponent,
     NgIf,
   ],
   templateUrl: './report.component.html',
