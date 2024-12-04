@@ -41,7 +41,9 @@ export class Context {
   @Column({ nullable: true })
   phone?: string
 
-  @ManyToOne(() => Report, (reports) => reports.contexts)
+  @ManyToOne(() => Report, (reports) => reports.contexts, {
+    onDelete: 'CASCADE', // Ensures CASCADE at the database level
+  })
   @JoinColumn({ name: 'report_id' })
   report: Report
 }
