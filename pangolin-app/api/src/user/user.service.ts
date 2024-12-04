@@ -51,10 +51,10 @@ export class UserService {
       )
 
     const user = this.repo.create({ email, reports: [], ...userData })
-    
-    user.role = 'user';
+
+    user.role = 'user'
     user.passHash = await this.authService.hashPassword(password)
-    console.log(`saving user ${user}`);
+    console.log(`saving user ${user}`)
     return await this.repo.save(user)
   }
 

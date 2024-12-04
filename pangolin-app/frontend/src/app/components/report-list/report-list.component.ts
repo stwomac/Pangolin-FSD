@@ -30,12 +30,12 @@ import { MatOptionModule } from '@angular/material/core'
     ReportComponent,
     MatFormFieldModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
   ],
 })
 export class ReportListComponent {
   reports: Report[] = []
-  reportType: ReportType | null = null;
+  reportType: ReportType | null = null
   allReportTypes: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },
     {
@@ -56,11 +56,12 @@ export class ReportListComponent {
   ]
   // Computed getter for filtered context types
   get filteredReports(): Report[] {
-    if(this.reportType){
-    return this.reports.filter(
-      (report) => report.reportType === this.reportType?.valueOf(),
-    )}else{
-    return this.reports;
+    if (this.reportType) {
+      return this.reports.filter(
+        (report) => report.reportType === this.reportType?.valueOf(),
+      )
+    } else {
+      return this.reports
     }
   }
   constructor(private apiService: ReportServices) {}
@@ -69,8 +70,8 @@ export class ReportListComponent {
       this.reports = data
     })
   }
-   // Function to track items by their unique ID
-   trackByReportId(index: number, report: Report): number | undefined {
-    return report.reportId; // Ensure 'reportId' is unique for each report
+  // Function to track items by their unique ID
+  trackByReportId(index: number, report: Report): number | undefined {
+    return report.reportId // Ensure 'reportId' is unique for each report
   }
 }

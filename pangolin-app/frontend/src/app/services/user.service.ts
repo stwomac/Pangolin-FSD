@@ -37,8 +37,11 @@ export class UserServices extends ResourceService<
     return observer
   }
 
-  trySignUp(email : string, password : string) : Observable<any> {
-    return this.http.post(`${this.resourceUrl}`, { email: email, password: password });
+  trySignUp(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.resourceUrl}`, {
+      email: email,
+      password: password,
+    })
   }
 
   /*

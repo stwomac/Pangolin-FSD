@@ -1,13 +1,13 @@
 <div *ngIf="visible" class="description-editor">
   <mat-form-field>
-  <mat-label>{{ this.placeholder }}</mat-label>
-  <textarea
-  type="text"
-  matInput
-  name="txtDescriptionEditor"
-  placeholder="new description"
-  [formControl]="txtDescriptionEditor"
-  autofocus>
-</textarea>
+    <mat-label>{{ this.placeholder }}</mat-label>
+    <textarea
+      type="text"
+      matInput
+      name="txtDescriptionEditor"
+      placeholder="new description"
+      [formControl]="txtDescriptionEditor"
+      autofocus
+    ></textarea>
   </mat-form-field>
 </div>

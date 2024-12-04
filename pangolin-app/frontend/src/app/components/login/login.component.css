@@ -83,12 +83,14 @@ button:active {
   box-shadow: #22311b 0px 0px;
 }
 
-.center a , .center button {
+.center a,
+.center button {
   display: block;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
 }
-.center { /*TODO: this should probably use flex box magic to be center but what ev*/
+.center {
+  /*TODO: this should probably use flex box magic to be center but what ev*/
   width: 100%;
   display: block;
   text-align: center;

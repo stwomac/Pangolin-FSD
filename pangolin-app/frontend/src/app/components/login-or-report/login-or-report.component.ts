@@ -21,7 +21,6 @@ export class LoginOrReportComponent {
   navigateToSignIn() {
     this.userService.isLoggedIn().subscribe((isLoggedIn) => {
       this.router.navigate(['/login'])
-
-  })
-}
+    })
+  }
 }

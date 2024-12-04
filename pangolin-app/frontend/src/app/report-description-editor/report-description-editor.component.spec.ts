@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { ReportDescriptionEditorComponent } from './report-description-editor.component';
+import { ReportDescriptionEditorComponent } from './report-description-editor.component'
 
 describe('ReportDescriptionEditorComponent', () => {
-  let component: ReportDescriptionEditorComponent;
-  let fixture: ComponentFixture<ReportDescriptionEditorComponent>;
+  let component: ReportDescriptionEditorComponent
+  let fixture: ComponentFixture<ReportDescriptionEditorComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReportDescriptionEditorComponent]
-    })
-    .compileComponents();
+      imports: [ReportDescriptionEditorComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(ReportDescriptionEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(ReportDescriptionEditorComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

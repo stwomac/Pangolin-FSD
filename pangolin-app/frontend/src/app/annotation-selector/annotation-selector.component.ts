@@ -43,7 +43,6 @@ export class AnnotationSelectorComponent implements OnInit {
     this.isVisible = value
   }
 
-
   //update our report
   updateReport() {
     if (this.report) this.reportServices.update(this.report)
@@ -63,7 +62,6 @@ export class AnnotationSelectorComponent implements OnInit {
     )
       this.report.annotations.push(event.annotation)
   }
-
 
   addAnotation() {
     if (!this.report) return

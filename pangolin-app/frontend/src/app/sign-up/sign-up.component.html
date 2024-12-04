@@ -1,43 +1,36 @@
 <div class="sign-up-component">
-
   <div class="loginForm">
-  <h1>Sign Up To Pangolin!</h1>
+    <h1>Sign Up To Pangolin!</h1>
 
-  <mat-form-field class="username">
-    <mat-label>Email</mat-label>
-    <input
+    <mat-form-field class="username">
+      <mat-label>Email</mat-label>
+      <input
         type="text"
         matInput
         name="Email"
         placeholder="Email"
         [formControl]="txtEmail"
         autofocus
-        />
-  </mat-form-field>
+      />
+    </mat-form-field>
 
-  <mat-form-field class="password">
-    <mat-label>Password</mat-label>
-    <input
+    <mat-form-field class="password">
+      <mat-label>Password</mat-label>
+      <input
         type="password"
         matInput
         name="password"
         placeholder="password"
         [formControl]="txtPassword"
-        />
-  </mat-form-field>
+      />
+    </mat-form-field>
 
-  <error-block [error]="error"></error-block>
+    <error-block [error]="error"></error-block>
 
-  <div class="center">
-    <button
-        (click)="trySignUp()"
-        color="warn"
-        aria-setsize="45"
-        >
+    <div class="center">
+      <button (click)="trySignUp()" color="warn" aria-setsize="45">
         Submit
-    </button>
+      </button>
+    </div>
   </div>
-  </div>
-
-
 </div>
