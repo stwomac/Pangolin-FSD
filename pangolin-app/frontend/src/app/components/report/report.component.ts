@@ -79,7 +79,7 @@ export class ReportComponent {
     // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
     //   this.router.navigate(['/report-list']);
     // });
-    window.location.reload(); // Reload the entire page
+     window.location.reload(); // Reload the entire page
   }
 
   ngOnInit() {

@@ -62,9 +62,13 @@ export class Report {
   @Column()
   isDone: boolean
 
-  @OneToMany(() => Annotation, (annotation) => annotation.report)
+  @OneToMany(() => Annotation, (annotation) => annotation.report,{
+    cascade: ['remove'], // This will cascade deletes to related annotations
+  })
   annotations: Annotation[] // Relation to annotations
 
-  @OneToMany(() => Context, (context) => context.report)
+  @OneToMany(() => Context, (context) => context.report, {
+    cascade: ['remove'], // This will cascade deletes to related annotations
+  })
   contexts: Context[] // Relation to contexts
 }
