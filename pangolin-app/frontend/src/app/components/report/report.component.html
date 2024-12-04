@@ -12,7 +12,7 @@
         [report]="bufferReport"
       >
       </app-report-description-editor>
-      <p *ngIf="!updateMode">{{ report.description }}</p>
+      <p *ngIf="!updateMode" id="description-box">{{ report.description }}</p>
       <app-report-sus-editor
         [visible]="updateMode"
         [report]="bufferReport"

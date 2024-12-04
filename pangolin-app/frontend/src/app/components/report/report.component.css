@@ -15,7 +15,11 @@ mat-card-title {
   color: var(--primary-color);
   text-shadow: -1px 1px 5px #d4d4d4;
 }
-
+.annotation-list-container{
+  height: 100px;
+  overflow-y: scroll;
+  margin: 0;
+}
 mat-card-footer {
   display: flex;
   flex-wrap: wrap;
@@ -27,8 +31,13 @@ mat-chip-set {
 #status-container{
   width: 100%;
   display: flex;
-  margin-top: 40px;
+  margin-top: 20px;
+  height: 40px;
 
+}
+#description-box{
+  height: 80px;
+  overflow-y: scroll;
 }
 mat-chip-set > * {
   display: flex;
