@@ -1,0 +1,93 @@
+#main {
+  background-color: #f1f1ef;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loginForm {
+  max-width: 600px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top: 3em;
+  flex-direction: row;
+  text-align: center;
+  background-color: #426135;
+  border-radius: 8px;
+  box-shadow: 0 0 10px yellowgreen;
+  padding: 20px;
+  padding-left: 10%;
+  padding-right: 10%;
+  display: grid;
+  grid-template-areas:
+    'heading heading'
+    'username password'
+    'error error'
+    'submit submit';
+  column-gap: 60px;
+  row-gap: 30px;
+  width: 80%;
+}
+h1 {
+  text-align: center;
+  font-family: 'Bodoni';
+  font-weight: bolder;
+  color: white;
+  grid-area: heading;
+  text-shadow: 1px 1px 3px #000;
+}
+.username {
+  grid-area: username;
+}
+.password {
+  grid-area: password;
+}
+error-block {
+  grid-area: error;
+  margin-bottom: 20px;
+}
+
+
+button {
+  grid-area: submit;
+  position: relative;
+  left: 60%;
+  width: 200px;
+  height: 60px;
+  align-self: center;
+  background-color: white;
+  color: #426135;
+  font-family: 'Bodoni';
+  font-size: 21px;
+  text-shadow: 1px 1px 4px #c7c7be;
+  font-weight: bold;
+  border-radius: 8px 8px;
+  box-shadow: #22311b 3px 3px;
+  margin-bottom: 20px;
+}
+.loginForm mat-form-field {
+  display: block;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* input{
+  background-color: white;
+  height: 50px;
+  width: 180px;
+  border-radius: 10px 0px;
+  font-family: 'Bodoni';
+  font-size: 20px;
+  padding-left: 10px;
+
+} */
+button:hover {
+  cursor: pointer;
+  transform: translateY(1px) translateX(1px);
+  box-shadow: #22311b 2px 2px;
+}
+button:active {
+  background-color: #e6e6e6;
+  transform: translateY(3px) translateX(3px);
+  box-shadow: #22311b 0px 0px;
+}
