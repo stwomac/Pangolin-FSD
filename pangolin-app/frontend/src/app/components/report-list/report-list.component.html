@@ -1,6 +1,7 @@
 <div id="body">
   <div id="cards">
     <h1 class="mat-h1">Dashboard</h1>
+    <div id="top">
     <mat-form-field>
       <mat-label>Filter by Report Type:</mat-label>
       <mat-select [(ngModel)]="reportType" name="reportType">
@@ -13,6 +14,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    </div>
     <div
       id="card"
       *ngFor="let report of filteredReports; trackBy: trackByReportId"
