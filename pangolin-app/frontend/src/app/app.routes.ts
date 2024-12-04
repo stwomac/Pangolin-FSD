@@ -6,6 +6,7 @@ import { Nav_BarComponent } from './components/nav_bar/nav_bar.component'
 import { ReportComponent } from './components/report/report.component'
 import { ReportListComponent } from './components/report-list/report-list.component'
 import { SecretCowComponent } from './components/secret-cow/secret-cow.component'
+import { SignUpComponent } from './sign-up/sign-up.component'
 
 export const routes: Routes = [
   {
@@ -32,5 +33,7 @@ export const routes: Routes = [
     path: 'secret',
     component: SecretCowComponent,
   },
-  { path: '',   redirectTo: '/view1', pathMatch: 'full' }
+
+  { path: 'signUp', component: SignUpComponent },
+  { path: '', redirectTo: '/view1', pathMatch: 'full' },
 ]
