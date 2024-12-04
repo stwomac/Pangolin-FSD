@@ -19,6 +19,13 @@ main {
   border-radius: 50%;
   align-self: center;
 }
+h6{
+  background-color: #adaaaa;
+  font-family: 'Bodoni';
+  font-size: medium;
+  opacity: 0;
+  margin-top: 10px;
+}
 h1 {
   color: white;
   font-size: xx-large;
@@ -50,11 +57,17 @@ button {
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
 }
+#profile-button:hover > h6 {
+  opacity: 1;
+}
 #pang-button:hover {
   box-shadow:
     0 8px 16px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
+}
+#pang-button:hover > h6{
+  opacity: 1;
 }
 #profile-button:active {
   background-color: #2d4224;
