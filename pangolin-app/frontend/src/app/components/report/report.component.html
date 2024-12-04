@@ -55,8 +55,9 @@
         </mat-chip-set>
 
         <div *ngIf="!updateMode" class="btn-primary">
-          <button (click)="toggleEditMode()">Edit</button
-          ><button>Delete</button>
+          <button *ngIf="loggedInUser" (click)="toggleEditMode()">
+            Edit</button
+          ><button *ngIf="isAdmin" (click)="deleteReport()">Delete</button>
         </div>
 
         <div *ngIf="updateMode" class="btn-edit">

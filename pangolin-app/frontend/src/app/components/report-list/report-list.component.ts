@@ -12,6 +12,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { FormsModule } from '@angular/forms'
 import { MatOptionModule } from '@angular/material/core'
+import { User } from '../../models/user'
+import { UserServices } from '../../services/user.service'
 
 @Component({
   selector: 'app-report-list',
@@ -34,6 +36,8 @@ import { MatOptionModule } from '@angular/material/core'
   ],
 })
 export class ReportListComponent {
+  loggedInUser: User | null = null
+  isAdmin: Boolean = false
   reports: Report[] = []
   reportType: ReportType | null = null
   allReportTypes: { key: string; value: string }[] = [
@@ -64,11 +68,24 @@ export class ReportListComponent {
       return this.reports
     }
   }
-  constructor(private apiService: ReportServices) {}
+  constructor(
+    private apiService: ReportServices,
+    private userService: UserServices,
+  ) {}
   ngOnInit() {
+    //Populate reports on init
     this.apiService.getAll().subscribe((data) => {
       this.reports = data
     })
+    if (this.userService.isLoggedIn()) {
+      this.userService.whoami().subscribe((data) => {
+        this.loggedInUser = data
+        if(this.loggedInUser.role == "admin")
+          this.isAdmin = true
+      })
+    } else {
+      console.log('you are not logged in')
+    }
   }
   // Function to track items by their unique ID
   trackByReportId(index: number, report: Report): number | undefined {
