@@ -51,7 +51,6 @@ export class UserServices extends ResourceService<
   whoami(): Observable<User> {
     return this.http.get<User>(`${this.resourceUrl}/whoami`).pipe(
       map((result) => {
-        console.log(result)
         return new User(result)
       }),
     )
