@@ -7,6 +7,7 @@ import { ReportComponent } from './components/report/report.component'
 import { ReportListComponent } from './components/report-list/report-list.component'
 import { SecretCowComponent } from './components/secret-cow/secret-cow.component'
 import { SignUpComponent } from './sign-up/sign-up.component'
+import { AuthGuard } from './guards/auth.guard'
 
 export const routes: Routes = [
   {
@@ -28,6 +29,7 @@ export const routes: Routes = [
   {
     path: 'report-list',
     component: ReportListComponent,
+    canActivate: [AuthGuard], // Protect the route with the AuthGuard
   },
   {
     path: 'secret',

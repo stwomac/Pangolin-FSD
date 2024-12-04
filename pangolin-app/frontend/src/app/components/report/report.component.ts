@@ -9,6 +9,8 @@ import { NgIf } from '@angular/common'
 import { ReportDescriptionEditorComponent } from '../report-description-editor/report-description-editor.component'
 import { ReportSusEditorComponent } from '../report-sus-editor/report-sus-editor.component'
 import { ReportDoneEditorComponent } from '../report-done-editor/report-done-editor.component'
+import { User } from '../../models/user'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-report',
@@ -29,11 +31,12 @@ import { ReportDoneEditorComponent } from '../report-done-editor/report-done-edi
 export class ReportComponent {
   updateMode: boolean = false
   message: any
-
+  @Input() loggedInUser: User | null = null
+  @Input() isAdmin: Boolean = false
   @Input() report: Report | null = null
   bufferReport: Report | null = null
 
-  constructor(private apiService: ReportServices) {}
+  constructor(private apiService: ReportServices, private router: Router) {}
 
   toggleEditMode() {
     this.updateMode = !this.updateMode
@@ -63,12 +66,20 @@ export class ReportComponent {
     this.report.annotations = this.bufferReport.annotations
   }
   updateReport() {
-    console.log(this.report)
     if (!this.report) return
-
     this.apiService.update(this.report).subscribe((data) => {
       data
     })
+  }
+  deleteReport() {
+    if(!this.report) return
+    this.apiService.delete(this.report).subscribe((data) =>{
+      data
+    })
+    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate(['/report-list']);
+    // });
+    window.location.reload(); // Reload the entire page
   }
 
   ngOnInit() {

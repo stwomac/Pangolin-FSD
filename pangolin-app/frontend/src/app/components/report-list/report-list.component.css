@@ -3,7 +3,6 @@
   padding: 45px 0px 45px 0px;
   margin-bottom: 10px;
 }
-<<<<<<< HEAD
 #cards{
  display: flex;
  justify-content: space-around;
@@ -12,15 +11,6 @@
  margin: 0px 25px 0px 25px;
  padding: 0px 10px 0px 10px;
  border-radius: 8px;
-=======
-#cards {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  background-color: white;
-  margin: 0px 35px 0px 35px;
-  border-radius: 8px;
->>>>>>> c20f68da0c72ee48fe4b5fa3fb86521c28989e6a
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h1 {
@@ -33,10 +23,11 @@ h1 {
   font-weight: 700;
   text-shadow: 1px 1px 4px #c7c7be;
 }
-<<<<<<< HEAD
 mat-form-field{
-  width: 80%;
-=======
-#card {
->>>>>>> c20f68da0c72ee48fe4b5fa3fb86521c28989e6a
+  width: 70%;
+  margin: auto;
+}
+#top{
+  width: 100%;
+  display: flex;
 }
