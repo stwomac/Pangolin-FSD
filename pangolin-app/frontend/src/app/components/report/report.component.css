@@ -15,17 +15,29 @@ mat-card-title {
   color: var(--primary-color);
   text-shadow: -1px 1px 5px #d4d4d4;
 }
-
-
+.annotation-list-container{
+  height: 100px;
+  overflow-y: scroll;
+  margin: 0;
+}
 mat-card-footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 mat-chip-set {
+  margin: auto;
+}
+#status-container{
   width: 100%;
   display: flex;
-  padding: 15px 5% 15px 5%;
+  margin-top: 20px;
+  height: 40px;
+
+}
+#description-box{
+  height: 80px;
+  overflow-y: scroll;
 }
 mat-chip-set > * {
   display: flex;
@@ -48,7 +60,7 @@ button {
 .btn-edit > button {
   width: 60px;
   height: 40px;
-  margin: 40px 15px 10px 15px;
+  margin: 20px 15px 10px 15px;
 }
 
 button:hover {
