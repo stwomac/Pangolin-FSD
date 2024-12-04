@@ -110,18 +110,24 @@ export class ReportService {
         annotation.reportId = reportId
 
         if (annotation.annotationId) {
+          console.log('update:')
+          console.log(annotation)
           await this.annotationService.update(annotation)
         } else {
+          console.log('create:')
+          console.log(annotation)
           await this.annotationService.createAnnotation(annotation)
         }
       }
     }
 
     const updatedReport = this.repo.merge(report, updateData)
-
-    //theres no need to update the annotations twice
-    updatedReport.annotations = []
-
+    // console.log(updatedReport);
+    // //theres no need to update the annotations twice
+    // report.annotations = [];
+    // updatedReport.annotations.map( (annotation) => { annotation.report = report; return annotation;});
+    // console.log('postmap');
+    // console.log(updatedReport);
     // Location for API Gateway Call. (do not await)
     if (updatedReport.isSus) {
       console.log('sent steven an email, be-ah cleer iz inbOx')
@@ -130,7 +136,12 @@ export class ReportService {
         JSON.stringify(updatedReport),
       )
     }
-    return await this.repo.save(updatedReport)
+    console.log('Pre-Save')
+    console.log(updatedReport)
+
+    const { annotations, ...reportData } = updatedReport
+
+    return await this.repo.save(reportData)
   }
 
   async delete(report: Report): Promise<Report> {

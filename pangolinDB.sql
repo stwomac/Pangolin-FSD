@@ -54,7 +54,7 @@ CREATE TABLE report (
     report_type REPORT_TYPE_ENUM NOT NULL,
     description VARCHAR(2500) NOT NULL,
     paid BOOLEAN NOT NULL,
-    amount MONEY NOT NULL,
+    amount VARCHAR(12) NOT NULL,
     payment_method PAYMENT_METHOD_ENUM NOT NULL,
     recent_date DATE,
     initial_date DATE,

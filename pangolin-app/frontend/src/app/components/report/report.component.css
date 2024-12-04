@@ -4,3 +4,59 @@ article {
 div {
   margin: 5px;
 }
+mat-card {
+  width: 350px;
+  margin: 15px;
+}
+h3 {
+  color: var(--primary-color);
+}
+mat-card-title {
+  color: var(--primary-color);
+  text-shadow: -1px 1px 5px #d4d4d4;
+}
+
+mat-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+mat-chip-set {
+  width: 100%;
+  display: flex;
+  padding: 15px 5% 15px 5%;
+}
+mat-chip-set > * {
+  display: flex;
+  justify-content: space-around;
+}
+#edit-annotation {
+  margin: auto;
+  width: 80%;
+  height: 60px;
+  font-size: large;
+}
+button {
+  background-color: #426135;
+  color: white;
+  font-family: 'Bodoni';
+  border-radius: 8px 8px;
+  box-shadow: yellowgreen 3px 3px;
+}
+.btn-primary > button,
+.btn-edit > button {
+  width: 60px;
+  height: 40px;
+  margin: 0 15px 10px 15px;
+}
+
+button:hover {
+  cursor: pointer;
+  transform: translateY(1px) translateX(1px);
+  box-shadow: yellowgreen 2px 2px;
+}
+button:active {
+  background-color: #2d4224;
+  transform: translateY(3px) translateX(3px);
+  box-shadow: yellowgreen 0px 0px;
+}

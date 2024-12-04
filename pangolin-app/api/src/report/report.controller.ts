@@ -36,6 +36,7 @@ export class ReportController {
 
   @Put()
   async updateReport(@Body() reportToUpdate: UpdateReportDto) {
+    console.log(reportToUpdate)
     return await this.reportsService.update(reportToUpdate)
   }
 

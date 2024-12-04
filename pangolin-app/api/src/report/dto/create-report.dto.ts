@@ -6,9 +6,11 @@ import {
   IsDateString,
   IsNotEmpty,
   IsBoolean,
-  IsCurrency,
   IsArray,
   ValidateNested,
+  IsCurrency,
+  IsNumberString,
+  isNumberString,
 } from 'class-validator'
 import { Type } from 'class-transformer'
 import { OmitType } from '@nestjs/mapped-types'
@@ -36,7 +38,7 @@ export class CreateReportDto {
   @IsBoolean()
   paid: boolean
 
-  @IsCurrency()
+  @IsNumberString()
   amount: string
 
   @IsEnum(PaymentMethod)
