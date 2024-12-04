@@ -1,23 +1,30 @@
 <div id="body">
   <div id="cards">
     <h1 class="mat-h1">Dashboard</h1>
-    <mat-form-field>
-      <mat-label>Filter by Report Type:</mat-label>
-      <mat-select [(ngModel)]="reportType" name="reportType">
-        <mat-option [value]="null">All Reports</mat-option>
-        <mat-option
-          *ngFor="let reportType of allReportTypes"
-          [value]="reportType.key"
-        >
-          {{ reportType.value }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div id="top">
+      <mat-form-field>
+        <mat-label>Filter by Report Type:</mat-label>
+        <mat-select [(ngModel)]="reportType" name="reportType">
+          <mat-option [value]="null">All Reports</mat-option>
+          <mat-option
+            *ngFor="let reportType of allReportTypes"
+            [value]="reportType.key"
+          >
+            {{ reportType.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <div
       id="card"
       *ngFor="let report of filteredReports; trackBy: trackByReportId"
     >
-      <app-report [report]="report"></app-report>
+      <app-report
+        *ngIf="loggedInUser"
+        [report]="report"
+        [loggedInUser]="loggedInUser"
+        [isAdmin]="isAdmin"
+      ></app-report>
     </div>
   </div>
 </div>
