@@ -153,7 +153,7 @@ export class CreateReportComponent {
         this.newReport.contexts.push(contextData)
       }
 
-      this.newReport.amount = this.newReport.amount.toString();
+      this.newReport.amount = this.newReport.amount.toString()
       this.reportService.create(this.newReport).subscribe()
       this.router.navigate(['/view1'])
     } catch (error) {

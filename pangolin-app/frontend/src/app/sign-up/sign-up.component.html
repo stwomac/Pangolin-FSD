@@ -1,14 +1,15 @@
-<div id="main">
-  <form class="loginForm">
-    <h1>Welcome Back Fellow Tipster</h1>
+<div class="sign-up-component">
+  <div class="loginForm">
+    <h1>Sign Up To Pangolin!</h1>
+
     <mat-form-field class="username">
-      <mat-label>Username</mat-label>
+      <mat-label>Email</mat-label>
       <input
-        type="Username"
+        type="text"
         matInput
-        name="username"
-        placeholder="Username"
-        [formControl]="txtUsername"
+        name="Email"
+        placeholder="Email"
+        [formControl]="txtEmail"
         autofocus
       />
     </mat-form-field>
@@ -27,16 +28,9 @@
     <error-block [error]="error"></error-block>
 
     <div class="center">
-      <button
-        (click)="tryLogin()"
-        color="warn"
-        aria-setsize="45"
-        [formControl]="btnLogin"
-      >
+      <button (click)="trySignUp()" color="warn" aria-setsize="45">
         Submit
       </button>
-
-      <a href="/signUp">Sign Up</a>
     </div>
-  </form>
+  </div>
 </div>
