@@ -7,5 +7,8 @@ RUN echo "npm install"
 RUN npm install 
 RUN echo "angular install"
 RUN npm install -g @angular/cli
+RUN npm install -g angular-http-server
 EXPOSE 4200
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+#CMD ["ng", "serve", "--host", "0.0.0.0"]
+RUN ng build
+CMD angular-http-server --path ./dist/frontend/browser -p 4200
