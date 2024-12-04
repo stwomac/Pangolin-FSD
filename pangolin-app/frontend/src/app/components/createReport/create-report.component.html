@@ -1,9 +1,9 @@
-<div>
+<div id="body">
   <form id="reportForm" (ngSubmit)="saveReport()" #reportForm="ngForm">
     <h1>Financial Crime Report Submission</h1>
     <h2>Start by selecting the most relevant report type</h2>
     <!-- Report Type -->
-    <mat-form-field>
+    <mat-form-field id="report-type">
       <mat-label>Report Type</mat-label>
       <mat-select [(ngModel)]="newReport.reportType" name="reportType" required>
         <mat-option
@@ -17,7 +17,7 @@
 
     <!-- Context Type Selection -->
 
-    <mat-form-field *ngIf="filteredContextTypes.length > 0">
+    <mat-form-field *ngIf="filteredContextTypes.length > 0" id="report-subtype">
       <mat-label>Report Sub-type</mat-label>
       <mat-select [(ngModel)]="newContextType" name="newContextType">
         <mat-option
@@ -31,7 +31,7 @@
 
     <h2>Tell us what happened in your own words.</h2>
     <!-- Description -->
-    <mat-form-field>
+    <mat-form-field id="description">
       <mat-label class="description">Description</mat-label>
       <textarea
         matInput
