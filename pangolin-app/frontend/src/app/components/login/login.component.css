@@ -97,3 +97,17 @@ button:active {
   position: relative;
   left: 64%;
 }
+a{
+  color: white;
+  text-decoration: none;
+}
+#signUp{
+  height: 40px;
+}
+a:hover{
+  font-size: large;
+}
+a:active{
+  color: rgb(221, 221, 221);
+  font-size: medium;
+}
