@@ -20,7 +20,11 @@ export class LoginOrReportComponent {
 
   navigateToSignIn() {
     this.userService.isLoggedIn().subscribe((isLoggedIn) => {
-      this.router.navigate(['/login'])
+      if (isLoggedIn) {
+        this.router.navigate(['/report-list'])
+      } else {
+        this.router.navigate(['/login'])
+      }
     })
-  }
+}
 }
