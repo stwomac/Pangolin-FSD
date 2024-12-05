@@ -19,7 +19,7 @@ export class Nav_BarComponent {
   loggedInEmail : String  = "";
 
   navigateToEntry() {
-    this.router.navigate(['/view1'])
+    this.router.navigate(['/home'])
   }
 
   navigateToSignIn() {
