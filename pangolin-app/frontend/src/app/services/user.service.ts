@@ -37,6 +37,16 @@ export class UserServices extends ResourceService<
     return observer
   }
 
+  /*
+   * removes the auth token from memory,
+   * TODO: this should also purge the token from the backend,
+   * but this works for now as a quick fix
+  *
+  * */
+  logout() {
+    this.cookieService.delete("AuthToken");
+  }
+
   trySignUp(email: string, password: string): Observable<any> {
     return this.http.post(`${this.resourceUrl}`, {
       email: email,
