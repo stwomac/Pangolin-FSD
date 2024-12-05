@@ -5,7 +5,13 @@
       <h6 class="home">Home</h6>
     </button>
 
-    <h1>Pangolin Tipster</h1>
+    <button *ngIf="loggedInDisplay" (click)="logout()"></button>
+
+
+    <h1 *ngIf="!loggedInDisplay">Pangolin Tipster</h1>
+    <div *ngIf="loggedInDisplay">
+      <h1>Welcome {{ loggedInEmail }}</h1>
+    </div>
 
     <button (click)="navigateToSignIn()" id="profile-button">
       <img
