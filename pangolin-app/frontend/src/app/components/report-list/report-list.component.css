@@ -1,6 +1,7 @@
 #body {
   padding: 45px 0px 45px 0px;
   margin-bottom: 10px;
+  display: flex;
 }
 #cards{
  display: flex;
