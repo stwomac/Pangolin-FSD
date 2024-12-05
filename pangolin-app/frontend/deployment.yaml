@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pangolin-frontend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pangolin-frontend
+  template:
+    metadata:
+      labels:
+        app: pangolin-frontend
+    spec:
+      containers:
+      - name: pangolin-frontend
+        image: ghcr.io/pauledson/pangolin-frontend:latest
+        ports:
+        - containerPort: 4200
