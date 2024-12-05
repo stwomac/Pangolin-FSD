@@ -1,0 +1,157 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Pangolin SAM
+
+Parameters:
+
+  StackName:
+    Type: String
+    Default: "pangolin-stack"
+    Description: Name of the Stack
+
+  ReportBucketName: 
+    Type: String
+    Default: "pangolin-archive-bucket"
+    Description: Name of the Bucket
+  
+
+Resources:
+
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub ${StackName}-pangolin-api
+      StageName: Prod
+      EndpointConfiguration:
+        Type: REGIONAL
+      Tags:
+        BatchID: SAM
+      
+
+  ReportBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${StackName}-${ReportBucketName}
+      NotificationConfiguration:
+        EventBridgeConfiguration:
+          EventBridgeEnabled: true
+      Tags:
+        - Key: BatchID
+          Value: SAM
+  
+  ArchiveReport:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions\archive-report
+      Description: ''
+      MemorySize: 128
+      Timeout: 3
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      EphemeralStorage:
+        Size: 512
+      EventInvokeConfig:
+        MaximumEventAgeInSeconds: 21600
+        MaximumRetryAttempts: 2
+      PackageType: Zip
+      Policies:
+        - Statement:
+            - Sid: VisualEditor0
+              Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:GetObject
+                - s3:PutObjectTagging
+                - s3:DeleteObject
+              Resource: '*'
+      RecursiveLoop: Terminate
+      SnapStart:
+        ApplyOn: None
+      Tags:
+        BatchID: SAM
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /archive-suspicious
+            Method: PUT
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref ReportBucket
+
+  ArchiveAlert:
+    Type: AWS::SNS::Topic
+
+  SnsAlert:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions\sns
+      Description: ''
+      MemorySize: 128
+      Timeout: 3
+      Handler: index.handler
+      Runtime: nodejs20.x
+      Architectures:
+        - x86_64
+      EphemeralStorage:
+        Size: 512
+      EventInvokeConfig:
+        MaximumEventAgeInSeconds: 21600
+        MaximumRetryAttempts: 2
+      PackageType: Zip
+      Policies:
+        - Statement:
+            - Sid: Statement1
+              Effect: Allow
+              Action:
+                - sns:Publish
+              Resource: !Ref ArchiveAlert
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt ArchiveAlert.TopicName
+      RecursiveLoop: Terminate
+      SnapStart:
+        ApplyOn: None
+      Tags:
+        BatchID: SAM
+      Events:
+        EventBridgeRule1:
+          Type: EventBridgeRule
+          Properties:
+            Pattern:
+              source:
+                - aws.s3
+              detail-type:
+                - Object Created
+              detail:
+                bucket:
+                  name:
+                    - !Sub ${StackName}-${ReportBucketName}
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
+      Environment:
+        Variables:
+          ARCHIVEALERT_TOPIC_NAME: !GetAtt ArchiveAlert.TopicName
+          ARCHIVEALERT_TOPIC_ARN: !Ref ArchiveAlert
+
+Outputs:
+  Api:
+    Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
+    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/'
+  ApiRestApiId:
+    Description: 'API Gateway ARN for Basic AWS API Gateway'
+    Value: !Ref Api
+    Export:
+      Name: Api-RestApiId
+  ApiRootResourceId:
+    Value: !GetAtt Api.RootResourceId
+    Export:
+      Name: Api-RootResourceId
+  RBName:
+    Value: !Ref ReportBucket
+    Export:
+      Name: RBName

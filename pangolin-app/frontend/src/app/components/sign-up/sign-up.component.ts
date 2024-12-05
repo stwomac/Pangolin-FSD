@@ -1,10 +1,10 @@
 import { Component } from '@angular/core'
 import { FormControl, ReactiveFormsModule } from '@angular/forms'
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input'
-import { UserServices } from '../services/user.service'
+import { UserServices } from '../../services/user.service'
 import { Router } from '@angular/router'
-import { ErrorBlockComponent } from '../components/error-block/error-block.component'
-import { User } from '../models/user'
+import { ErrorBlockComponent } from '../error-block/error-block.component'
+import { User } from '../../models/user'
 
 @Component({
   selector: 'app-sign-up',
