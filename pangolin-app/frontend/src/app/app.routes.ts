@@ -38,6 +38,6 @@ export const routes: Routes = [
   },
 
   { path: 'signUp', component: SignUpComponent },
-  { path: '', redirectTo: '/view1', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'logout', component: LogoutComponent },
 ]
