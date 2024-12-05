@@ -1,16 +1,23 @@
 #body {
   padding: 45px 0px 45px 0px;
   margin-bottom: 10px;
+  display: flex;
 }
 #cards{
  display: flex;
- justify-content: left;
+ justify-content: center;
  flex-wrap: wrap;
  background-color: white;
  margin: 0px 25px 0px 25px;
  padding: 0px 10px 0px 10px;
  border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#cards2{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
 }
 h1 {
   width: 100%;

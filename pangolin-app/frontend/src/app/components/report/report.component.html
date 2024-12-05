@@ -3,51 +3,57 @@
     <mat-card-header>
       <mat-card-title>{{ report.reportType }}</mat-card-title>
     </mat-card-header>
-    <div></div>
     <mat-card-content>
-      <h3>Description</h3>
+      
+        <div class="description-contianer">
+          <h3>Description</h3>
+            <app-report-description-editor
+              [visible]="updateMode"
+              [report]="bufferReport"
+            >
+            </app-report-description-editor>
+          <p *ngIf="!updateMode" id="description-box">{{ report.description }}</p>
+          <app-report-sus-editor
+            [visible]="updateMode"
+            [report]="bufferReport"
+          ></app-report-sus-editor>
+          <app-report-done-editor
+            [visible]="updateMode"
+            [report]="bufferReport"
+          ></app-report-done-editor>
+        </div>
+        <div id="des-ann">
+        <div class="annotation-container">
+          <h3>Annotations</h3>
+          <div class="annotation-list-container" *ngIf="!updateMode">
+            @for (annotation of report.annotations; track annotation) {
+              <p>{{ annotation.annotation }}</p>
+            } @empty {
+              <p>none</p>
+            }
+          </div>
+          <div class="annotation-editor">
+            <app-annotation-selector
+              [visible]="updateMode"
+              [report]="bufferReport"
+            />
+        </div>
 
-      <app-report-description-editor
-        [visible]="updateMode"
-        [report]="bufferReport"
-      >
-      </app-report-description-editor>
-      <p *ngIf="!updateMode" id="description-box">{{ report.description }}</p>
-      <app-report-sus-editor
-        [visible]="updateMode"
-        [report]="bufferReport"
-      ></app-report-sus-editor>
-      <app-report-done-editor
-        [visible]="updateMode"
-        [report]="bufferReport"
-      ></app-report-done-editor>
 
-      <div class="annotation-container">
-        <h3>Annotations</h3>
-        <div class="annotation-list-container" *ngIf="!updateMode">
-          @for (annotation of report.annotations; track annotation) {
-            <p>{{ annotation.annotation }}</p>
-          } @empty {
-            <p>none</p>
-          }
+        </div>
+      
+      <div id="context-container">
+        <h3>Context</h3>
+        <div *ngIf="report.contexts.length > 0" id="context">
+          <div *ngIf="report.contexts[0].orgClaim">Org. Claim: {{report.contexts[0].orgClaim}}</div>
+          <div *ngIf="report.contexts[0].firstName">Name of Involved Party: {{report.contexts[0].firstName + " "}} {{report.contexts[0].lastName}}</div>
+          <div *ngIf="report.contexts[0].streetAddress">Address: {{report.contexts[0].streetAddress}}</div>
+          <div *ngIf="report.contexts[0].city">City: {{report.contexts[0].city}}</div>
+          <div *ngIf="report.contexts[0].zip">Zip: {{report.contexts[0].zip}}</div>
+          <div *ngIf="report.contexts[0].country">Country: {{report.contexts[0].country}}</div>
+          <div *ngIf="report.contexts[0].phone">Phone: {{report.contexts[0].phone}}</div>
         </div>
       </div>
-
-      <div class="annotation-editor">
-        <app-annotation-selector
-          [visible]="updateMode"
-          [report]="bufferReport"
-        />
-      </div>
-      <div *ngIf="report.contexts.length > 0">
-        <h3>Context: Optional</h3>
-        <div *ngIf="report.contexts[0].orgClaim">Org. Claim: {{report.contexts[0].orgClaim}}</div>
-        <div *ngIf="report.contexts[0].firstName">Name of Involved Party: {{report.contexts[0].firstName + " "}} {{report.contexts[0].lastName}}</div>
-        <div *ngIf="report.contexts[0].streetAddress">Address: {{report.contexts[0].streetAddress}}</div>
-        <div *ngIf="report.contexts[0].city">City: {{report.contexts[0].city}}</div>
-        <div *ngIf="report.contexts[0].zip">Zip: {{report.contexts[0].zip}}</div>
-        <div *ngIf="report.contexts[0].country">Country: {{report.contexts[0].country}}</div>
-        <div *ngIf="report.contexts[0].phone">Phone: {{report.contexts[0].phone}}</div>
       </div>
     </mat-card-content>
     <div>

@@ -15,6 +15,7 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div id="cards2">
     <div
       id="card"
       *ngFor="let report of filteredReports; trackBy: trackByReportId"
@@ -25,6 +26,7 @@
         [loggedInUser]="loggedInUser"
         [isAdmin]="isAdmin"
       ></app-report>
+    </div>
     </div>
   </div>
 </div>

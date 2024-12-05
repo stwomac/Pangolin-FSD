@@ -21,8 +21,8 @@ main {
   justify-self: center;
 }
 #logout{
-  margin-left: 20px;
-  margin-right: -70px;
+  margin-right: 20px;
+  margin-left: -70px;
   background-color: transparent;
   border: 3px solid white;
   color: white;
@@ -30,7 +30,7 @@ main {
   font-size: small;
   font-family: 'Bodoni';
 }
-#left-side{
+#right-side{
   display: flex;
 }
 h6{
@@ -82,6 +82,15 @@ button {
 }
 #pang-button:hover > h6{
   opacity: 1;
+}
+#logout:hover{
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
+#logout:active{
+  background-color: #2d4224;
 }
 #profile-button:active {
   background-color: #2d4224;
