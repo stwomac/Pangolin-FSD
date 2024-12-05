@@ -21,8 +21,8 @@ main {
   justify-self: center;
 }
 #logout{
-  margin-left: 20px;
-  margin-right: -70px;
+  margin-right: 20px;
+  margin-left: -70px;
   background-color: transparent;
   border: 3px solid white;
   color: white;
@@ -30,7 +30,7 @@ main {
   font-size: small;
   font-family: 'Bodoni';
 }
-#left-side{
+#right-side{
   display: flex;
 }
 h6{
