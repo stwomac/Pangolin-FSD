@@ -38,8 +38,10 @@ import { UserServices } from '../../services/user.service'
 export class ReportListComponent {
   loggedInUser: User | null = null
   isAdmin: Boolean = false
+  //reports array to store reports in from API
   reports: Report[] = []
   reportType: ReportType | null = null
+  //all Report Types to use for binding to local report
   allReportTypes: { key: string; value: string }[] = [
     { key: 'IMPERSONATOR', value: 'Impersonator' },
     {
