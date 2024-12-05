@@ -162,5 +162,20 @@ VALUES
 ('Provided a fake vehicle history report.', 4), -- Multiple annotations for report 4
 ('Seller disappeared after the sale.', 4);
 
+ALTER TABLE context DROP CONSTRAINT context_report_id_fkey;
+ALTER TABLE context
+ADD CONSTRAINT context_report_id_fkey
+FOREIGN KEY (report_id)
+REFERENCES report(report_id)
+ON DELETE CASCADE;
+
+ALTER TABLE annotation DROP CONSTRAINT annotation_report_id_fkey;
+
+ALTER TABLE annotation
+ADD CONSTRAINT annotation_report_id_fkey
+FOREIGN KEY (report_id)
+REFERENCES report(report_id)
+ON DELETE CASCADE;
+
 -- Print a success message
 DO $$ BEGIN RAISE NOTICE 'Additional data inserted into the database successfully!'; END $$;
