@@ -5,7 +5,7 @@ div {
   margin: 5px;
 }
 mat-card {
-  width: 350px;
+  width: 700px;
   margin: 15px;
 }
 h3 {
@@ -20,6 +20,21 @@ mat-card-title {
   overflow-y: scroll;
   margin: 0;
 }
+.annotation-container{
+  width: 50%;
+}
+#des-ann{
+  display: flex;
+}
+#context{
+  height: 80px;
+  overflow-y: scroll;
+}
+#context-container{
+  margin: 5px 0 0 0;
+  width: 50%;
+  height: 80px;
+}
 mat-card-footer {
   display: flex;
   flex-wrap: wrap;
@@ -27,6 +42,9 @@ mat-card-footer {
 }
 mat-chip-set {
   margin: auto;
+}
+app-report-description-editor{
+  width: 100%;
 }
 #status-container{
   width: 100%;

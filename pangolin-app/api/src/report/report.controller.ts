@@ -17,16 +17,19 @@ import { UpdateReportDto } from './dto/update-report.dto'
 export class ReportController {
   constructor(private readonly reportsService: ReportService) {}
 
+  //get /report
   @Get()
   getAll(): Promise<Report[]> {
     return this.reportsService.getAll()
   }
 
+  //get /report/id
   @Get(':id')
   getReportById(@Param('id') id: number): Promise<Report> {
     return this.reportsService.get(id)
   }
 
+  //post /report
   @Post()
   @HttpCode(201)
   createReport(@Body() createReportData: CreateReportDto) {
@@ -34,12 +37,14 @@ export class ReportController {
     return this.reportsService.create(createReportData)
   }
 
+  //put /report
   @Put()
   async updateReport(@Body() reportToUpdate: UpdateReportDto) {
     console.log(reportToUpdate)
     return await this.reportsService.update(reportToUpdate)
   }
 
+  //delete /report/id
   @Delete(':id')
   @HttpCode(204)
   async deleteReport(@Param('id') id: number): Promise<void> {
