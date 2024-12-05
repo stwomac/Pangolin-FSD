@@ -8,10 +8,11 @@ import { ReportListComponent } from './components/report-list/report-list.compon
 import { SecretCowComponent } from './components/secret-cow/secret-cow.component'
 import { SignUpComponent } from './sign-up/sign-up.component'
 import { AuthGuard } from './guards/auth.guard'
+import {LogoutComponent} from './logout/logout.component'
 
 export const routes: Routes = [
   {
-    path: 'view1',
+    path: 'home',
     component: LoginOrReportComponent,
   },
   {
@@ -38,4 +39,5 @@ export const routes: Routes = [
 
   { path: 'signUp', component: SignUpComponent },
   { path: '', redirectTo: '/view1', pathMatch: 'full' },
+  { path: 'logout', component: LogoutComponent },
 ]
