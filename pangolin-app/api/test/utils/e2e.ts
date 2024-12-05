@@ -12,6 +12,7 @@ export type { INestApplication }
 type MockAppProps = Pick<TypeOrmModuleOptions, 'entities'> &
   Pick<ModuleMetadata, 'imports' | 'providers'>
 
+// Create mock application for testing
 export async function getMockApp({
   entities,
   imports,
@@ -19,7 +20,7 @@ export async function getMockApp({
 }: MockAppProps) {
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [
-      ConfigModule.forRoot({ validate }),
+      ConfigModule.forRoot({ validate }), // Load and validate environment variables
       TypeOrmModule.forRoot({
         type: 'postgres',
         host: process.env.TEST_DATABASE_HOST,
