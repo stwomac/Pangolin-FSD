@@ -6,12 +6,13 @@ import { Nav_BarComponent } from './components/nav_bar/nav_bar.component'
 import { ReportComponent } from './components/report/report.component'
 import { ReportListComponent } from './components/report-list/report-list.component'
 import { SecretCowComponent } from './components/secret-cow/secret-cow.component'
-import { SignUpComponent } from './sign-up/sign-up.component'
+import { SignUpComponent } from './components/sign-up/sign-up.component'
 import { AuthGuard } from './guards/auth.guard'
+import {LogoutComponent} from './components/logout/logout.component'
 
 export const routes: Routes = [
   {
-    path: 'view1',
+    path: 'home',
     component: LoginOrReportComponent,
   },
   {
@@ -37,5 +38,6 @@ export const routes: Routes = [
   },
 
   { path: 'signUp', component: SignUpComponent },
-  { path: '', redirectTo: '/view1', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'logout', component: LogoutComponent },
 ]

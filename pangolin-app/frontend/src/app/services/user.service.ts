@@ -4,7 +4,7 @@ import { ResourceService } from './resource.service'
 import { LoginDto, AuthToken } from '../models/login'
 import { User, UserLike, ApiUserModel } from '../models/user'
 import { CookieService } from 'ngx-cookie-service'
-import { map, Observable, ObservableLike } from 'rxjs'
+import { map, Observable, ObservableLike, Subject } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class UserServices extends ResourceService<
@@ -30,11 +30,26 @@ export class UserServices extends ResourceService<
 
     //set the authentication cookie
     observer.subscribe((data) => {
+
       this.cookieService.set('AuthToken', data.access_token)
+
+      UserServices.authInfoChanged.next(true);
+
     })
 
     //allow others to respond to the observer
     return observer
+  }
+
+  /*
+   * removes the auth token from memory,
+   * TODO: this should also purge the token from the backend,
+   * but this works for now as a quick fix
+  *
+  * */
+  logout() {
+    this.cookieService.delete("AuthToken");
+    UserServices.authInfoChanged.next(false);
   }
 
   trySignUp(email: string, password: string): Observable<any> {
@@ -66,6 +81,10 @@ export class UserServices extends ResourceService<
     return new Observable<boolean>((observ) => {
       observ.next(this.cookieService.check('AuthToken'))
       observ.complete()
+
+
     })
   }
+
+  static authInfoChanged : Subject<boolean> = new Subject<boolean>();
 }

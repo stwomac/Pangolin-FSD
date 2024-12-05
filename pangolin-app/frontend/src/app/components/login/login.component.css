@@ -1,5 +1,4 @@
 #main {
-  background-color: #f1f1ef;
   height: 90%;
   display: flex;
   align-items: center;
@@ -10,7 +9,7 @@
   text-align: center;
   background-color: #426135;
   border-radius: 8px;
-  box-shadow: 0 0 10px yellowgreen;
+  box-shadow: yellowgreen 6px 8px;
   padding: 20px;
   padding-left: 10%;
   padding-right: 10%;
@@ -96,4 +95,18 @@ button:active {
   text-align: center;
   position: relative;
   left: 64%;
+}
+a{
+  color: white;
+  text-decoration: none;
+}
+#signUp{
+  height: 40px;
+}
+a:hover{
+  font-size: large;
+}
+a:active{
+  color: rgb(221, 221, 221);
+  font-size: medium;
 }

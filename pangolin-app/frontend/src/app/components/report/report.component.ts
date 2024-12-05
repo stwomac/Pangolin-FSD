@@ -76,10 +76,10 @@ export class ReportComponent {
     this.apiService.delete(this.report).subscribe((data) =>{
       data
     })
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/report-list']);
-    });
-
+    // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate(['/report-list']);
+    // });
+     window.location.reload(); // Reload the entire page
   }
 
   ngOnInit() {

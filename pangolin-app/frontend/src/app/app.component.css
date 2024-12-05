@@ -4,3 +4,8 @@
   --primary-error: #fe5f55;
   --secondary-error: #6f3e39;
 }
+body{
+  background-image: linear-gradient(140deg, rgb(164, 201, 92), white);
+  overflow-y: scroll;
+
+}

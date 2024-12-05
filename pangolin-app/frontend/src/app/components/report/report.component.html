@@ -12,7 +12,7 @@
         [report]="bufferReport"
       >
       </app-report-description-editor>
-      <p *ngIf="!updateMode">{{ report.description }}</p>
+      <p *ngIf="!updateMode" id="description-box">{{ report.description }}</p>
       <app-report-sus-editor
         [visible]="updateMode"
         [report]="bufferReport"
@@ -39,21 +39,33 @@
           [report]="bufferReport"
         />
       </div>
+      <div *ngIf="report.contexts.length > 0">
+        <h3>Context: Optional</h3>
+        <div *ngIf="report.contexts[0].orgClaim">Org. Claim: {{report.contexts[0].orgClaim}}</div>
+        <div *ngIf="report.contexts[0].firstName">Name of Involved Party: {{report.contexts[0].firstName + " "}} {{report.contexts[0].lastName}}</div>
+        <div *ngIf="report.contexts[0].streetAddress">Address: {{report.contexts[0].streetAddress}}</div>
+        <div *ngIf="report.contexts[0].city">City: {{report.contexts[0].city}}</div>
+        <div *ngIf="report.contexts[0].zip">Zip: {{report.contexts[0].zip}}</div>
+        <div *ngIf="report.contexts[0].country">Country: {{report.contexts[0].country}}</div>
+        <div *ngIf="report.contexts[0].phone">Phone: {{report.contexts[0].phone}}</div>
+      </div>
     </mat-card-content>
     <div>
+      
       <mat-card-footer class="example-card-footer">
-        <mat-chip-set aria-label="Chihuahua traits">
-          @if (report.paid) {
-            <mat-chip>Paid</mat-chip>
-          }
-          @if (report.isDone) {
-            <mat-chip>Completed</mat-chip>
-          }
-          @if (report.isSus) {
-            <mat-chip>Suspicious</mat-chip>
-          }
-        </mat-chip-set>
-
+        <div id="status-container">
+          <mat-chip-set aria-label="Chihuahua traits">
+            @if (report.paid) {
+              <mat-chip>Paid</mat-chip>
+            }
+            @if (report.isDone) {
+              <mat-chip>Completed</mat-chip>
+            }
+            @if (report.isSus) {
+              <mat-chip>Suspicious</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
         <div *ngIf="!updateMode" class="btn-primary">
           <button *ngIf="loggedInUser" (click)="toggleEditMode()">
             Edit</button

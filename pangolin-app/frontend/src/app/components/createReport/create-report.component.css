@@ -2,8 +2,7 @@
   color: #426135;
 }
 #body {
-  background-color: #f1f1ef;
-  padding: 50px 0px 10px 0px;
+  padding: 30px 0px 20px 0px;
 }
 #reportForm {
   display: flex;
@@ -15,9 +14,26 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
 }
+
+#report-type{
+  width: 500px;
+  margin: auto;
+}
+
+#report-subtype{
+  width: 300px;
+  margin: auto;
+  margin-bottom: 40px;
+
+}
+
 textarea[name='description'] {
-  height: 200px;
+  height: 300px;
   font-size: 15pt;
+}
+#description{
+  width: 80%;
+  margin: auto;
 }
 
 #paidForm {
@@ -45,6 +61,7 @@ h1 {
   font-weight: 600;
   color: #426135;
   margin-bottom: 50px;
+  text-decoration: underline;
 }
 
 h2 {
