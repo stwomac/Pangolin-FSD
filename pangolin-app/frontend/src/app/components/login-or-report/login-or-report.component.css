@@ -1,7 +1,6 @@
 .welcome-container {
   width: 100vw;
   height: 90%;
-  background-image: linear-gradient(140deg, rgb(164, 201, 92), white);
   display: flex;
   align-items: center;
   justify-content: center;
