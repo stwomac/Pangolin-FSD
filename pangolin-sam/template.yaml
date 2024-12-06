@@ -140,8 +140,8 @@ Resources:
 
 Outputs:
   Api:
-    Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
-    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/'
+    Description: 'API Gateway endpoint URL'
+    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/
   ApiRestApiId:
     Description: 'API Gateway ARN for Basic AWS API Gateway'
     Value: !Ref Api
