@@ -1,16 +1,19 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"; // ES Modules import
+import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"; 
 import PDFDocument from "pdfkit";
 import {PassThrough} from 'stream';
-import pkg from 'pdfkit-table';
 
 export const handler = async (event) => {
+  //event json stripped to json provided only by application
   const obj = JSON.parse(event.body);
   try {
+    
+    //basic objects for processing
     const client = new S3Client({ region: 'us-east-1'});
     const BUCKET_NAME  = process.env.BUCKET_NAME;
     const doc = new PDFDocument();
     const stream = new PassThrough();
 
+    //Buffer created and streamed to for document creation
     let pdfBuffer = [];
     
     stream.on('data', (chunk) => {
@@ -19,12 +22,13 @@ export const handler = async (event) => {
     
     });
 
+    //PDF creation begins
     doc.pipe(stream);
 
+    // Title
     doc.fontSize(20).font('Helvetica-Bold').text('Report: ' + obj.reportId , { align: 'center' });
     doc.moveDown();
     
-    console.log("1");
     // Add basic report details
     const details = [
       { label: 'Report Type', value: obj.reportType },
@@ -41,11 +45,11 @@ export const handler = async (event) => {
     details.forEach(item => {
       doc.fontSize(12).text(`${item.label}: ${item.value}`);
     });
-
-    console.log("2");
-    // Check and add additional content if arrays are non-empty
-    // Annotations Table
     doc.moveDown(); 
+
+    // Check and add additional content if arrays are non-empty
+
+    // Annotations Table
     if (obj.annotations && obj.annotations.length > 0) {
       doc.fontSize(14).text("Annotations", { underline: true });
       doc.moveDown();
@@ -53,10 +57,10 @@ export const handler = async (event) => {
         doc.fontSize(12).text(`Annotation: ${annotation.annotation}`);
         doc.moveDown();
       });
-      //doc.table(annotationTable);
       doc.moveDown();
     }
 
+    // Contexts Table, may have many null values in array
     if (obj.contexts && obj.contexts.length > 0) {
       doc.fontSize(14).text("Contexts", { underline: true });
       doc.moveDown();
@@ -73,6 +77,7 @@ export const handler = async (event) => {
       });
     }
     
+    // Reportee Table
     doc.moveDown();
     doc.fontSize(14).text("Reportee Details", { underline: true });
     doc.moveDown();
@@ -81,32 +86,38 @@ export const handler = async (event) => {
     doc.text(`Role: ${obj.reportee.role}`);
     doc.moveDown();
 
+    //Finish document body creation.
     doc.end();
     await new Promise((resolve, reject) => {
       stream.on('end', resolve);
       stream.on('error', reject);
     });
-    console.log("3");
+
+
     pdfBuffer = Buffer.concat(pdfBuffer);
 
+    //Creating object for PutObject in s3
     const input = {
       'Body': pdfBuffer,
       'Bucket': BUCKET_NAME,
       'Key' : obj.reportId + '.pdf'
 
     };
-    console.log("4");
-    const command = new PutObjectCommand(input);
 
+    //Creates the object
+    const command = new PutObjectCommand(input);
     const createOb = await client.send(command);
+
+    //Return response
     const response = {
       statusCode: 200,
       body: event,
     };
-    console.log("5");
+
     return response;
   } catch (error) {
-    console.error("Error generating or uploading PDF:", error);
+
+    //If their is a error return information to the user.
     return {
       
       statusCode: 500,
