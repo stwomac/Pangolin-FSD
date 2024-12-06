@@ -4,11 +4,13 @@ Description: Pangolin SAM
 
 Parameters:
 
+# Determines name of stack on deployment
   StackName:
     Type: String
     Default: "pangolin-stack"
     Description: Name of the Stack
 
+# Determines part of bucket name on deployment
   ReportBucketName: 
     Type: String
     Default: "pangolin-archive-bucket"
@@ -17,6 +19,7 @@ Parameters:
 
 Resources:
 
+# Api G
   Api:
     Type: AWS::Serverless::Api
     Properties:
@@ -111,6 +114,14 @@ Resources:
               Action:
                 - sns:Publish
               Resource: !Ref ArchiveAlert
+            - Sid: VisualEditor0
+              Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:GetObject
+                - s3:PutObjectTagging
+                - s3:DeleteObject
+              Resource: '*'
         - SNSPublishMessagePolicy:
             TopicName: !GetAtt ArchiveAlert.TopicName
       RecursiveLoop: Terminate
@@ -137,11 +148,12 @@ Resources:
         Variables:
           ARCHIVEALERT_TOPIC_NAME: !GetAtt ArchiveAlert.TopicName
           ARCHIVEALERT_TOPIC_ARN: !Ref ArchiveAlert
+          BUCKET_NAME_SNS: !Sub ${StackName}-${ReportBucketName}
 
 Outputs:
   Api:
-    Description: 'API Gateway endpoint URL'
-    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/
+    Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
+    Value: !Sub 'https://${Api}.execute-api.${AWS::Region}.amazonaws.com/'
   ApiRestApiId:
     Description: 'API Gateway ARN for Basic AWS API Gateway'
     Value: !Ref Api
