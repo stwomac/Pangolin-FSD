@@ -19,7 +19,8 @@ Parameters:
 
 Resources:
 
-# Api G
+# Api Gateway, App will send PUT requests to on update report.
+# PUT is formed in the lambda
   Api:
     Type: AWS::Serverless::Api
     Properties:
@@ -30,18 +31,22 @@ Resources:
       Tags:
         BatchID: SAM
       
-
+# Bucket hold Archived Reports     
+# Bucket requires a cloudtrail to watch for write data events.
   ReportBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub ${StackName}-${ReportBucketName}
       NotificationConfiguration:
         EventBridgeConfiguration:
-          EventBridgeEnabled: true
+          EventBridgeEnabled: true # required to send events 
       Tags:
         - Key: BatchID
           Value: SAM
-  
+
+# Lambda Function that creates pdf reports in the ReportBucket
+# Auto-creates IAM role to manage s3 Buckets  
+# Generates the PUT part of the API
   ArchiveReport:
     Type: AWS::Serverless::Function
     Properties:
@@ -87,9 +92,12 @@ Resources:
         Variables:
           BUCKET_NAME: !Ref ReportBucket
 
+# Creates a SNS Topic to send emails to admins
   ArchiveAlert:
     Type: AWS::SNS::Topic
 
+# Lambda that publishes a message to Archive Alert based on creation event in ReportBucket
+# Has s3 and sns permissions to generate a url for message 
   SnsAlert:
     Type: AWS::Serverless::Function
     Properties:
@@ -117,10 +125,7 @@ Resources:
             - Sid: VisualEditor0
               Effect: Allow
               Action:
-                - s3:PutObject
                 - s3:GetObject
-                - s3:PutObjectTagging
-                - s3:DeleteObject
               Resource: '*'
         - SNSPublishMessagePolicy:
             TopicName: !GetAtt ArchiveAlert.TopicName
@@ -150,6 +155,7 @@ Resources:
           ARCHIVEALERT_TOPIC_ARN: !Ref ArchiveAlert
           BUCKET_NAME_SNS: !Sub ${StackName}-${ReportBucketName}
 
+# Important dynamically created values for visual representation in the cli
 Outputs:
   Api:
     Description: 'API Gateway endpoint URL for Prod stage for Hello World function'
