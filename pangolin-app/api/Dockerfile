@@ -1,6 +1,6 @@
 #last version i can tell that doesnt cause issues with installing nest at the same time in a container, lts will lead to nest hang
 FROM node:22.4.0-alpine
-ENV NODE_ENV=production
+#ENV NODE_ENV=production
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN echo "npm install"
@@ -12,6 +12,6 @@ RUN mv node_modules ../
 COPY . .
 EXPOSE 3000
 RUN echo "chown"
-RUN chown -R node /usr/src/app
-USER node
+# RUN chown -R node /usr/src/app
+# USER node
 CMD ["npm", "start"]
