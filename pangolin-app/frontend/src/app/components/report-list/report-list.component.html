@@ -16,16 +16,16 @@
       </mat-form-field>
     </div>
     <div id="cards2">
-    <div
-      id="card"
-      *ngFor="let report of filteredReports; trackBy: trackByReportId"
-    >
-      <app-report
-        *ngIf="loggedInUser"
-        [report]="report"
-        [loggedInUser]="loggedInUser"
-        [isAdmin]="isAdmin"
-      ></app-report>
+      <div
+        id="card"
+        *ngFor="let report of filteredReports; trackBy: trackByReportId"
+      >
+        <app-report
+          *ngIf="loggedInUser"
+          [report]="report"
+          [loggedInUser]="loggedInUser"
+          [isAdmin]="isAdmin"
+        ></app-report>
     </div>
     </div>
   </div>
