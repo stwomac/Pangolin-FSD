@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: pangolin-frontend
-        image: ghcr.io/pauledson/pangolin-frontend:latest
+        image: 571600854971.dkr.ecr.us-east-1.amazonaws.com/pangolin/frontend:latest
         ports:
         - containerPort: 4200
