@@ -1,10 +1,20 @@
 services:
-  pangolin:
+  api:
     image: pangolin
     build:
-      context: pangolin-app/pangolin
+      context: pangolin-app/api
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: production
     ports:
       - 3000:3000
+    env_file: pangolin-app/api/.env
+  frontend:
+    image: pangolin-frontend
+    build:
+      context: pangolin-app/frontend
+      dockerfile: dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4200:4200

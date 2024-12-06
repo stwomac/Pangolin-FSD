@@ -27,6 +27,7 @@ export class ReportService {
     private readonly httpService: HttpService,
   ) {}
 
+  //get one report, relations are for typeORM
   async get(reportId: number): Promise<Report> {
     const report = await this.repo.findOne({
       where: { reportId },
@@ -43,7 +44,7 @@ export class ReportService {
       )
     return report
   }
-
+  //get all report, relations are for typeORM
   async getAll(): Promise<Report[]> {
     let report = await this.repo.find({
       relations: {
@@ -54,7 +55,9 @@ export class ReportService {
     })
     return report
   }
-
+  //create report, relations are for typeORM
+  //complex create method where we destructure the objects
+  //this satisfies creating a context as well as a report
   async create({
     reporteeId,
     contexts: createConextsData,
@@ -89,7 +92,7 @@ export class ReportService {
     })
     return await this.repo.save(report)
   }
-
+  //get update a  report, relations are for typeORM
   async update({ reportId, reporteeId, ...updateData }: UpdateReportDto) {
     const report = await this.get(reportId)
 
@@ -122,12 +125,7 @@ export class ReportService {
     }
 
     const updatedReport = this.repo.merge(report, updateData)
-    // console.log(updatedReport);
     // //theres no need to update the annotations twice
-    // report.annotations = [];
-    // updatedReport.annotations.map( (annotation) => { annotation.report = report; return annotation;});
-    // console.log('postmap');
-    // console.log(updatedReport);
     // Location for API Gateway Call. (do not await)
     if (updatedReport.isSus) {
       console.log('sent steven an email, be-ah cleer iz inbOx')
@@ -136,8 +134,6 @@ export class ReportService {
         JSON.stringify(updatedReport),
       )
     }
-    console.log('Pre-Save')
-    console.log(updatedReport)
 
     const { annotations, ...reportData } = updatedReport
 

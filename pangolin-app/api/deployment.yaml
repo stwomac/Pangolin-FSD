@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pangolin-backend
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pangolin-backend
+  template:
+    metadata:
+      labels:
+        app: pangolin-backend
+    spec:
+      containers:
+      - name: pangolin-backend
+        image: 571600854971.dkr.ecr.us-east-1.amazonaws.com/pangolin/backend:latest
+        ports:
+        - containerPort: 3000

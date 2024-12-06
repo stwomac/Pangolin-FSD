@@ -9,6 +9,9 @@ export class ReportServices extends ResourceService<
   ReportLike,
   ApiReportModel
 > {
+  //this calls the super class Resource Service
+  //and passed the model in and the routes
+  //abstracts creating a Service
   constructor(http: HttpClient) {
     super(http, Report, 'reportId', '/reports')
   }

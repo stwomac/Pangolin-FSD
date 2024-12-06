@@ -5,7 +5,7 @@ codeuri = "C:\\Users\\stwom\\Documents\\repos\\skillstorm\\Project-4\\Pangolin-F
 runtime = "nodejs20.x"
 architecture = "x86_64"
 handler = "index.handler"
-manifest_hash = ""
+manifest_hash = "f89da6c2ba10141f16202991fb1bbd52"
 packagetype = "Zip"
 functions = ["ArchiveReport"]
 
